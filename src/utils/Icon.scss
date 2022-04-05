@@ -1,0 +1,6 @@
+// Default icon size.
+.app-icon {
+  svg {
+    @apply h-4 w-4;
+  }
+}

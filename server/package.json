@@ -1,0 +1,23 @@
+{
+  "name": "upchat-app-server",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "thanarak chaisri",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "envalid": "^7.3.0",
+    "express": "^4.17.3",
+    "pm2": "^5.2.0",
+    "socket.io": "^4.4.1",
+    "uWebSockets.js": "uNetworking/uWebSockets.js#v20.4.0"
+  },
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "production": "pm2 start ecosystem.config.js --env production"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.6",
+    "utf-8-validate": "^5.0.9"
+  }
+}

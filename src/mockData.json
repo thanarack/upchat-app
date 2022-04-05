@@ -1,0 +1,174 @@
+{
+  "isAuthenticated": true,
+  "token": "123",
+  "user": {
+    "userId": "zkcjosds23443jsidfi324",
+    "profileUrl": "http://localhost:3000/mock-avatar/2202090.png",
+    "username": "thanarack",
+    "firstName": "Banky",
+    "lastName": "Chaisri",
+    "email": "thanarackc@gmail.com",
+    "phone": "0827572447",
+    "emailVerified": false,
+    "phoneVerified": false,
+    "companyId": "123456",
+    "role": "administrator",
+    "isConnected": true,
+    "rooms": []
+  },
+  "user2": {
+    "userId": "fgdgtrhtrhrthrer3244ef",
+    "profileUrl": "http://localhost:3000/mock-avatar/2202112.png",
+    "username": "sujittra",
+    "firstName": "Nicky",
+    "lastName": "Chaisri",
+    "email": "nick@gmail.com",
+    "phone": "0827572447",
+    "emailVerified": false,
+    "phoneVerified": false,
+    "companyId": "123456",
+    "role": "administrator",
+    "isConnected": true,
+    "rooms": []
+  },
+  "user3": {
+    "userId": "yuyutrh435234wewf434534",
+    "profileUrl": "http://localhost:3000/mock-avatar/2202125.png",
+    "username": "testuser",
+    "firstName": "UserLovever",
+    "lastName": "localLover",
+    "email": "chaisri@gmail.com",
+    "phone": "0827572447",
+    "emailVerified": false,
+    "phoneVerified": false,
+    "companyId": "123456",
+    "role": "administrator",
+    "isConnected": true,
+    "rooms": []
+  },
+  "rooms": [
+    {
+      "title": "พูดคุยทั่วไป",
+      "channelId": "1",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "ฝ่ายบุคคล",
+      "channelId": "2",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "แจ้ง ลา / ป่วย / อื่นๆ",
+      "channelId": "3",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "แผนกไอที (แจ้งปัญหาการใช้งาน)",
+      "channelId": "4",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "แผนกจัดซื้อจัดจ้าง - จัดส่ง",
+      "channelId": "9",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "แผนกคลังสินค้า",
+      "channelId": "10",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "แผนกบัญชี",
+      "channelId": "11",
+      "unReadCount": 0,
+      "roomType": "group",
+      "userAllow": "public"
+    },
+    {
+      "title": "Sujitra chaisri",
+      "userId": "fgdgtrhtrhrthrer3244ef",
+      "channelId": "5",
+      "unReadCount": 0,
+      "isConnected": false,
+      "roomType": "contact"
+    },
+    {
+      "title": "Jaidee Matesthai",
+      "userId": "yuyutrh435234wewf434534",
+      "channelId": "6",
+      "unReadCount": 0,
+      "isConnected": false,
+      "roomType": "contact"
+    },
+    {
+      "title": "Susakar rakterkondew",
+      "userId": "k76hytjgvdcs4g34wfasdsd",
+      "channelId": "7",
+      "unReadCount": 0,
+      "isConnected": false,
+      "roomType": "contact"
+    },
+    {
+      "title": "Maihaiterpai raosongkon",
+      "userId": "76j6wecfhyukyuvewedfg334",
+      "channelId": "8",
+      "unReadCount": 0,
+      "isConnected": false,
+      "roomType": "contact"
+    }
+  ],
+  "contact": [
+    {
+      "id": "zkcjosds23443jsidfi324",
+      "title": "Banky chaisri",
+      "profileUrl": "http://localhost:3000/mock-avatar/2202090.png",
+      "firstName": "Banky",
+      "lastName": "chaisri",
+      "isConnected": false
+    },
+    {
+      "id": "fgdgtrhtrhrthrer3244ef",
+      "title": "Sujitra chaisri",
+      "profileUrl": "http://localhost:3000/mock-avatar/2202112.png",
+      "firstName": "Sujitra",
+      "lastName": "chaisri",
+      "isConnected": false
+    },
+    {
+      "id": "yuyutrh435234wewf434534",
+      "title": "Jaidee Matesthai",
+      "profileUrl": "http://localhost:3000/mock-avatar/2202125.png",
+      "firstName": "Jaidee",
+      "lastName": "Matesthai",
+      "isConnected": false
+    },
+    {
+      "id": "k76hytjgvdcs4g34wfasdsd",
+      "title": "Susakar rakterkondew",
+      "profileUrl": "http://localhost:3000/mock-avatar/4333609.png",
+      "firstName": "Susakar",
+      "lastName": "rakterkondew",
+      "isConnected": false
+    },
+    {
+      "id": "76j6wecfhyukyuvewedfg334",
+      "title": "Maihaiterpai raosongkon",
+      "profileUrl": "http://localhost:3000/mock-avatar/4333720.png",
+      "firstName": "Maihaiterpai",
+      "lastName": "raosongkon",
+      "isConnected": false
+    }
+  ]
+}
