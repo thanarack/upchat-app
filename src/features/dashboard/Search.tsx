@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import useRooms from '../../hooks/useRooms';
 import './Dashboard.scss';
 const mockData = require('../../mockData.json');
 
 const Search = () => {
-  const { userId, userSetUserToLocalContact } = useAuth();
+  const { userId } = useAuth();
   const { roomsAddNewRoom } = useRooms();
   const [userList, setUserList]: any = useState([]);
   const [inputText, setInputText] = useState('');
@@ -38,7 +38,7 @@ const Search = () => {
     setUserList([]);
     // Add user to contact & Add new room type contact
     const makeChannelId = `${data.id}-${userId}`;
-    userSetUserToLocalContact(data);
+    // userSetUserToLocalContact(data);
     roomsAddNewRoom({
       id: nanoid(),
       title: data.title,

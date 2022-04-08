@@ -7,7 +7,7 @@ import {
   removeRoom,
   setRoomContactToConnect,
 } from '../store/roomsSlice';
-import { setUserContactToConnect } from '../store/userSlice';
+// import { setUserContactToConnect } from '../store/userSlice';
 
 const AppSocket = io('ws://localhost:4000', {
   timeout: 15000,
@@ -29,7 +29,7 @@ const handlerMessageType = (payload: any) => {
 
 const handlerLoginNoticeType = (payload: any) => {
   store.dispatch(setRoomContactToConnect(payload));
-  store.dispatch(setUserContactToConnect(payload));
+  // store.dispatch(setUserContactToConnect(payload));
 };
 
 const handlerNewRoomType = (payload: any) => {

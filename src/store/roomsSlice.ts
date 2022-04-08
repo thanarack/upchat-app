@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-const mockData = require('../mockData.json');
 
-const initialState = {
-  data: mockData.rooms,
+// const mockData = require('../mockData.json');
+
+const initialState: any = {
+  data: [],
 };
 
 const getRoomIdByChannelId = (rooms: any, channelId: any) => {
@@ -20,6 +21,9 @@ export const roomsSlice = createSlice({
   name: 'rooms',
   initialState,
   reducers: {
+    setInitialRooms: (state, action) => {
+      state.data = action.payload;
+    },
     addUnreadToRoom: (state, action) => {
       const rooms = [...state.data];
       const roomId = getRoomIdByChannelId(rooms, action.payload.channelId);
@@ -63,6 +67,7 @@ export const roomsSlice = createSlice({
 });
 
 export const {
+  setInitialRooms,
   addUnreadToRoom,
   clearUnreadRoom,
   setRoomContactToConnect,

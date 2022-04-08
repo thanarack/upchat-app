@@ -1,6 +1,6 @@
-import { useAuth } from '../../hooks/useAuth';
+import { useEffect } from 'react';
+import useAuth from '../../hooks/useAuth';
 import DashboardTemplate from './DashboardTemplate';
-
 const FeaturesDashboard = () => {
   const { fullName } = useAuth();
 

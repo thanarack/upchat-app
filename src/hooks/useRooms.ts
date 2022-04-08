@@ -1,14 +1,18 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addNewRoom, removeRoom, selectRooms } from '../store/roomsSlice';
+import { addNewRoom, removeRoom, selectRooms, setInitialRooms } from '../store/roomsSlice';
 
 const useRooms = () => {
   const dispatch = useAppDispatch();
   const userSlice = useAppSelector(selectRooms);
-  const myRooms = userSlice.data;
+
+  const roomsSetInitialRooms = (payload: any) =>
+    dispatch(setInitialRooms(payload));
   const roomsAddNewRoom = (payload: any) => dispatch(addNewRoom(payload));
   const roomsRemoveRoom = (payload: any) => dispatch(removeRoom(payload));
 
-  return { myRooms, roomsAddNewRoom, roomsRemoveRoom };
+  const myRooms = userSlice.data;
+
+  return { myRooms, roomsSetInitialRooms, roomsAddNewRoom, roomsRemoveRoom };
 };
 
 export default useRooms;

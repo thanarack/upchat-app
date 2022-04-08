@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import AppSocket from '../../app/socket';
-import { useAuth } from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import useChat from '../../hooks/useChat';
 import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';

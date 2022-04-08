@@ -5,7 +5,7 @@ import {
   setLoginUser,
   setLogout,
   setUserConnect,
-  setUserToLocalContact,
+  // setUserToLocalContact,
 } from '../store/userSlice';
 
 /**
@@ -19,8 +19,8 @@ const useAuth = () => {
   const userSetLoginUser = (user: any) => dispatch(setLoginUser(user));
   const userSetLogout = () => dispatch(setLogout());
   const userSetIsConnected = (value: any) => dispatch(setUserConnect(value));
-  const userSetUserToLocalContact = (value: any) =>
-    dispatch(setUserToLocalContact(value));
+  // const userSetUserToLocalContact = (value: any) =>
+  //   dispatch(setUserToLocalContact(value));
   const fullName = userSlice.user.firstName + ' ' + userSlice.user.lastName;
   const profileUrl = userSlice.user.profileUrl;
   const userId = userSlice.user.userId
@@ -36,8 +36,8 @@ const useAuth = () => {
     userSetLogout,
     userSetLoginUser,
     userSetIsConnected,
-    userSetUserToLocalContact,
+    // userSetUserToLocalContact,
   };
 };
 
-export { useAuth };
+export default useAuth

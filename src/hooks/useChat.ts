@@ -38,6 +38,18 @@ const useChat = () => {
       clientId: userSlice.clientId,
       messageId: nanoid(),
       userId: userSlice.user.userId,
+      user: {
+        firstName: userSlice.user?.firstName,
+        lastName: userSlice.user?.lastName,
+        position: userSlice.user?.position,
+        profileUrl: userSlice.user?.profileUrl,
+        role: userSlice.user?.role,
+        username: userSlice.user?.username,
+        title:
+          userSlice.user?.firstName && userSlice.user?.lastName
+            ? `${userSlice.user?.firstName} ${userSlice.user?.lastName}`
+            : '',
+      },
       message,
       timestamp: dayjs().unix(),
       isDelete: false,
@@ -61,7 +73,7 @@ const useChat = () => {
     getRoomType,
     chatSetChannel,
     chatPushMessage,
-    chatClearChannel
+    chatClearChannel,
   };
 };
 
