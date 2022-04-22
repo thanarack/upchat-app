@@ -10,7 +10,7 @@ const tokenSchema = new Schema(
     refreshToken: String,
     sessionId: String,
   },
-  { collection: 'token' }
+  { collection: 'token', timestamps: true }
 );
 
 const Token = mongoose.model('Token', tokenSchema);

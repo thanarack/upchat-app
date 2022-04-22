@@ -40,6 +40,22 @@ export const usersApi = createApi({
         headers: generateHeaderWithToken(),
       }),
     }),
+    addUserRoom: build.mutation({
+      query: (body) => ({
+        url: `rooms/add`,
+        method: 'post',
+        headers: generateHeaderWithToken(),
+        body,
+      }),
+    }),
+    getContacts: build.mutation({
+      query: (q) => ({
+        url: 'contact',
+        method: 'get',
+        params: { q },
+        headers: generateHeaderWithToken(),
+      }),
+    }),
   }),
 });
 
@@ -50,4 +66,6 @@ export const {
   useGetProfileMutation,
   useGetRoomsMutation,
   useGetUserMutation,
+  useAddUserRoomMutation,
+  useGetContactsMutation
 } = usersApi;

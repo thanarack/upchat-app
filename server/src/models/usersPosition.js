@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 const usersPositionSchema = new Schema(
   {
-    title: String
+    title: String,
+    isDelete: Boolean,
   },
-  { collection: 'users_position' }
+  { collection: 'users_position', timestamps: true }
 );
 
 const UsersPosition = mongoose.model('UsersPosition', usersPositionSchema);

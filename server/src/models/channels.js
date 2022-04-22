@@ -6,8 +6,9 @@ const channelsSchema = new Schema(
     title: String,
     roomType: String,
     userAllow: String,
+    isDelete: Boolean,
   },
-  { collection: 'channels' }
+  { collection: 'channels', timestamps: true }
 );
 
 const Channels = mongoose.model('Channels', channelsSchema);

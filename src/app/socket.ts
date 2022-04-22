@@ -14,7 +14,7 @@ const AppSocket = io('ws://localhost:4000', {
 });
 
 const handlerMessageType = (payload: any) => {
-  const { user, chat }: any = store.getState();
+  const { user, chat, rooms }: any = store.getState();
   payload.currentUserId = user.user.userId;
   // Check if message user id equals session user, don't action.
   if (user.clientId !== payload.clientId) {
@@ -23,6 +23,26 @@ const handlerMessageType = (payload: any) => {
     // If focus in same channel as selected, don't push update
     if (chat.channel.channelId !== payload.channelId) {
       store.dispatch(addUnreadToRoom(payload));
+    }
+  }
+  // Check new contact and add new room if dons't exits
+  if (payload?.channel?.roomType === 'contact') {
+    const roomId = rooms.data.findIndex(
+      (data: any) => data.channelId === payload.channelId
+    );
+    if (roomId === -1) {
+      store.dispatch(
+        addNewRoom({
+          id: payload.channelId,
+          title: payload.user.title,
+          channelId: payload.channelId,
+          unReadCount: 1, // If add new room should start with 1
+          roomType: 'contact',
+          profileUrl: payload.user.profileUrl,
+          isConnected: payload?.channel?.isConnected || false,
+          userId: payload.userId,
+        })
+      );
     }
   }
 };

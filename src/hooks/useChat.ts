@@ -51,6 +51,7 @@ const useChat = () => {
             : '',
       },
       message,
+      channel: chatSlice.channel,
       timestamp: dayjs().unix(),
       isDelete: false,
       isUnRead: false,

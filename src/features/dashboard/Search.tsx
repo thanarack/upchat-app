@@ -1,54 +1,71 @@
 import classNames from 'classnames';
-import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
 import useRooms from '../../hooks/useRooms';
+import {
+  useAddUserRoomMutation,
+  useGetContactsMutation,
+} from '../../services/users';
 import './Dashboard.scss';
-const mockData = require('../../mockData.json');
+// const mockData = require('../../mockData.json');
 
 const Search = () => {
-  const { userId } = useAuth();
   const { roomsAddNewRoom } = useRooms();
   const [userList, setUserList]: any = useState([]);
   const [inputText, setInputText] = useState('');
+  const [serviceGetContacts] = useGetContactsMutation();
+  const [serviceAddUserRoom] = useAddUserRoomMutation();
 
-  const onFetchUser = () => {
-    setUserList([
-      ...mockData.contact,
-      ...[
-        {
-          id: '76j6wecf2342r344rgerdfg334',
-          title: 'TestAdd TestAdd',
-          profileUrl: 'http://localhost:3000/mock-avatar/4333734.png',
-          firstName: 'TestAdd',
-          lastName: 'TestAdd',
-          isConnected: true,
-        },
-      ],
-    ]);
+  const onFetchUser = async (text: String) => {
+    try {
+      if (!text) {
+        setUserList([]);
+        return;
+      }
+
+      const result = await serviceGetContacts(text).unwrap();
+      if (result.statusCode === 200) {
+        setUserList(result.result.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onInput = (e: any) => {
-    setInputText(e.target.value);
-    onFetchUser();
+    const text = e.target.value;
+    setInputText(text);
+    onFetchUser(text);
   };
 
-  const onAddToLocalContact = (data: any) => {
-    setInputText('');
-    setUserList([]);
+  const onAddToLocalContact = async (data: any) => {
     // Add user to contact & Add new room type contact
-    const makeChannelId = `${data.id}-${userId}`;
-    // userSetUserToLocalContact(data);
-    roomsAddNewRoom({
-      id: nanoid(),
-      title: data.title,
-      userId: data.id,
-      channelId: makeChannelId,
-      unReadCount: 0,
-      isConnected: data.isConnected,
+    const newRoomBody = {
       roomType: 'contact',
-    });
-    // Called api to save data
+      targetUserId: data.id,
+    };
+
+    const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
+
+    if (resultAddUserRoom.statusCode === 200) {
+      const resultObj = resultAddUserRoom.result.data;
+      const createRoomWithContactPayload = {
+        id: resultObj.id,
+        title: resultObj.title,
+        channelId: resultObj.id,
+        unReadCount: resultObj.unReadCount,
+        roomType: resultObj.roomType,
+        userAllow: resultObj.userAllow,
+        profileUrl: resultObj.profileUrl,
+        isConnected: resultObj.isConnected || false,
+        userId: resultObj.userId,
+      };
+
+      // Added new room to store.
+      roomsAddNewRoom(createRoomWithContactPayload);
+
+      setInputText('');
+      setUserList([]);
+    }
   };
 
   useEffect(() => {

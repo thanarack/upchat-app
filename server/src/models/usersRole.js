@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 const usersRoleSchema = new Schema(
   {
-    title: String
+    title: String,
+    isDelete: Boolean,
   },
-  { collection: 'users_role' }
+  { collection: 'users_role', timestamps: true }
 );
 
 const UsersRole = mongoose.model('UsersRole', usersRoleSchema);

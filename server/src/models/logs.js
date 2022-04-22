@@ -7,9 +7,9 @@ const logsSchema = new Schema(
     type: String,
     message: String,
     child: String,
-    timestamp: Number
+    timestamp: Number,
   },
-  { collection: 'logs' }
+  { collection: 'logs', timestamps: true }
 );
 
 const Logs = mongoose.model('Logs', logsSchema);

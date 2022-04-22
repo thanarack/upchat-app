@@ -18,8 +18,9 @@ const userSchema = new Schema(
     isConnected: Boolean,
     positionId: { type: Schema.Types.ObjectId, ref: UsersPosition },
     roleId: { type: Schema.Types.ObjectId, ref: UsersRole },
+    isDelete: Boolean,
   },
-  { collection: 'users' }
+  { collection: 'users', timestamps: true }
 );
 
 const Users = mongoose.model('Users', userSchema);

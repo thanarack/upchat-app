@@ -3,6 +3,8 @@ const Log = require('./log');
 
 const handlerContact = async (req, res) => {
   try {
+    const { q } = req.query;
+
     let data = [];
 
     // Get users
@@ -10,7 +12,15 @@ const handlerContact = async (req, res) => {
     const userPayload = req.userPayload;
     const getAllUsersChannel = await Users.find({
       _id: { $ne: userPayload.userId },
-    });
+      $or: [
+        {
+          firstName: { $regex: q, $options: 'i' },
+        },
+        {
+          lastName: { $regex: q, $options: 'i' },
+        },
+      ],
+    }).limit(5);
 
     // Map to frontend json structures.
     if (getAllUsersChannel.length) {

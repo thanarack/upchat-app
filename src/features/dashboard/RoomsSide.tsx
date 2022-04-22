@@ -5,7 +5,10 @@ import useChat from '../../hooks/useChat';
 import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';
 import { GetIcon } from '../../utils/icon';
-import { useGetRoomsMutation } from '../../services/users';
+import {
+  useAddUserRoomMutation,
+  useGetRoomsMutation,
+} from '../../services/users';
 import useAuth from '../../hooks/useAuth';
 import ModalComponent from '../../shared/ModalComponent';
 import AppSocket from '../../app/socket';
@@ -19,12 +22,13 @@ const RoomsSide = () => {
   const [isOpenNewRoom, setIsOpenNewRoom] = useState(false);
   const [inputText, setInputText] = useState('');
   const [isOpenLogout, setIsOpenLogout] = useState(false);
-  const [getRoomsService, getRoomsServiceResult] = useGetRoomsMutation();
+  const [serviceGetRoomsService] = useGetRoomsMutation();
+  const [serviceAddUserRoom] = useAddUserRoomMutation();
 
   // Initialize setup room
   const initializeSetup = async () => {
     if (myRooms.length === 0) {
-      const roomsResult = await getRoomsService(undefined).unwrap();
+      const roomsResult = await serviceGetRoomsService(undefined).unwrap();
       if (roomsResult.statusCode === 200) {
         roomsSetInitialRooms(roomsResult.result.data);
       }
@@ -115,32 +119,49 @@ const RoomsSide = () => {
       ));
   };
 
-  const onAddNewRoom = () => {
+  const onAddNewRoom = async () => {
     if (!inputText) return;
-    const generateChatRoomId = nanoid();
-    const newRoom = {
-      id: generateChatRoomId,
+
+    const newRoomBody = {
       title: inputText,
-      channelId: generateChatRoomId,
-      unReadCount: 0,
       roomType: 'group',
       userAllow: 'public',
     };
-    roomsAddNewRoom(newRoom);
-    onGoingToChannel(newRoom);
-    setInputText('');
-    setIsOpenNewRoom(false);
+
     // Call api to store data new room.
-    AppSocket.emit('sent-message', {
-      type: 'new-room',
-      payload: newRoom,
-    });
+    const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
+    if (resultAddUserRoom.statusCode === 200) {
+      // Get result from api
+      const resultObj = resultAddUserRoom.result.data;
+
+      const createRoomPayload = {
+        id: resultObj.id,
+        title: resultObj.title,
+        channelId: resultObj.id,
+        unReadCount: resultObj.unReadCount,
+        roomType: resultObj.roomType,
+        userAllow: resultObj.userAllow,
+      };
+
+      // Push data via socket to every one.
+      AppSocket.emit('sent-message', {
+        type: 'new-room',
+        payload: createRoomPayload,
+      });
+
+      // Selected room.
+      roomsAddNewRoom(createRoomPayload);
+      onGoingToChannel(createRoomPayload);
+      setInputText('');
+      setIsOpenNewRoom(false);
+    }
   };
 
   const onLogout = () => {
     userSetLogout();
     userSetLoginUser({});
     window.localStorage.removeItem('upchat-app-token');
+    window.localStorage.removeItem('upchat-app-client-id');
     AppSocket.emit('sent-message', {
       type: 'login-notice',
       payload: {

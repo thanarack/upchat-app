@@ -11,7 +11,7 @@ const userChannelSchema = new Schema(
     targetUserId: { type: Schema.Types.ObjectId, ref: Users },
     count: Number,
   },
-  { collection: 'users_channel' }
+  { collection: 'users_channel', timestamps: true }
 );
 
 const UserChannel = mongoose.model('UsersChannel', userChannelSchema);

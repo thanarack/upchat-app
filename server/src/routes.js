@@ -4,7 +4,7 @@ const handlerContact = require('./controllers/contact');
 // Import handler modules
 const handlerHome = require('./controllers/home');
 const handlerLogin = require('./controllers/login');
-const handlerRooms = require('./controllers/rooms');
+const { handlerRooms, handlerAddRoom, handlerDeleteRoom } = require('./controllers/rooms');
 const {
   handlerProfile,
   handlerGetUserInformation,
@@ -53,11 +53,16 @@ const checkToken = async (req, res, next) => {
 const Routes = (app) => {
   app.use(getUserToken);
   app.get('/', handlerHome);
-  app.get('/rooms', checkToken, handlerRooms);
+
   app.get('/contact', checkToken, handlerContact);
   app.post('/login', handlerLogin);
   app.get('/profile', checkToken, handlerProfile);
   app.get('/user/:userId', checkToken, handlerGetUserInformation);
+
+  // Rooms
+  app.get('/rooms', checkToken, handlerRooms);
+  app.post('/rooms/add', checkToken, handlerAddRoom);
+  app.post('/rooms/delete', checkToken, handlerDeleteRoom);
 
   return app;
 };
