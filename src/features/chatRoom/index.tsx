@@ -15,13 +15,30 @@ const FeaturesChatRoom = () => {
     useChat();
   const [inputText, setInputText] = useState('');
   const { navigate } = useRoute();
-  const { userRole } = useAuth();
+  const { userRole, user } = useAuth();
   const { roomsRemoveRoom } = useRooms();
   const [isOpenRemoveRoom, setIsOpenRemoveRoom] = useState(false);
 
   useEffect(() => {
     if (!getChannelId) return navigate('/dashboard');
   }, [getChannelId, navigate]);
+
+  useEffect(() => {
+    return () => {
+      if (getChannelId) {
+        console.log('Set unread count');
+        // Emit message to socket to update unread to 0 after change channel
+        AppSocket.emit('sent-message', {
+          type: 'unread',
+          payload: {
+            channelId: getChannelId,
+            userId: user.user.userId,
+            unReadCount: 0,
+          },
+        });
+      }
+    };
+  }, [getChannelId, user.user.userId]);
 
   const onSetText = (e: any) => {
     setInputText(e.target.value);

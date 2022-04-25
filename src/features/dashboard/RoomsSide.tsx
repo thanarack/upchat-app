@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { nanoid } from 'nanoid';
 import useChat from '../../hooks/useChat';
 import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';

@@ -17,12 +17,10 @@ const Search = () => {
 
   const onFetchUser = async (text: String) => {
     try {
-      if (!text) {
-        setUserList([]);
-        return;
-      }
+      if (!text) return setUserList([]);
 
       const result = await serviceGetContacts(text).unwrap();
+
       if (result.statusCode === 200) {
         setUserList(result.result.data);
       }

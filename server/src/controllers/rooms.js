@@ -1,6 +1,8 @@
 const { Channels } = require('../models/channels');
+const { Messages } = require('../models/messages');
 const { UserChannel } = require('../models/userChannel');
 const { Users } = require('../models/users');
+const generateTitleName = require('../utils/generateTitleName');
 const Log = require('./log');
 
 const handlerRooms = async (req, res) => {
@@ -36,7 +38,10 @@ const handlerRooms = async (req, res) => {
           id: v._id,
           title:
             v.channelId.roomType === 'contact'
-              ? `${v?.targetUserId?.firstName} ${v?.targetUserId?.lastName}`
+              ? generateTitleName(
+                  v?.targetUserId?.firstName,
+                  v?.targetUserId?.lastName
+                )
               : v?.channelId?.title,
           userId: v?.targetUserId?._id,
           channelId: v?.channelId?._id,
@@ -225,8 +230,75 @@ const handlerDeleteRoom = async (req, res) => {
   }
 };
 
+const handlerGetRoomMessage = async (req, res) => {
+  try {
+    // Payload
+    const { channelId, pageNumber } = req.query;
+    const nPerPage = 50;
+    const skipRow = (pageNumber - 1) * nPerPage;
+
+    // Get last message
+    const messages = await Messages.find({ channel: channelId })
+      .sort({ createdAt: 1 })
+      .skip(pageNumber > 0 ? skipRow : 0)
+      .limit(nPerPage)
+      .populate([
+        {
+          path: 'user',
+          select: {
+            firstName: 1,
+            lastName: 1,
+            isConnected: 1,
+            profileUrl: 1,
+            username: 1,
+          },
+        },
+        {
+          path: 'channel',
+          select: {
+            roomType: 1,
+            userId: 1,
+          },
+        },
+      ])
+      .lean()
+      .exec();
+
+    let targetUserId = null;
+
+    // Get target userId if room type is "contact"
+    const getTargetUserId = await UserChannel.findOne({
+      channelId,
+    });
+
+    if (getTargetUserId?.targetUserId)
+      targetUserId = getTargetUserId.targetUserId;
+
+    // Format data
+    const formatData = messages
+      .map((v) => {
+        if (v?.user) {
+          v.user.title = generateTitleName(v.user?.firstName, v.user?.lastName);
+        }
+        v.channel.userId = targetUserId;
+        return v;
+      });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: formatData },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
 module.exports = {
   handlerRooms,
   handlerAddRoom,
   handlerDeleteRoom,
+  handlerGetRoomMessage,
 };

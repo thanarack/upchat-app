@@ -28,33 +28,39 @@ const useChat = () => {
 
   const chatSetChannel = (room: any) => {
     dispatch(setChannel(room));
-    // Called api service clear unread
-    dispatch(clearUnreadRoom(room.channelId));
+    dispatch(
+      clearUnreadRoom({
+        channelId: room.channelId,
+        userId: userSlice.user.userId,
+      })
+    );
   };
 
   const chatPushMessage = (message: any) => {
+    // New message from client
+    const userData = userSlice.user;
     const setMessage = {
       channelId: getChannelId,
       clientId: userSlice.clientId,
-      messageId: nanoid(),
-      userId: userSlice.user.userId,
+      messageId: nanoid(), // Generate Id message by client
+      userId: userData.userId,
       user: {
-        firstName: userSlice.user?.firstName,
-        lastName: userSlice.user?.lastName,
-        position: userSlice.user?.position,
-        profileUrl: userSlice.user?.profileUrl,
-        role: userSlice.user?.role,
-        username: userSlice.user?.username,
-        title:
-          userSlice.user?.firstName && userSlice.user?.lastName
-            ? `${userSlice.user?.firstName} ${userSlice.user?.lastName}`
-            : '',
+        firstName: userData?.firstName,
+        lastName: userData?.lastName,
+        position: userData?.position,
+        profileUrl: userData?.profileUrl,
+        role: userData?.role,
+        username: userData?.username,
+        title: `${userData?.firstName} ${userData?.lastName}`,
       },
-      message,
-      channel: chatSlice.channel,
+      channel: {
+        roomType: chatSlice.channel.roomType,
+        userId: chatSlice.channel.userId || null, // For direct message to only this user.
+      },
       timestamp: dayjs().unix(),
       isDelete: false,
       isUnRead: false,
+      message,
     };
 
     // Emit data to server.

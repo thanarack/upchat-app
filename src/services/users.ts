@@ -48,6 +48,14 @@ export const usersApi = createApi({
         body,
       }),
     }),
+    getRoomMessage: build.mutation({
+      query: ({ channelId, pageNumber }) => ({
+        url: `rooms/messages`,
+        method: 'get',
+        headers: generateHeaderWithToken(),
+        params: { channelId, pageNumber: pageNumber || 1 },
+      }),
+    }),
     getContacts: build.mutation({
       query: (q) => ({
         url: 'contact',
@@ -67,5 +75,6 @@ export const {
   useGetRoomsMutation,
   useGetUserMutation,
   useAddUserRoomMutation,
-  useGetContactsMutation
+  useGetContactsMutation,
+  useGetRoomMessageMutation,
 } = usersApi;

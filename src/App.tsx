@@ -18,7 +18,6 @@ import { useEffect, useState } from 'react';
 import useChat from './hooks/useChat';
 import useAuth from './hooks/useAuth';
 
-// Socket receiver.
 AppSocket.on('connect', () => {
   console.log('Application connected socket ID :', AppSocket.id);
 });

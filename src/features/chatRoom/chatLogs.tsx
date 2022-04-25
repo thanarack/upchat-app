@@ -2,7 +2,10 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
+import { useAppDispatch } from '../../app/hooks';
 import useChat from '../../hooks/useChat';
+import { useGetRoomMessageMutation } from '../../services/users';
+import { pushGroupMessage } from '../../store/chatSlice';
 const localeTh = require('dayjs/locale/th');
 
 const Message = (props: any) => {
@@ -49,7 +52,10 @@ const Message = (props: any) => {
 };
 
 const ChatLogs = () => {
+  const dispatch = useAppDispatch();
   const { getChannelId, getMessages } = useChat();
+  const [serviceGetRoomMessage] = useGetRoomMessageMutation();
+
   const getRoomMessage: any = getMessages.find(
     (data: any) => data.channelId === getChannelId
   );
@@ -68,12 +74,42 @@ const ChatLogs = () => {
     }
   }, [getChatLogs.length]);
 
+  // Fetch new message into current channel and push to store.
+  const chatFetchRoomMessages = async () => {
+    try {
+      const resultMessages = await serviceGetRoomMessage({
+        channelId: getChannelId,
+        pageNumber: 1,
+      }).unwrap();
+
+      if (resultMessages.statusCode === 200) {
+        const chatHistory = resultMessages?.result?.data || [];
+        const formatMessage = chatHistory.map((val: any) => {
+          return {
+            ...val,
+            message: JSON.parse(val.message),
+          };
+        });
+        dispatch(pushGroupMessage(formatMessage));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Fetch once when enter to a room
+  useEffect(() => {
+    if (!getChatLogs.length) {
+      chatFetchRoomMessages();
+    }
+  }, [getChannelId]);
+
   if (!getRoomMessage) return null;
 
   return (
     <div id="chat-messages" className="cr-chat-message">
       {getChatLogs.map((data: any) => (
-        <Message key={data.messageId} data={data} />
+        <Message key={data._id || data.messageId} data={data} />
       ))}
     </div>
   );

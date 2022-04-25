@@ -4,7 +4,7 @@ const handlerContact = require('./controllers/contact');
 // Import handler modules
 const handlerHome = require('./controllers/home');
 const handlerLogin = require('./controllers/login');
-const { handlerRooms, handlerAddRoom, handlerDeleteRoom } = require('./controllers/rooms');
+const { handlerRooms, handlerAddRoom, handlerDeleteRoom, handlerGetRoomMessage } = require('./controllers/rooms');
 const {
   handlerProfile,
   handlerGetUserInformation,
@@ -63,6 +63,7 @@ const Routes = (app) => {
   app.get('/rooms', checkToken, handlerRooms);
   app.post('/rooms/add', checkToken, handlerAddRoom);
   app.post('/rooms/delete', checkToken, handlerDeleteRoom);
+  app.get('/rooms/messages', checkToken, handlerGetRoomMessage);
 
   return app;
 };

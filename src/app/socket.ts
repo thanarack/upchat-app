@@ -9,8 +9,12 @@ import {
 } from '../store/roomsSlice';
 // import { setUserContactToConnect } from '../store/userSlice';
 
+const { user }: any = store.getState();
+
 const AppSocket = io('ws://localhost:4000', {
   timeout: 15000,
+  transports: ['websocket'],
+  query: { userId: user?.user?.userId || null },
 });
 
 const handlerMessageType = (payload: any) => {

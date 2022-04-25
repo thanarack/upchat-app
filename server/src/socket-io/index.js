@@ -1,4 +1,7 @@
 const { Server } = require('socket.io');
+const Log = require('../controllers/log');
+const { Messages } = require('../models/messages');
+const { UserChannel } = require('../models/userChannel');
 
 const socketHandler = (server) => {
   // Socket services
@@ -12,14 +15,89 @@ const socketHandler = (server) => {
   io.on('connection', (socket) => {
     console.log('a user connected socket id :', socket.id);
 
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
+    let privateChannel = [];
 
     // Listener from event `sent-message`
     socket.on('sent-message', (payload) => {
-      io.sockets.emit('new-message', payload);
+      const dataMessage = payload.payload;
+      // Check permissions of channel,
+      // If room type is contact it should send private message
+
+      if (payload.type === 'login-notice') {
+        const userIdRoom = dataMessage.userId;
+        if (!privateChannel.includes(userIdRoom)) {
+          socket.join(userIdRoom);
+          privateChannel.push(userIdRoom);
+        }
+      }
+
+      // Push login or logout event.
+      if (payload.type === 'login-notice') {
+        socket.broadcast.emit('new-message', payload);
+      }
+
+      // Send message to public channel.
+      if (
+        payload.type === 'message' &&
+        dataMessage.channel.roomType === 'group'
+      ) {
+        socket.broadcast.emit('new-message', payload);
+      }
+
+      // Send message to private channel of user.
+      if (
+        payload.type === 'message' &&
+        dataMessage.channel.roomType === 'contact'
+      ) {
+        const userId = dataMessage.channel.userId;
+        socket.to(userId).emit('new-message', payload);
+        console.log('private channel', userId);
+      }
+
       console.log(payload);
+
+      if (payload.type === 'unread') {
+        UserChannel.findOneAndUpdate(
+          {
+            channelId: dataMessage.channelId,
+            userId: dataMessage.userId,
+          },
+          { count: 0 },
+          { upsert: true }
+        ).exec();
+      }
+
+      // Save message to mongoose.
+      if (payload.type === 'message') {
+        Messages.create({
+          userId: dataMessage.userId,
+          timestamp: +new Date(),
+          messageId: dataMessage.messageId,
+          message: JSON.stringify(dataMessage.message),
+          isUnRead: false,
+          isDelete: false,
+          clientId: dataMessage.clientId,
+          channel: dataMessage.channelId,
+          user: dataMessage.userId,
+        });
+        // Update unread message
+        UserChannel.findOneAndUpdate(
+          {
+            channelId: dataMessage.channelId,
+            userId: dataMessage.channel.userId,
+          },
+          { $inc: { count: +1 } },
+          { upsert: true }
+        ).exec();
+      }
+
+      // Logged message into log and censor data.
+      payload.message = '*secret-message*';
+      Log({ type: 'info', message: 'new-message', child: payload });
+    });
+
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
     });
   });
 };

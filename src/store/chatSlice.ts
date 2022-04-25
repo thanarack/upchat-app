@@ -7,11 +7,7 @@ const initialState = {
   messages: [],
 };
 
-const pushMessageToExistingChatMessages = (
-  oldMessage: any,
-  channelId: any,
-  payload: any
-) => {
+const getChannelId = (oldMessage: any, channelId: any, payload: any) => {
   let messages = [...oldMessage];
   let channelIdExist = messages.findIndex(
     (data: any) => data.channelId === channelId
@@ -21,7 +17,34 @@ const pushMessageToExistingChatMessages = (
     messages.push(newMessage);
     channelIdExist = messages.length - 1;
   }
+  return { messages, channelIdExist };
+};
+
+const pushMessageToExistingChatMessages = (
+  oldMessage: any,
+  channelId: any,
+  payload: any
+) => {
+  const { channelIdExist, messages } = getChannelId(
+    oldMessage,
+    channelId,
+    payload
+  );
   messages[channelIdExist].chatLogs.push(payload);
+  return messages;
+};
+
+const pushGroupMessageToExistingChatMessages = (
+  oldMessage: any,
+  channelId: any,
+  payload: any
+) => {
+  const { channelIdExist, messages } = getChannelId(
+    oldMessage,
+    channelId,
+    payload
+  );
+  messages[channelIdExist].chatLogs = payload;
   return messages;
 };
 
@@ -42,6 +65,13 @@ export const chatSlice = createSlice({
         action.payload
       );
     },
+    pushGroupMessage: (state: any, action) => {
+      state.messages = pushGroupMessageToExistingChatMessages(
+        state.messages,
+        state.channel.channelId,
+        action.payload
+      );
+    },
     socketPushMessageToChannel: (state: any, action) => {
       const channelId = action.payload.channelId;
       state.messages = pushMessageToExistingChatMessages(
@@ -56,6 +86,7 @@ export const chatSlice = createSlice({
 export const {
   setChannel,
   pushMessage,
+  pushGroupMessage,
   socketPushMessageToChannel,
   clearChannel,
 } = chatSlice.actions;
