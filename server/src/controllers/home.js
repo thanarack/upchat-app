@@ -1,5 +1,8 @@
 const handlerHome = (req, res) => {
-  res.send('Hello World!ssss');
+  res.status(200).json({
+    message: 'home',
+    timestamp: +new Date(),
+  });
 };
 
 module.exports = handlerHome;

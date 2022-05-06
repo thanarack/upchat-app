@@ -1,29 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../app/hooks';
+import AppSocket from '../../app/socket';
+import useAuth from '../../hooks/useAuth';
 import useChat from '../../hooks/useChat';
+import { useGetRoomMessageMutation } from '../../services/users';
+import { pushGroupMessage } from '../../store/chatSlice';
 const localeTh = require('dayjs/locale/th');
 
 const Message = (props: any) => {
-  const { message, userId, messageId, timestamp } = props.data;
-  const { user } = useAuth();
-  const [userInfo, setUserInfo]: any = useState(undefined);
-  const isCurrentUser = user.user.userId === userId;
+  const { message, userId, messageId, timestamp, user } = props.data;
+  const isCurrentUser = user.userId === userId;
   const classMessage = isCurrentUser ? `cr-user` : `cr-other`;
-  const getUserFromContact: any = user.contacts.find(
-    (data: any) => data.id === userId
-  );
-
-  useEffect(() => {
-    // If user notfound from contact store, Just get from api then store into contact redux
-    if (!getUserFromContact) {
-      //
-    } else {
-      setUserInfo(getUserFromContact);
-    }
-  }, [getUserFromContact]);
 
   const formatData = () => {
     let display;
@@ -46,14 +36,14 @@ const Message = (props: any) => {
     >
       <div className="cr-profile">
         <img
-          src={userInfo ? userInfo.profileUrl : `./user-logo.png`}
+          src={user ? user.profileUrl : `./user-logo.png`}
           className="w-8 h-8 shadow-sm rounded-full"
           alt="Login user"
         />
       </div>
       <div className="cr-message">
         <div className="cr-user-info">
-          {userInfo && <span className="cr-user">{userInfo.title}</span>}
+          {user && <span className="cr-user">{user.title}</span>}
           <span className="cr-time">{formatData()}</span>
         </div>
         <div className="cr-text">{message}</div>
@@ -64,7 +54,11 @@ const Message = (props: any) => {
 };
 
 const ChatLogs = () => {
-  const { getChannelId, getMessages } = useChat();
+  const dispatch = useAppDispatch();
+  const { getChannelId, getMessages, getUnReadCount } = useChat();
+  const { user } = useAuth();
+  const [serviceGetRoomMessage] = useGetRoomMessageMutation();
+
   const getRoomMessage: any = getMessages.find(
     (data: any) => data.channelId === getChannelId
   );
@@ -83,12 +77,51 @@ const ChatLogs = () => {
     }
   }, [getChatLogs.length]);
 
+  // Fetch new message into current channel and push to store.
+  const chatFetchRoomMessages = async () => {
+    try {
+      // Emit data to server.
+      AppSocket.emit('sent-message', {
+        type: 'join-channel',
+        payload: {
+          channelId: getChannelId,
+          userId: user.user.userId,
+        },
+      });
+
+      const resultMessages = await serviceGetRoomMessage({
+        channelId: getChannelId,
+        pageNumber: 1,
+      }).unwrap();
+
+      if (resultMessages.statusCode === 200) {
+        const chatHistory = resultMessages?.result?.data || [];
+        const formatMessage = chatHistory.map((val: any) => {
+          return {
+            ...val,
+            message: JSON.parse(val.message),
+          };
+        });
+        dispatch(pushGroupMessage(formatMessage.reverse()));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Fetch once when enter to a room
+  useEffect(() => {
+    if (getUnReadCount > 0 || !getChatLogs.length) {
+      chatFetchRoomMessages();
+    }
+  }, [getChannelId, getUnReadCount]);
+
   if (!getRoomMessage) return null;
 
   return (
     <div id="chat-messages" className="cr-chat-message">
       {getChatLogs.map((data: any) => (
-        <Message key={data.messageId} data={data} />
+        <Message key={data._id || data.messageId} data={data} />
       ))}
     </div>
   );

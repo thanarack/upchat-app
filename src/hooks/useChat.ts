@@ -23,25 +23,46 @@ const useChat = () => {
   const getChannelId = chatSlice.channel?.channelId;
   const getChannelTitle = chatSlice.channel?.title;
   const getRoomType = chatSlice.channel?.roomType;
+  const getUnReadCount = chatSlice.channel?.unReadCount;
 
   const chatClearChannel = () => dispatch(clearChannel());
 
   const chatSetChannel = (room: any) => {
     dispatch(setChannel(room));
-    // Called api service clear unread
-    dispatch(clearUnreadRoom(room.channelId));
+    dispatch(
+      clearUnreadRoom({
+        channelId: room.channelId,
+        userId: userSlice.user.userId,
+      })
+    );
   };
 
   const chatPushMessage = (message: any) => {
+    // New message from client
+    const userData = userSlice.user;
     const setMessage = {
       channelId: getChannelId,
       clientId: userSlice.clientId,
-      messageId: nanoid(),
-      userId: userSlice.user.userId,
-      message,
+      messageId: nanoid(), // Generate Id message by client
+      userId: userData.userId,
+      user: {
+        firstName: userData?.firstName,
+        lastName: userData?.lastName,
+        position: userData?.position,
+        profileUrl: userData?.profileUrl,
+        role: userData?.role,
+        username: userData?.username,
+        title: `${userData?.firstName} ${userData?.lastName}`,
+        isConnected: userData.isConnected || false, // Status connect of user.
+      },
+      channel: {
+        roomType: chatSlice.channel.roomType,
+        userId: chatSlice.channel.userId || null, // For direct message to only this user.
+      },
       timestamp: dayjs().unix(),
       isDelete: false,
       isUnRead: false,
+      message,
     };
 
     // Emit data to server.
@@ -59,9 +80,10 @@ const useChat = () => {
     getChannelId,
     getChannelTitle,
     getRoomType,
+    getUnReadCount,
     chatSetChannel,
     chatPushMessage,
-    chatClearChannel
+    chatClearChannel,
   };
 };
 

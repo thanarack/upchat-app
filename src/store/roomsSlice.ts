@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import AppSocket from '../app/socket';
 import { RootState } from '../app/store';
-const mockData = require('../mockData.json');
 
-const initialState = {
-  data: mockData.rooms,
+// const mockData = require('../mockData.json');
+
+const initialState: any = {
+  data: [],
 };
 
 const getRoomIdByChannelId = (rooms: any, channelId: any) => {
@@ -20,19 +22,34 @@ export const roomsSlice = createSlice({
   name: 'rooms',
   initialState,
   reducers: {
+    setInitialRooms: (state, action) => {
+      state.data = action.payload;
+    },
     addUnreadToRoom: (state, action) => {
       const rooms = [...state.data];
       const roomId = getRoomIdByChannelId(rooms, action.payload.channelId);
       if (roomId >= 0) {
         const unReadCount = state.data[roomId].unReadCount;
-        rooms[roomId].unReadCount = unReadCount + 1;
+        const setUnReadCount = unReadCount + 1;
+        rooms[roomId].unReadCount = setUnReadCount;
       }
       state.data = rooms;
     },
     clearUnreadRoom: (state, action) => {
       const rooms = [...state.data];
-      const roomId = getRoomIdByChannelId(rooms, action.payload);
-      if (roomId >= 0) rooms[roomId].unReadCount = 0;
+      const roomId = getRoomIdByChannelId(rooms, action.payload.channelId);
+      if (roomId >= 0) {
+        rooms[roomId].unReadCount = 0;
+        // Emit message to socket to update
+        AppSocket.emit('sent-message', {
+          type: 'unread',
+          payload: {
+            channelId: action.payload.channelId,
+            userId: action.payload.userId,
+            unReadCount: 0,
+          },
+        });
+      }
       state.data = rooms;
     },
     setRoomContactToConnect: (state, action) => {
@@ -63,6 +80,7 @@ export const roomsSlice = createSlice({
 });
 
 export const {
+  setInitialRooms,
   addUnreadToRoom,
   clearUnreadRoom,
   setRoomContactToConnect,

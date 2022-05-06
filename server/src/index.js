@@ -5,48 +5,53 @@ dotenv.config();
 // Import necessary modules.
 const express = require('express');
 const { createServer } = require('http');
-const { cleanEnv, num } = require('envalid');
-const { Server } = require('socket.io');
+const bodyParser = require('body-parser');
+const { cleanEnv, num, str } = require('envalid');
+const session = require('express-session');
+const cors = require('cors');
+const socketHandler = require('./socket-io');
+const Routes = require('./routes');
+
+// Validate env
+const env = cleanEnv(process.env, {
+  APP_PORT: num({ default: 4000 }),
+  SESSION_KEY: str({ default: '' }),
+});
+
+// MongoDB connection
+require('./mongoose');
 
 // Server instance
 const app = express();
 const server = createServer(app);
 
-// Import handler modules
-const handlerHome = require('./controllers/home');
+// Cors enabled all routes
+app.use(cors());
 
-// Validate env
-const env = cleanEnv(process.env, {
-  APP_PORT: num({ default: 4000 }),
-});
+// Session setup
+app.set('trust proxy', 1); // trust first proxy
+app.use(
+  session({
+    secret: env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
 
-// Routes
-app.get('/', handlerHome);
+// Socket start
+socketHandler(server);
 
-// Socket services
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-  },
-});
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// Socket connection
-io.on('connection', (socket) => {
-  console.log('a user connected socket id :', socket.id);
+// parse application/json
+app.use(bodyParser.json());
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-
-  // Listener from event `sent-message`
-  socket.on('sent-message', (payload) => {
-    io.sockets.emit('new-message', payload);
-    console.log(payload);
-  });
-
-});
+// Route start
+app.use('/v1', Routes(express.Router()));
 
 // App start with a current port.
 server.listen(env.APP_PORT, () => {
-  console.log(`Example app listening on port ${env.APP_PORT}`);
+  console.log(`Application started on port ${env.APP_PORT}`);
 });

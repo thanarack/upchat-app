@@ -3,13 +3,17 @@ import counterReducer from '../features/counter/counterSlice';
 import userReducer from '../store/userSlice';
 import roomsReducer from '../store/roomsSlice';
 import chatReducer from '../store/chatSlice';
+import { usersApi } from '../services/users';
 
 export const store = configureStore({
   reducer: {
+    // State reducer
     counter: counterReducer,
     user: userReducer,
     rooms: roomsReducer,
     chat: chatReducer,
+    // Service reducer
+    [usersApi.reducerPath]: usersApi.reducer,
   },
 });
 

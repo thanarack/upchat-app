@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import useRoute from '../hooks/useRoute';
 
 function PrivateRoute({ children }: any) {

@@ -1,5 +1,5 @@
 import AppSocket from '../../app/socket';
-import { useAuth } from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const HeaderProfile = () => {
   const { fullName, user, profileUrl, userSetIsConnected } = useAuth();

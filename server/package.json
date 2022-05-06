@@ -5,9 +5,17 @@
   "author": "thanarak chaisri",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "envalid": "^7.3.0",
     "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.10",
+    "pino": "^7.9.2",
     "pm2": "^5.2.0",
     "socket.io": "^4.4.1",
     "uWebSockets.js": "uNetworking/uWebSockets.js#v20.4.0"

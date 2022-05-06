@@ -16,9 +16,8 @@ import FeaturesUserProfile from './features/userProfile';
 import FeaturesChatRoom from './features/chatRoom';
 import { useEffect, useState } from 'react';
 import useChat from './hooks/useChat';
-import { useAuth } from './hooks/useAuth';
+import useAuth from './hooks/useAuth';
 
-// Socket receiver.
 AppSocket.on('connect', () => {
   console.log('Application connected socket ID :', AppSocket.id);
 });
@@ -28,7 +27,7 @@ AppSocket.on('new-message', (data) => {
   if (data.type === 'login-notice') handlerLoginNoticeType(data.payload);
   if (data.type === 'new-room') handlerNewRoomType(data.payload);
   if (data.type === 'remove-room') handlerRemoveRoomType(data.payload);
-  console.log('new-message', data);
+  console.log('message', data);
 });
 
 function App() {
