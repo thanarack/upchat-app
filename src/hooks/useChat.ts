@@ -23,6 +23,7 @@ const useChat = () => {
   const getChannelId = chatSlice.channel?.channelId;
   const getChannelTitle = chatSlice.channel?.title;
   const getRoomType = chatSlice.channel?.roomType;
+  const getUnReadCount = chatSlice.channel?.unReadCount;
 
   const chatClearChannel = () => dispatch(clearChannel());
 
@@ -52,6 +53,7 @@ const useChat = () => {
         role: userData?.role,
         username: userData?.username,
         title: `${userData?.firstName} ${userData?.lastName}`,
+        isConnected: userData.isConnected || false, // Status connect of user.
       },
       channel: {
         roomType: chatSlice.channel.roomType,
@@ -78,6 +80,7 @@ const useChat = () => {
     getChannelId,
     getChannelTitle,
     getRoomType,
+    getUnReadCount,
     chatSetChannel,
     chatPushMessage,
     chatClearChannel,

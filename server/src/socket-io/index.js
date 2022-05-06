@@ -1,5 +1,6 @@
 const { Server } = require('socket.io');
 const Log = require('../controllers/log');
+const { getRoomMessages } = require('../controllers/rooms');
 const { Messages } = require('../models/messages');
 const { UserChannel } = require('../models/userChannel');
 
@@ -18,7 +19,7 @@ const socketHandler = (server) => {
     let privateChannel = [];
 
     // Listener from event `sent-message`
-    socket.on('sent-message', (payload) => {
+    socket.on('sent-message', async (payload) => {
       const dataMessage = payload.payload;
       // Check permissions of channel,
       // If room type is contact it should send private message
@@ -54,8 +55,6 @@ const socketHandler = (server) => {
         console.log('private channel', userId);
       }
 
-      console.log(payload);
-
       if (payload.type === 'unread') {
         UserChannel.findOneAndUpdate(
           {
@@ -81,17 +80,30 @@ const socketHandler = (server) => {
           user: dataMessage.userId,
         });
         // Update unread message
-        UserChannel.findOneAndUpdate(
-          {
-            channelId: dataMessage.channelId,
-            userId: dataMessage.channel.userId,
-          },
-          { $inc: { count: +1 } },
-          { upsert: true }
-        ).exec();
+        if (dataMessage.channel.roomType === 'contact') {
+          UserChannel.findOneAndUpdate(
+            {
+              channelId: dataMessage.channelId,
+              userId: dataMessage.channel.userId,
+            },
+            { $inc: { count: +1 } },
+            { upsert: true }
+          ).exec();
+        }
+        // Update unread to all user in this channel
+        if (dataMessage.channel.roomType === 'group') {
+          UserChannel.updateMany(
+            {
+              channelId: dataMessage.channelId,
+              userId: { $ne: dataMessage.userId },
+            },
+            { $inc: { count: +1 } }
+          ).exec();
+        }
       }
 
       // Logged message into log and censor data.
+      console.log(payload);
       payload.message = '*secret-message*';
       Log({ type: 'info', message: 'new-message', child: payload });
     });

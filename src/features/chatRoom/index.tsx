@@ -38,7 +38,7 @@ const FeaturesChatRoom = () => {
         });
       }
     };
-  }, [getChannelId, user.user.userId]);
+  }, [getChannelId]);
 
   const onSetText = (e: any) => {
     setInputText(e.target.value);

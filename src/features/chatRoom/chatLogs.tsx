@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../app/hooks';
+import AppSocket from '../../app/socket';
+import useAuth from '../../hooks/useAuth';
 import useChat from '../../hooks/useChat';
 import { useGetRoomMessageMutation } from '../../services/users';
 import { pushGroupMessage } from '../../store/chatSlice';
@@ -53,7 +55,8 @@ const Message = (props: any) => {
 
 const ChatLogs = () => {
   const dispatch = useAppDispatch();
-  const { getChannelId, getMessages } = useChat();
+  const { getChannelId, getMessages, getUnReadCount } = useChat();
+  const { user } = useAuth();
   const [serviceGetRoomMessage] = useGetRoomMessageMutation();
 
   const getRoomMessage: any = getMessages.find(
@@ -77,6 +80,15 @@ const ChatLogs = () => {
   // Fetch new message into current channel and push to store.
   const chatFetchRoomMessages = async () => {
     try {
+      // Emit data to server.
+      AppSocket.emit('sent-message', {
+        type: 'join-channel',
+        payload: {
+          channelId: getChannelId,
+          userId: user.user.userId,
+        },
+      });
+
       const resultMessages = await serviceGetRoomMessage({
         channelId: getChannelId,
         pageNumber: 1,
@@ -90,7 +102,7 @@ const ChatLogs = () => {
             message: JSON.parse(val.message),
           };
         });
-        dispatch(pushGroupMessage(formatMessage));
+        dispatch(pushGroupMessage(formatMessage.reverse()));
       }
     } catch (err) {
       console.log(err);
@@ -99,10 +111,10 @@ const ChatLogs = () => {
 
   // Fetch once when enter to a room
   useEffect(() => {
-    if (!getChatLogs.length) {
+    if (getUnReadCount > 0 || !getChatLogs.length) {
       chatFetchRoomMessages();
     }
-  }, [getChannelId]);
+  }, [getChannelId, getUnReadCount]);
 
   if (!getRoomMessage) return null;
 

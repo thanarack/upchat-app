@@ -27,7 +27,7 @@ AppSocket.on('new-message', (data) => {
   if (data.type === 'login-notice') handlerLoginNoticeType(data.payload);
   if (data.type === 'new-room') handlerNewRoomType(data.payload);
   if (data.type === 'remove-room') handlerRemoveRoomType(data.payload);
-  console.log('new-message', data);
+  console.log('message', data);
 });
 
 function App() {

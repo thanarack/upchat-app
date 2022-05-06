@@ -1,6 +1,8 @@
 import { io } from 'socket.io-client';
 import { store } from './store';
-import { socketPushMessageToChannel } from '../store/chatSlice';
+import {
+  socketPushMessageToChannel,
+} from '../store/chatSlice';
 import {
   addNewRoom,
   addUnreadToRoom,
@@ -43,7 +45,7 @@ const handlerMessageType = (payload: any) => {
           unReadCount: 1, // If add new room should start with 1
           roomType: 'contact',
           profileUrl: payload.user.profileUrl,
-          isConnected: payload?.channel?.isConnected || false,
+          isConnected: payload?.user?.isConnected || false,
           userId: payload.userId,
         })
       );
@@ -68,7 +70,7 @@ export {
   handlerMessageType,
   handlerLoginNoticeType,
   handlerNewRoomType,
-  handlerRemoveRoomType,
+  handlerRemoveRoomType
 };
 
 export default AppSocket;
