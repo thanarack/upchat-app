@@ -17,6 +17,7 @@ import FeaturesChatRoom from './features/chatRoom';
 import { useEffect, useState } from 'react';
 import useChat from './hooks/useChat';
 import useAuth from './hooks/useAuth';
+import './global.scss'
 
 AppSocket.on('connect', () => {
   console.log('Application connected socket ID :', AppSocket.id);

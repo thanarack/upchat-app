@@ -3,8 +3,22 @@ import Search from './Search';
 import RoomsSide from './RoomsSide';
 import './Dashboard.scss';
 
-const DashboardTemplate = (props: any) => {
-  const { children } = props;
+const PageTitle = (props: { title: string }) => {
+  return (
+    <h2 className="bg-neutral-100 text-neutral-600 text-2xl px-4 py-4 mb-4 shadow">
+      {props.title}
+    </h2>
+  );
+};
+
+type TDashboardTemplate = {
+  children?: any;
+  isSearch?: boolean;
+  pageTitle?: string;
+};
+
+const DashboardTemplate: React.FC<TDashboardTemplate> = (props) => {
+  const { children, isSearch, pageTitle } = props;
 
   return (
     <div className="flex flex-row h-screen">
@@ -17,13 +31,19 @@ const DashboardTemplate = (props: any) => {
       </div>
       {/* Containers */}
       <div id="right-side">
-        <Search />
+        {isSearch && <Search />}
+        {pageTitle && <PageTitle title={pageTitle} />}
         <div id="content-children" className="mt-4">
           {children}
         </div>
       </div>
     </div>
   );
+};
+
+DashboardTemplate.defaultProps = {
+  isSearch: true,
+  pageTitle: '',
 };
 
 export default DashboardTemplate;

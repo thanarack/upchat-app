@@ -1,0 +1,52 @@
+// Common classes used
+.btn {
+  @apply px-4 py-1.5 rounded-md;
+}
+
+.btn-green {
+  @apply bg-green-600 text-white;
+}
+
+.form-input {
+  @apply w-full border rounded-md px-3 h-10 py-1.5 outline-none text-gray-600 shadow-sm resize-none;
+}
+
+
+.form-group {
+  @apply flex flex-row items-center mb-6 gap-4 box-content;
+
+  label {
+    flex-basis: 40%;
+    @apply text-right;
+  }
+
+  div:first-child {
+    flex-basis: 60%;
+    @apply w-full;
+  }
+}
+
+textarea {
+  &.form-input {
+    @apply h-20;
+  }
+}
+
+select {
+  &.form-input {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+.select-wrapper {
+  @apply w-full relative;
+
+  &::after {
+    content: "▼";
+    font-size: 1rem;
+    top: 6px;
+    right: 14px;
+    position: absolute;
+  }
+}

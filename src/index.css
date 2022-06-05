@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  font-family: tahoma, arial, helvetica, sans-serif !important;
+}
+
 .chat-full-height {
   height: calc(100vh - 6rem);
 }
