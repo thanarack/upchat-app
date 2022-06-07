@@ -9,6 +9,10 @@
 
 .form-input {
   @apply w-full border rounded-md px-3 h-10 py-1.5 outline-none text-gray-600 shadow-sm resize-none;
+
+  &:read-only {
+    @apply bg-slate-100;
+  }
 }
 
 
@@ -66,11 +70,14 @@ select {
 
 .a-menu {
   @apply pr-4;
+
   li {
     @apply py-2 flex flex-row gap-1 pl-2 items-baseline bg-slate-200 mb-4 text-sm rounded-md text-gray-600;
+
     svg {
       @apply top-0.5 relative font-bold;
     }
+
     &:hover {
       @apply text-gray-900 bg-slate-300;
     }
