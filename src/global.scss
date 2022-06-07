@@ -17,7 +17,7 @@
 
   label {
     flex-basis: 40%;
-    @apply text-right;
+    @apply text-right text-gray-600;
   }
 
   div:first-child {
@@ -48,5 +48,31 @@ select {
     top: 6px;
     right: 14px;
     position: absolute;
+  }
+}
+
+.admin-left-slide {
+  height: calc(100vh - 64px);
+  @apply w-2/12;
+
+  .a-child {
+    @apply bg-slate-50 h-full pl-4 py-4;
+  }
+}
+
+.admin-right-slide {
+  @apply w-10/12 px-4 py-4;
+}
+
+.a-menu {
+  @apply pr-4;
+  li {
+    @apply py-2 flex flex-row gap-1 pl-2 items-baseline bg-slate-200 mb-4 text-sm rounded-md text-gray-600;
+    svg {
+      @apply top-0.5 relative font-bold;
+    }
+    &:hover {
+      @apply text-gray-900 bg-slate-300;
+    }
   }
 }

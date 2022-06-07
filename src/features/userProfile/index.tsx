@@ -2,7 +2,7 @@ import DashboardTemplate from '../dashboard/DashboardTemplate';
 
 const FeaturesProfileSetting = () => {
   return (
-    <DashboardTemplate isSearch={false} pageTitle="ข้อมูลผู้ใช้">
+    <DashboardTemplate isSearch={false} pageTitle="Profile - ข้อมูลผู้ใช้">
       <div className="container flex justify-center mt-6">
         <div className="md:max-w-2xl w-full">
           <div className="px-4">

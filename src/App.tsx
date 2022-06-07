@@ -17,7 +17,7 @@ import FeaturesChatRoom from './features/chatRoom';
 import { useEffect, useState } from 'react';
 import useChat from './hooks/useChat';
 import useAuth from './hooks/useAuth';
-import './global.scss'
+import './global.scss';
 
 AppSocket.on('connect', () => {
   console.log('Application connected socket ID :', AppSocket.id);
@@ -85,6 +85,15 @@ function App() {
           }
         />
         <Route
+          key="chatroom"
+          path="chatroom"
+          element={
+            <PrivateRoute>
+              <FeaturesChatRoom />
+            </PrivateRoute>
+          }
+        />
+        <Route
           key="settings"
           path="settings"
           element={
@@ -94,11 +103,38 @@ function App() {
           }
         />
         <Route
-          key="chatroom"
-          path="chatroom"
+          key="settings/rooms"
+          path="settings/rooms"
           element={
             <PrivateRoute>
-              <FeaturesChatRoom />
+              <FeaturesSettings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          key="settings/users"
+          path="settings/users"
+          element={
+            <PrivateRoute>
+              <FeaturesSettings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          key="settings/position"
+          path="settings/position"
+          element={
+            <PrivateRoute>
+              <FeaturesSettings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          key="settings/logs"
+          path="settings/logs"
+          element={
+            <PrivateRoute>
+              <FeaturesSettings />
             </PrivateRoute>
           }
         />

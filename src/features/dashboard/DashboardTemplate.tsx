@@ -5,7 +5,7 @@ import './Dashboard.scss';
 
 const PageTitle = (props: { title: string }) => {
   return (
-    <h2 className="bg-neutral-100 text-neutral-600 text-2xl px-4 py-4 mb-4 shadow">
+    <h2 className="bg-neutral-100 text-neutral-600 text-2xl px-4 py-4">
       {props.title}
     </h2>
   );
@@ -33,7 +33,7 @@ const DashboardTemplate: React.FC<TDashboardTemplate> = (props) => {
       <div id="right-side">
         {isSearch && <Search />}
         {pageTitle && <PageTitle title={pageTitle} />}
-        <div id="content-children" className="mt-4">
+        <div id="content-children">
           {children}
         </div>
       </div>
