@@ -5,7 +5,7 @@ import './Dashboard.scss';
 
 const PageTitle = (props: { title: string }) => {
   return (
-    <h2 className="bg-neutral-100 text-neutral-600 text-2xl px-4 py-4">
+    <h2 className="bg-sky-900 text-white text-2xl px-4 py-4 shadow">
       {props.title}
     </h2>
   );
