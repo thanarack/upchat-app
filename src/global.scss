@@ -14,11 +14,10 @@
 .form-input {
   @apply w-full border rounded-md px-3 h-10 py-1.5 outline-none text-gray-600 shadow-sm resize-none;
 
-  &:read-only {
+  &:disabled {
     @apply bg-slate-100;
   }
 }
-
 
 .form-group {
   @apply flex flex-row items-center mb-6 gap-4 box-content;

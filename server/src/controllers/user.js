@@ -138,7 +138,12 @@ const handlerUpdateProfileAvatar = async (req, res) => {
     // Resize images
     await sharp(tempFile)
       .jpeg()
-      .resize(320, 320)
+      .resize({
+        width: 320,
+        height: 320,
+        fit: sharp.fit.cover,
+        position: sharp.strategy.entropy,
+      })
       .toFile(currentFile)
       .then(async () => {
         await fs.unlinkSync(tempFile);

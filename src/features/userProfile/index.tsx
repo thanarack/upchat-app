@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Button from '../../components/button/Button';
 import {
@@ -19,7 +19,7 @@ const FeaturesProfileSetting = () => {
   }, []);
 
   // Initialize necessary form function.
-  const { handleSubmit, register, resetField, reset } = useForm();
+  const { handleSubmit, register, resetField, reset, control } = useForm();
 
   // Initialize get profile
   const getInitialProfile = async () => {
@@ -138,7 +138,7 @@ const FeaturesProfileSetting = () => {
                 <input
                   type="text"
                   className="form-input"
-                  readOnly
+                  disabled
                   {...register('position', { required: false })}
                 />
               </div>
@@ -147,7 +147,7 @@ const FeaturesProfileSetting = () => {
                 <input
                   type="email"
                   className="form-input"
-                  readOnly
+                  disabled
                   {...register('email', { required: false })}
                 />
               </div>
@@ -172,6 +172,7 @@ const FeaturesProfileSetting = () => {
                 <input
                   type="date"
                   className="form-input"
+                  placeholder="dd-mm-yyyy"
                   {...register('birthDate', { required: false })}
                 />
               </div>
