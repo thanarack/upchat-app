@@ -22,7 +22,6 @@ const FeaturesProfileSetting = () => {
   const { handleSubmit, register, resetField, reset } = useForm();
 
   // Initialize get profile
-  const [getProfile] = useGetProfileMutation();
   const getInitialProfile = async () => {
     try {
       const result = await getProfile(null).unwrap();
@@ -66,6 +65,7 @@ const FeaturesProfileSetting = () => {
   // End Profile image handler
 
   // Profile api
+  const [getProfile] = useGetProfileMutation();
   const [postProfileUpdate, postProfileUpdateResult] =
     usePostProfileUpdateMutation();
   const [postProfileImage, postProfileImageResult] =
