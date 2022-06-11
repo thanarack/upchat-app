@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { usePostProfileUpdateMutation } from '../../services/users';
 import isFileImage from '../../utils/isFileImage';
 import DashboardTemplate from '../dashboard/DashboardTemplate';
 
@@ -26,8 +28,27 @@ const FeaturesProfileSetting = () => {
   };
   // End Profile image handler
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  // Profile api
+  const [postProfileUpdate] = usePostProfileUpdateMutation();
+
+  const onSubmit = async (data: any) => {
+    try {
+      const result = await postProfileUpdate({
+        logo: data.profile,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        birthDate: data.birthDate,
+        gender: data.gender,
+        phone: data.phone,
+        address: data.address,
+      }).unwrap();
+
+      toast('บันทึกสำเร็จ', { type: 'success' });
+
+      return result;
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   console.log(watch());
@@ -61,6 +82,7 @@ const FeaturesProfileSetting = () => {
                   />
                   <button
                     onClick={pickImageHandler}
+                    type="button"
                     className="px-4 py-1 text-sm bg-neutral-200 rounded"
                   >
                     เลือกรูป
@@ -90,7 +112,7 @@ const FeaturesProfileSetting = () => {
                 <input
                   type="text"
                   className="form-input"
-                  {...register('firstname', { required: true })}
+                  {...register('firstName', { required: true })}
                 />
               </div>
               <div className="form-group">
@@ -98,7 +120,7 @@ const FeaturesProfileSetting = () => {
                 <input
                   type="text"
                   className="form-input"
-                  {...register('lastname', { required: true })}
+                  {...register('lastName', { required: true })}
                 />
               </div>
               <div className="form-group">
@@ -106,7 +128,7 @@ const FeaturesProfileSetting = () => {
                 <input
                   type="date"
                   className="form-input"
-                  {...register('birthdate', { required: false })}
+                  {...register('birthDate', { required: false })}
                 />
               </div>
               <div className="form-group">

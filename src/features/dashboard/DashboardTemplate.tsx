@@ -1,7 +1,9 @@
+import { ToastContainer } from 'react-toastify';
 import HeaderProfile from './HeaderProfile';
 import Search from './Search';
 import RoomsSide from './RoomsSide';
 import './Dashboard.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PageTitle = (props: { title: string }) => {
   return (
@@ -22,6 +24,7 @@ const DashboardTemplate: React.FC<TDashboardTemplate> = (props) => {
 
   return (
     <div className="flex flex-row h-screen">
+      <ToastContainer />
       {/* Left side */}
       <div id="left-side">
         <div className="flex w-full bg-slate-800 h-full text-gray-100 flex-col relative">
@@ -33,9 +36,7 @@ const DashboardTemplate: React.FC<TDashboardTemplate> = (props) => {
       <div id="right-side">
         {isSearch && <Search />}
         {pageTitle && <PageTitle title={pageTitle} />}
-        <div id="content-children">
-          {children}
-        </div>
+        <div id="content-children">{children}</div>
       </div>
     </div>
   );

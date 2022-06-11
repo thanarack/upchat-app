@@ -1,5 +1,10 @@
+const sharp = require('sharp');
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
 const { Users } = require('../models/users');
 const Log = require('./log');
+const upload = require('../utils/upload');
 
 const handlerProfile = async (req, res) => {
   try {
@@ -71,7 +76,91 @@ const handlerGetUserInformation = async (req, res) => {
   }
 };
 
+const handlerUpdateProfile = async (req, res) => {
+  try {
+    const { userId } = req.userPayload;
+
+    const userProfile = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      birthDate: req.body.birthDate,
+      gender: req.body.gender,
+      phone: req.body.phone,
+      address: req.body.address,
+    };
+
+    const update = await Users.findOneAndUpdate({ _id: userId }, userProfile, {
+      upsert: true,
+    });
+
+    if (update) {
+      return res.status(200).json({
+        message: 'Success',
+        statusCode: 200,
+        result: {
+          userId,
+        },
+      });
+    }
+
+    return res.status(404).json({
+      message: 'User not found',
+      statusCode: 404,
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerUpdateProfileAvatar = async (req, res) => {
+  try {
+    const { userId } = req.userPayload;
+    let fileName = '';
+
+    // Upload image
+    await new Promise((resolve, reject) =>
+      upload(req, res, (err) => {
+        fileName = req.file.filename;
+        if (err) {
+          reject(err);
+        }
+        resolve(true);
+      })
+    );
+
+    const tempFile = path.resolve('public/temp', fileName);
+    const currentFile = path.resolve('public', 'profile', userId + '.jpg');
+    // Delete current image
+    const checkFile = await fs.existsSync(currentFile);
+    if (checkFile) await fs.unlinkSync(currentFile);
+
+    // Resize images
+    await sharp(tempFile)
+      .jpeg()
+      .resize(320, 320)
+      .toFile(currentFile)
+      .then(async () => {
+        await fs.unlinkSync(tempFile);
+      });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { fileName: userId + '.jpg' },
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+    });
+  }
+};
+
 module.exports = {
   handlerProfile,
   handlerGetUserInformation,
+  handlerUpdateProfile,
+  handlerUpdateProfileAvatar,
 };

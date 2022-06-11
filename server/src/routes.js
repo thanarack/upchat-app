@@ -4,10 +4,17 @@ const handlerContact = require('./controllers/contact');
 // Import handler modules
 const handlerHome = require('./controllers/home');
 const handlerLogin = require('./controllers/login');
-const { handlerRooms, handlerAddRoom, handlerDeleteRoom, handlerGetRoomMessage } = require('./controllers/rooms');
+const {
+  handlerRooms,
+  handlerAddRoom,
+  handlerDeleteRoom,
+  handlerGetRoomMessage,
+} = require('./controllers/rooms');
 const {
   handlerProfile,
   handlerGetUserInformation,
+  handlerUpdateProfile,
+  handlerUpdateProfileAvatar,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
 
@@ -49,6 +56,7 @@ const checkToken = async (req, res, next) => {
   });
   return next();
 };
+// End upload
 
 const Routes = (app) => {
   app.use(getUserToken);
@@ -64,6 +72,10 @@ const Routes = (app) => {
   app.post('/rooms/add', checkToken, handlerAddRoom);
   app.post('/rooms/delete', checkToken, handlerDeleteRoom);
   app.get('/rooms/messages', checkToken, handlerGetRoomMessage);
+
+  // Profile
+  app.post('/profile/update', checkToken, handlerUpdateProfile);
+  app.post('/profile/avatar', checkToken, handlerUpdateProfileAvatar);
 
   return app;
 };
