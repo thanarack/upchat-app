@@ -59,11 +59,11 @@ select {
 }
 
 .admin-left-slide {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 52px);
   @apply w-2/12;
 
   .a-child {
-    @apply bg-slate-50 h-full pl-4 py-4;
+    @apply bg-indigo-50 h-full pl-4 py-4;
   }
 }
 
@@ -75,7 +75,7 @@ select {
   @apply pr-4;
 
   li {
-    @apply py-2 flex flex-row gap-1 pl-2 items-baseline bg-slate-200 mb-4 text-sm rounded-md text-gray-600;
+    @apply py-2 flex flex-row gap-1 pl-2 items-baseline bg-indigo-100 mb-4 text-sm rounded-md text-gray-800;
 
     svg {
       @apply top-0.5 relative font-bold;
