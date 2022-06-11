@@ -72,6 +72,14 @@ export const usersApi = createApi({
         body,
       }),
     }),
+    postProfileImageUpdate: build.mutation({
+      query: (body) => ({
+        url: 'profile/avatar',
+        method: 'post',
+        headers: generateHeaderWithToken(),
+        body,
+      }),
+    }),
   }),
 });
 
@@ -86,4 +94,5 @@ export const {
   useGetContactsMutation,
   useGetRoomMessageMutation,
   usePostProfileUpdateMutation,
+  usePostProfileImageUpdateMutation
 } = usersApi;

@@ -1,14 +1,51 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { usePostProfileUpdateMutation } from '../../services/users';
+import Button from '../../components/button/Button';
+import {
+  useGetProfileMutation,
+  usePostProfileImageUpdateMutation,
+  usePostProfileUpdateMutation,
+} from '../../services/users';
 import isFileImage from '../../utils/isFileImage';
 import DashboardTemplate from '../dashboard/DashboardTemplate';
 
 const FeaturesProfileSetting = () => {
+  // Hook function
+  useEffect(() => {
+    getInitialProfile();
+  }, []);
+
   // Initialize necessary form function.
-  const { handleSubmit, register, watch, resetField } = useForm();
+  const { handleSubmit, register, resetField, reset } = useForm();
+
+  // Initialize get profile
+  const [getProfile] = useGetProfileMutation();
+  const getInitialProfile = async () => {
+    try {
+      const result = await getProfile(null).unwrap();
+      if (result) {
+        const data = result.result.data;
+        let defaultValue = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          birthDate: dayjs(data.birthDate).format('YYYY-MM-DD'),
+          gender: data.gender,
+          phone: data.phone,
+          address: data.address,
+          position: data.position,
+          email: data.email,
+        };
+        reset({ ...defaultValue });
+        setPreviewProfile(data.profileUrl + '?v=' + +new Date());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  // End set Initialize profile
 
   // Profile image handler
   const [previewProfile, setPreviewProfile] = useState('/user-logo.png');
@@ -29,11 +66,20 @@ const FeaturesProfileSetting = () => {
   // End Profile image handler
 
   // Profile api
-  const [postProfileUpdate] = usePostProfileUpdateMutation();
+  const [postProfileUpdate, postProfileUpdateResult] =
+    usePostProfileUpdateMutation();
+  const [postProfileImage, postProfileImageResult] =
+    usePostProfileImageUpdateMutation();
 
   const onSubmit = async (data: any) => {
     try {
-      const result = await postProfileUpdate({
+      if (data.profile[0]) {
+        const formImage = new FormData();
+        formImage.append('file', data.profile[0]);
+        await postProfileImage(formImage);
+      }
+
+      await postProfileUpdate({
         logo: data.profile,
         firstName: data.firstName,
         lastName: data.lastName,
@@ -45,13 +91,11 @@ const FeaturesProfileSetting = () => {
 
       toast('บันทึกสำเร็จ', { type: 'success' });
 
-      return result;
+      return;
     } catch (e) {
       console.log(e);
     }
   };
-
-  console.log(watch());
 
   return (
     <DashboardTemplate isSearch={false} pageTitle="Profile - ข้อมูลผู้ใช้">
@@ -138,8 +182,8 @@ const FeaturesProfileSetting = () => {
                     className="form-input"
                     {...register('gender', { required: false })}
                   >
-                    <option>ชาย</option>
-                    <option>หญิง</option>
+                    <option value="Male">ชาย</option>
+                    <option value="Female">หญิง</option>
                   </select>
                 </div>
               </div>
@@ -160,9 +204,14 @@ const FeaturesProfileSetting = () => {
                 />
               </div>
               <div className="text-right">
-                <button className="btn btn-green" form="profile-form">
-                  บันทึก
-                </button>
+                <Button
+                  text="บันทึก"
+                  isLoading={
+                    postProfileUpdateResult.isLoading ||
+                    postProfileImageResult.isLoading
+                  }
+                  form="profile-form"
+                />
               </div>
             </div>
           </div>

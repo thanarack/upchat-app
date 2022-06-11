@@ -144,6 +144,12 @@ const handlerUpdateProfileAvatar = async (req, res) => {
         await fs.unlinkSync(tempFile);
       });
 
+    // Update profile
+    await Users.findOneAndUpdate(
+      { _id: userId },
+      { profileUrl: 'http://localhost:4000/profile/' + userId + '.jpg' }
+    );
+
     return res.status(200).json({
       message: 'Success',
       statusCode: 200,

@@ -21,7 +21,7 @@ const HeaderProfile = () => {
       <div>
         <img
           src={profileUrl ? profileUrl : `./user-logo.png`}
-          className="w-10 h-10 shadow-sm"
+          className="w-10 h-10 shadow-sm rounded-full"
           alt="Login user"
         />
       </div>
