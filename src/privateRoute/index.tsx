@@ -26,14 +26,22 @@ const PrivateRoute = ({ children, isLoading }: any) => {
   const [getProfile] = useGetProfileMutation();
 
   const checkLoseProfileData = async () => {
-    setIsLoadingPrivate(true);
-    const profileResult = await getProfile(undefined).unwrap();
-    if (profileResult.statusCode === 200) {
-      userSetLogin();
-      userSetLoginUser(profileResult.result.data);
-      setTimeout(() => {
-        setIsLoadingPrivate(false);
-      }, 500);
+    try {
+      setIsLoadingPrivate(true);
+      const profileResult = await getProfile(undefined).unwrap();
+      if (profileResult.statusCode === 200) {
+        userSetLogin();
+        userSetLoginUser(profileResult.result.data);
+        setTimeout(() => {
+          setIsLoadingPrivate(false);
+        }, 500);
+      }
+    } catch (e) {
+      console.log(e);
+      navigate({
+        pathname: '/login',
+        search: '?from=' + String(location.pathname).replace('/', ''),
+      });
     }
   };
 

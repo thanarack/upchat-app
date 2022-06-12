@@ -163,6 +163,7 @@ const RoomsSide = () => {
     userResetAllState();
     window.localStorage.removeItem('upchat-app-token');
     window.localStorage.removeItem('upchat-app-client-id');
+    window.localStorage.removeItem('ally-supports-cache');
     AppSocket.emit('sent-message', {
       type: 'login-notice',
       payload: {
@@ -170,7 +171,9 @@ const RoomsSide = () => {
         value: false,
       },
     });
-    navigate('/');
+    setTimeout(() => {
+      navigate('/');
+    }, 10);
   };
 
   return (
