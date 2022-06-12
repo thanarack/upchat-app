@@ -54,12 +54,16 @@ const Action = (props: {
         onAccept={onDelete}
       />
       <div className="flex flex-row gap-4 justify-end">
-        <Button text="ลบข้อมูล" size="sm" onClick={() => setOpen(true)} />
         <Button
           text="แก้ไข"
           size="sm"
-          variant="gray"
           onClick={() => props.onEdit(props.value)}
+        />
+        <Button
+          variant="gray"
+          text="ลบข้อมูล"
+          size="sm"
+          onClick={() => setOpen(true)}
         />
       </div>
     </>

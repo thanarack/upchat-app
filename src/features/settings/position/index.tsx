@@ -1,5 +1,11 @@
-const SettingUsers = () => {
-  return <div>Users setting</div>;
+const SettingPosition = () => {
+  return (
+    <div>
+      <label className="text-xl text-indigo-500 font-semibold">
+        #จัดตำแหน่งภายในบริษัท
+      </label>
+    </div>
+  );
 };
 
-export default SettingUsers;
+export default SettingPosition;

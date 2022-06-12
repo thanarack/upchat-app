@@ -4,9 +4,9 @@ import { GetIcon } from '../../utils/icon';
 import DashboardTemplate from '../dashboard/DashboardTemplate';
 import SettingGeneral from './general';
 import SettingLogs from './logs';
-import SettingUsers from './position';
+import SettingPosition from './position';
 import SettingRooms from './rooms';
-import SettingPosition from './users';
+import SettingUsers from './users';
 
 const SwitchSettingsComponent = ({ pathName }: { pathName: string }) => {
   let component = <SettingGeneral />;
