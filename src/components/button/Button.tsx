@@ -1,15 +1,25 @@
+import classnames from 'classnames';
+
 type IButton = {
-  isLoading: boolean;
+  isLoading?: boolean;
   text: string;
   form?: string;
+  size?: string;
+  variant?: string;
+  onClick?: () => any;
 };
 
 const Button: React.FC<IButton> = (props) => {
   return (
     <button
+      className={classnames('btn', {
+        'btn-indigo': props.variant === '',
+        'btn-gray': props.variant === 'gray',
+        'btn-sm': props.size === 'sm',
+      })}
       form={props.form}
-      className="btn btn-indigo"
       disabled={props.isLoading}
+      onClick={props.onClick}
     >
       {props.isLoading && (
         <>
@@ -23,6 +33,10 @@ const Button: React.FC<IButton> = (props) => {
       {props.text}
     </button>
   );
+};
+
+Button.defaultProps = {
+  variant: '',
 };
 
 export default Button;

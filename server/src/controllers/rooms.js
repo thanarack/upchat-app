@@ -70,9 +70,7 @@ const handlerAddRoom = async (req, res) => {
     const { roomType, title, userAllow, targetUserId } = req.body;
 
     // Validate body payload.
-    if (!roomType) {
-      throw new Error('Body Invalid');
-    }
+    if (!roomType) throw new Error('Body Invalid');
 
     let dataPayload;
 
@@ -349,10 +347,125 @@ const getRoomMessages = async ({ channelId, pageNumber }) => {
   return formatData;
 };
 
+const handlerAdminRooms = async (req, res) => {
+  try {
+    let data = [];
+
+    const getAllUsersChannel = await Channels.find({
+      roomType: 'group',
+      userAllow: 'public',
+      isDelete: false,
+    }).sort({ createdAt: -1 });
+
+    // Map to frontend json structures.
+    if (getAllUsersChannel.length) {
+      for (let i = 0; i < getAllUsersChannel.length; i++) {
+        const v = getAllUsersChannel[i];
+        const countTotalUser = await UserChannel.count({
+          channelId: v._id,
+        });
+        data.push({
+          channelId: v._id,
+          title: v.title,
+          count: countTotalUser,
+          createdAt: v.createdAt || v.updatedAt || 0,
+        });
+      }
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data, total: data.length },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminDeleteRooms = async (req, res) => {
+  try {
+    const { channelId } = req.query;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    const result = await Channels.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isDelete: true,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'Room not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminUpdateRooms = async (req, res) => {
+  try {
+    const { channelId, title } = req.body;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    const result = await Channels.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        title,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'Room not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
 module.exports = {
   handlerRooms,
   handlerAddRoom,
   handlerDeleteRoom,
   handlerGetRoomMessage,
-  getRoomMessages
+  getRoomMessages,
+  handlerAdminRooms,
+  handlerAdminDeleteRooms,
+  handlerAdminUpdateRooms,
 };

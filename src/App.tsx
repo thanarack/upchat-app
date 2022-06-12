@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import useChat from './hooks/useChat';
 import useAuth from './hooks/useAuth';
 import './global.scss';
+import AdminPrivateRoute from './privateRoute/adminPrivateRoute';
 
 AppSocket.on('connect', () => {
   console.log('Application connected socket ID :', AppSocket.id);
@@ -97,45 +98,45 @@ function App() {
           key="settings"
           path="settings"
           element={
-            <PrivateRoute>
+            <AdminPrivateRoute>
               <FeaturesSettings />
-            </PrivateRoute>
+            </AdminPrivateRoute>
           }
         />
         <Route
           key="settings/rooms"
           path="settings/rooms"
           element={
-            <PrivateRoute>
+            <AdminPrivateRoute>
               <FeaturesSettings />
-            </PrivateRoute>
+            </AdminPrivateRoute>
           }
         />
         <Route
           key="settings/users"
           path="settings/users"
           element={
-            <PrivateRoute>
+            <AdminPrivateRoute>
               <FeaturesSettings />
-            </PrivateRoute>
+            </AdminPrivateRoute>
           }
         />
         <Route
           key="settings/position"
           path="settings/position"
           element={
-            <PrivateRoute>
+            <AdminPrivateRoute>
               <FeaturesSettings />
-            </PrivateRoute>
+            </AdminPrivateRoute>
           }
         />
         <Route
           key="settings/logs"
           path="settings/logs"
           element={
-            <PrivateRoute>
+            <AdminPrivateRoute>
               <FeaturesSettings />
-            </PrivateRoute>
+            </AdminPrivateRoute>
           }
         />
       </Routes>

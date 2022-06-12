@@ -209,7 +209,6 @@ const RoomsSide = () => {
             </div>
           </div>
         </div>
-
         <ul className="db-rooms">{renderRooms()}</ul>
         <div className="px-4 mt-6">
           <div className="border text-sm px-3 py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">

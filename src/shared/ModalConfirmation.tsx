@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Button from '../components/button/Button';
 import ModalComponent from './ModalComponent';
 
 const ModalConfirmation = (props: any) => {
@@ -14,12 +15,8 @@ const ModalConfirmation = (props: any) => {
   return (
     <ModalComponent title={title} isOpen={open} onClose={onClose}>
       <div className="md-confirmation">
-        <button onClick={onAccept} className="accept">
-          ตกลง
-        </button>
-        <button onClick={onCancel} className="denied">
-          ยกเลิก
-        </button>
+        <Button text="ตกลง" onClick={onAccept} />
+        <Button text="ยกเลิก" onClick={onCancel} variant="gray" />
       </div>
     </ModalComponent>
   );

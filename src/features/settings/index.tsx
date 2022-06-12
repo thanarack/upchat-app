@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import useRoute from '../../hooks/useRoute';
+import AdminPrivateRoute from '../../privateRoute/adminPrivateRoute';
 import { GetIcon } from '../../utils/icon';
 import DashboardTemplate from '../dashboard/DashboardTemplate';
 import SettingGeneral from './general';

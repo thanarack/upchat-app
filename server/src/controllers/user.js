@@ -1,7 +1,6 @@
 const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
-const multer = require('multer');
 const { Users } = require('../models/users');
 const Log = require('./log');
 const upload = require('../utils/upload');

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Button from '../../components/button/Button';
 import {
