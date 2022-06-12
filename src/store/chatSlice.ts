@@ -52,6 +52,7 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    reset: () => initialState,
     setChannel: (state, action) => {
       state.channel = action.payload;
     },
@@ -89,6 +90,7 @@ export const {
   pushGroupMessage,
   socketPushMessageToChannel,
   clearChannel,
+  reset
 } = chatSlice.actions;
 
 export const selectChat = (state: RootState) => state.chat;

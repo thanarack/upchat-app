@@ -22,6 +22,7 @@ export const roomsSlice = createSlice({
   name: 'rooms',
   initialState,
   reducers: {
+    reset: () => initialState,
     setInitialRooms: (state, action) => {
       state.data = action.payload;
     },
@@ -86,6 +87,7 @@ export const {
   setRoomContactToConnect,
   addNewRoom,
   removeRoom,
+  reset
 } = roomsSlice.actions;
 
 export const selectRooms = (state: RootState) => state.rooms;

@@ -39,6 +39,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    reset: () => initialState,
     setLogin: (state) => {
       state.isAuthenticated = true;
     },
@@ -77,6 +78,7 @@ export const {
   setLogout,
   setLoginUser,
   setUserConnect,
+  reset
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

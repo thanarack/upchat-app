@@ -5,8 +5,11 @@ import {
   setLoginUser,
   setLogout,
   setUserConnect,
+  reset as userSliceReset,
   // setUserToLocalContact,
 } from '../store/userSlice';
+import { reset as roomsSliceReset } from '../store/roomsSlice';
+import { reset as chatSliceReset } from '../store/chatSlice';
 
 /**
  * It returns the user slice
@@ -21,10 +24,15 @@ const useAuth = () => {
   const userSetIsConnected = (value: any) => dispatch(setUserConnect(value));
   // const userSetUserToLocalContact = (value: any) =>
   //   dispatch(setUserToLocalContact(value));
+  const userResetAllState = () => {
+    dispatch(userSliceReset());
+    dispatch(roomsSliceReset());
+    dispatch(chatSliceReset());
+  };
   const fullName = userSlice.user.firstName + ' ' + userSlice.user.lastName;
   const profileUrl = userSlice.user.profileUrl;
-  const userId = userSlice.user.userId
-  const userRole = userSlice.user.role
+  const userId = userSlice.user.userId;
+  const userRole = userSlice.user.role;
 
   return {
     user: userSlice,
@@ -36,8 +44,9 @@ const useAuth = () => {
     userSetLogout,
     userSetLoginUser,
     userSetIsConnected,
+    userResetAllState,
     // userSetUserToLocalContact,
   };
 };
 
-export default useAuth
+export default useAuth;

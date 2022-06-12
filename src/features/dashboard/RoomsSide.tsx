@@ -16,7 +16,8 @@ import ModalConfirmation from '../../shared/ModalConfirmation';
 const RoomsSide = () => {
   const { navigate } = useRoute();
   const { chatSetChannel, getChannelId } = useChat();
-  const { userSetLogout, userSetLoginUser, user } = useAuth();
+  const { userSetLogout, userSetLoginUser, user, userResetAllState } =
+    useAuth();
   const { myRooms, roomsAddNewRoom, roomsSetInitialRooms } = useRooms();
   const [isOpenNewRoom, setIsOpenNewRoom] = useState(false);
   const [inputText, setInputText] = useState('');
@@ -100,7 +101,7 @@ const RoomsSide = () => {
               />
               <img
                 src={data.profileUrl}
-                className="profile-url"
+                className="profile-url rounded-full"
                 alt="Profile"
               />
             </div>
@@ -159,6 +160,7 @@ const RoomsSide = () => {
   const onLogout = () => {
     userSetLogout();
     userSetLoginUser({});
+    userResetAllState();
     window.localStorage.removeItem('upchat-app-token');
     window.localStorage.removeItem('upchat-app-client-id');
     AppSocket.emit('sent-message', {
@@ -204,9 +206,11 @@ const RoomsSide = () => {
         <div className="px-4 mt-6">
           <div className="px-3 border text-sm py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
             <span>ห้องของคุณ</span>
-            <div role="button" onClick={() => setIsOpenNewRoom(true)}>
-              <GetIcon mode="outline" name="plus" />
-            </div>
+            {['adminitrator'].includes(user.user.role) && (
+              <div role="button" onClick={() => setIsOpenNewRoom(true)}>
+                <GetIcon mode="outline" name="plus" />
+              </div>
+            )}
           </div>
         </div>
         <ul className="db-rooms">{renderRooms()}</ul>
@@ -233,13 +237,15 @@ const RoomsSide = () => {
           >
             <GetIcon mode="outline" name="user" />
           </li>
-          <li
-            aria-label="User setting"
-            title="User setting"
-            onClick={() => navigate('/settings')}
-          >
-            <GetIcon mode="outline" name="cog" />
-          </li>
+          {['adminitrator'].includes(user.user.role) && (
+            <li
+              aria-label="User setting"
+              title="User setting"
+              onClick={() => navigate('/settings')}
+            >
+              <GetIcon mode="outline" name="cog" />
+            </li>
+          )}
           <li
             aria-label="Logout"
             title="Logout"

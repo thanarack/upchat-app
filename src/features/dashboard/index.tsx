@@ -5,7 +5,7 @@ const FeaturesDashboard = () => {
 
   return (
     <DashboardTemplate>
-      <div className="px-4">
+      <div className="px-4 mt-4">
         <div className="text-lg">
           😆 <span className="text-gray-600">สวัสดีคุณ</span>
           <span className="font-medium text-gray-800 ml-1">{fullName}.</span>
