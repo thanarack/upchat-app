@@ -5,13 +5,14 @@ import PrivateRoute from './index';
 
 const AdminPrivateRoute = ({ children }: any) => {
   const { user } = useAuth();
-  const { navigate } = useRoute();
+  const { navigate, location } = useRoute();
 
   // Check admin
   useEffect(() => {
     if (!['adminitrator'].includes(user.user.role)) {
       return navigate({
         pathname: '/dashboard',
+        search: '?redirect=' + location.pathname,
       });
     }
   }, [user.user.role]);

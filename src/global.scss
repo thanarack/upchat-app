@@ -3,7 +3,7 @@
   @apply inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md ease-in-out duration-150;
 
   &.btn-sm {
-    @apply text-sm py-1.5 px-2.5;
+    @apply text-sm py-1.5 px-2.5 font-normal;
   }
 }
 
