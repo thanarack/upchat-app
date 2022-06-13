@@ -38,7 +38,8 @@ const FeaturesProfileSetting = () => {
           email: data.email,
         };
         reset({ ...defaultValue });
-        setPreviewProfile(data.profileUrl + '?v=' + +new Date());
+        if (data.profileUrl)
+          setPreviewProfile(data.profileUrl + '?v=' + +new Date());
       }
     } catch (e) {
       console.log(e);
