@@ -1,5 +1,6 @@
 const sharp = require('sharp');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 const { Users } = require('../models/users');
 const Log = require('./log');
@@ -268,6 +269,9 @@ const handlerAdminNewUsers = async (req, res) => {
     const user = await Users.findOne({ username }).exec();
     if (user) throw new Error('Username existing.');
 
+    // Generate default password
+    const password = await bcrypt.hashSync(username, 10);
+
     // Add new user
     const result = await Users.create({
       username,
@@ -279,7 +283,7 @@ const handlerAdminNewUsers = async (req, res) => {
       roleId: role._id,
       isDelete: false,
       phone: '',
-      password: '',
+      password,
     });
 
     return res.status(200).json({
