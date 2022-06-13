@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { GetIcon } from '../utils/icon';
-
-import './ModalComponent.scss'
+import './ModalComponent.scss';
 
 const ModalComponent = (props: any) => {
   const { children, isOpen, onClose, title } = props;
@@ -24,10 +23,14 @@ const ModalComponent = (props: any) => {
               className="absolute right-4 top-6 cursor-pointer"
               onClick={onClose}
             >
-              <GetIcon mode="outline" name="close" className="close text-gray-600"/>
+              <GetIcon
+                mode="outline"
+                name="close"
+                className="close text-gray-600"
+              />
             </span>
-            {title && <label>{title}</label>}
-            <div className="flex mt-6 flex-row space-x-2">{children}</div>
+            {title && <label className="mb-6">{title}</label>}
+            <div className="w-full">{children}</div>
           </div>
         </div>
       </div>

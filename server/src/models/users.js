@@ -21,8 +21,7 @@ const userSchema = new Schema(
     isDelete: Boolean,
     birthDate: { type: Schema.Types.Date },
     address: String,
-    gender: String
-
+    gender: String,
   },
   { collection: 'users', timestamps: true }
 );

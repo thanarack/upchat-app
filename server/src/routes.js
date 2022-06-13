@@ -18,6 +18,10 @@ const {
   handlerGetUserInformation,
   handlerUpdateProfile,
   handlerUpdateProfileAvatar,
+  handlerAdminUsers,
+  handlerAdminDeleteUsers,
+  handlerAdminNewUsers,
+  handlerAdminUserPosition,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
 
@@ -84,6 +88,10 @@ const Routes = (app) => {
   app.get('/admin/rooms', checkToken, handlerAdminRooms);
   app.get('/admin/delete/rooms', checkToken, handlerAdminDeleteRooms);
   app.post('/admin/update/rooms', checkToken, handlerAdminUpdateRooms);
+  app.get('/admin/users', checkToken, handlerAdminUsers);
+  app.get('/admin/delete/users', checkToken, handlerAdminDeleteUsers);
+  app.post('/admin/new/users', checkToken, handlerAdminNewUsers);
+  app.get('/admin/users/position', checkToken, handlerAdminUserPosition);
 
   return app;
 };

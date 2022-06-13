@@ -19,7 +19,7 @@ const FeaturesProfileSetting = () => {
   }, []);
 
   // Initialize necessary form function.
-  const { handleSubmit, register, resetField, reset, control } = useForm();
+  const { handleSubmit, register, resetField, reset } = useForm();
 
   // Initialize get profile
   const getInitialProfile = async () => {

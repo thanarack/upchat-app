@@ -4,6 +4,8 @@ const fs = require('fs');
 const { Users } = require('../models/users');
 const Log = require('./log');
 const upload = require('../utils/upload');
+const { UsersRole } = require('../models/usersRole');
+const { UsersPosition } = require('../models/usersPosition');
 
 const handlerProfile = async (req, res) => {
   try {
@@ -168,9 +170,161 @@ const handlerUpdateProfileAvatar = async (req, res) => {
   }
 };
 
+const handlerAdminUsers = async (req, res) => {
+  try {
+    const getUsers = await Users.find({
+      isDelete: false,
+    })
+      .populate(['roleId', 'positionId'])
+      .select({ password: 0 })
+      .lean({})
+      .exec();
+
+    const data = [];
+
+    // Format structures to frontend
+    for (const user of getUsers) {
+      data.push({
+        userId: user._id,
+        ...user,
+        role: user?.roleId?.title,
+        position: user?.positionId?.title,
+        _id: undefined,
+        roleId: undefined,
+        positionId: undefined,
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: {
+        data,
+        total: getUsers.length,
+      },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error.message;
+  }
+};
+
+const handlerAdminDeleteUsers = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const userPayload = req.userPayload;
+
+    if (userId === userPayload.userId)
+      return res.status(500).json({
+        message: 'Can not delete self account',
+        statusCode: 500,
+        timestamp: +new Date(),
+      });
+
+    let id = null;
+
+    // Check object id
+    if (userId.match(/^[0-9a-fA-F]{24}$/)) id = userId;
+
+    const result = await Users.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isDelete: true,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'User not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminNewUsers = async (req, res) => {
+  try {
+    // Destructuring data
+    const { username, firstName, lastName, positionId } = req.body;
+
+    // Get role user id
+    const role = await UsersRole.findOne({ roleKey: 'user' }).exec();
+    if (!role) throw new Error('Role user not found.');
+
+    // Check user existing
+    const user = await Users.findOne({ username }).exec();
+    if (user) throw new Error('Username existing.');
+
+    // Add new user
+    const result = await Users.create({
+      username,
+      firstName,
+      lastName,
+      positionId,
+      email: username,
+      isConnected: true,
+      roleId: role._id,
+      isDelete: false,
+      phone: '',
+      password: '',
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
+const handlerAdminUserPosition = async (req, res) => {
+  try {
+    const result = await UsersPosition.find({}).lean().exec();
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result, total: result.length },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
 module.exports = {
   handlerProfile,
   handlerGetUserInformation,
   handlerUpdateProfile,
   handlerUpdateProfileAvatar,
+  handlerAdminUsers,
+  handlerAdminDeleteUsers,
+  handlerAdminNewUsers,
+  handlerAdminUserPosition,
 };

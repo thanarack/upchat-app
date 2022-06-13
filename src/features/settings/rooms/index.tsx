@@ -59,6 +59,7 @@ const Action = (props: {
           size="sm"
           onClick={() => props.onEdit(props.value)}
         />
+        <Button text="เพิ่มผู้ใช้" size="sm" />
         <Button
           variant="gray"
           text="ลบข้อมูล"
@@ -81,6 +82,11 @@ const SettingRooms = () => {
       header: () => 'ชื่อห้อง',
       cell: (info) => info.getValue(),
     }),
+    table.createDataColumn('createdAt', {
+      header: () => 'วันที่เพิ่ม',
+      cell: (info) =>
+        dayjs(info.getValue()).locale('th').format('DD/MM/YYYY'),
+    }),
     table.createDataColumn('count', {
       header: () => 'จำนวนผู้สมาชิก',
       cell: (info) => (
@@ -88,11 +94,6 @@ const SettingRooms = () => {
           {formatNumber(+info.getValue())}
         </div>
       ),
-    }),
-    table.createDataColumn('createdAt', {
-      header: () => 'วันที่เพิ่ม',
-      cell: (info) =>
-        dayjs(info.getValue()).locale('th').format('DD MMMM YYYY'),
     }),
     table.createDataColumn('channelId', {
       header: () => <div id="action">จัดการ</div>,
@@ -233,6 +234,13 @@ const SettingRooms = () => {
                 ))}
               </tr>
             ))}
+            {!data.length && (
+              <tr className="no-found">
+                <td colSpan={7}>
+                  <div>- ไม่พบข้อมูล -</div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
