@@ -6,6 +6,7 @@ import chatReducer from '../store/chatSlice';
 import { usersApi } from '../services/users';
 import { adminRoomsApi } from '../services/admin/rooms';
 import { adminUsersApi } from '../services/admin/users';
+import { adminLogsApi } from '../services/admin/logs';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     [usersApi.reducerPath]: usersApi.reducer,
     [adminRoomsApi.reducerPath]: adminRoomsApi.reducer,
     [adminUsersApi.reducerPath]: adminUsersApi.reducer,
+    [adminLogsApi.reducerPath]: adminLogsApi.reducer,
   },
 });
 

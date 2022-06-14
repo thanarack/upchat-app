@@ -3,7 +3,7 @@ const { Messages } = require('../models/messages');
 const { UserChannel } = require('../models/userChannel');
 const { Users } = require('../models/users');
 const generateTitleName = require('../utils/generateTitleName');
-const Log = require('./log');
+const { Log } = require('./log');
 
 const handlerRooms = async (req, res) => {
   try {

@@ -1,5 +1,5 @@
 const { Users } = require('../models/users');
-const Log = require('./log');
+const { Log } = require('./log');
 
 const handlerContact = async (req, res) => {
   try {

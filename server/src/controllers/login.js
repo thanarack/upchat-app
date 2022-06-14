@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models/users');
 const { Token } = require('../models/token');
-const Log = require('./log');
+const { Log } = require('./log');
 
 const handlerLogin = async (req, res) => {
   try {
