@@ -39,6 +39,30 @@ export const adminUsersApi = createApi({
         params,
       }),
     }),
+    getAdminDeleteUserPosition: build.mutation({
+      query: (positionId) => ({
+        url: 'delete/users/position',
+        method: 'get',
+        headers: generateHeaderWithToken(),
+        params: { positionId },
+      }),
+    }),
+    postAdminNewUserPosition: build.mutation({
+      query: (body) => ({
+        url: 'new/users/position',
+        method: 'post',
+        headers: generateHeaderWithToken(),
+        body,
+      }),
+    }),
+    postAdminUpdateUserPosition: build.mutation({
+      query: (body) => ({
+        url: 'update/users/position',
+        method: 'post',
+        headers: generateHeaderWithToken(),
+        body,
+      }),
+    }),
   }),
 });
 
@@ -48,5 +72,8 @@ export const {
   useGetAdminUsersMutation,
   useGetAdminDeleteUsersMutation,
   usePostAdminNewUsersMutation,
-  useGetAdminUsersPositionMutation
+  useGetAdminUsersPositionMutation,
+  useGetAdminDeleteUserPositionMutation,
+  usePostAdminNewUserPositionMutation,
+  usePostAdminUpdateUserPositionMutation,
 } = adminUsersApi;

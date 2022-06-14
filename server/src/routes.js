@@ -22,6 +22,9 @@ const {
   handlerAdminDeleteUsers,
   handlerAdminNewUsers,
   handlerAdminUserPosition,
+  handlerAdminDeletePosition,
+  handlerAdminNewPosition,
+  handlerAdminUpdatePosition,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
 
@@ -92,6 +95,9 @@ const Routes = (app) => {
   app.get('/admin/delete/users', checkToken, handlerAdminDeleteUsers);
   app.post('/admin/new/users', checkToken, handlerAdminNewUsers);
   app.get('/admin/users/position', checkToken, handlerAdminUserPosition);
+  app.get('/admin/delete/users/position', checkToken, handlerAdminDeletePosition);
+  app.post('/admin/new/users/position', checkToken, handlerAdminNewPosition);
+  app.post('/admin/update/users/position', checkToken, handlerAdminUpdatePosition);
 
   return app;
 };

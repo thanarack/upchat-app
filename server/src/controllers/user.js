@@ -304,12 +304,35 @@ const handlerAdminNewUsers = async (req, res) => {
 
 const handlerAdminUserPosition = async (req, res) => {
   try {
-    const result = await UsersPosition.find({}).lean().exec();
+    let data = [];
+
+    const result = await UsersPosition.find({
+      isDelete: false,
+    })
+      .sort({ createdAt: -1 })
+      .lean()
+      .exec();
+
+    if (result.length) {
+      for (let i = 0; i < result.length; i++) {
+        const v = result[i];
+        const countTotalUser = await Users.count({
+          positionId: v._id,
+        });
+        data.push({
+          positionId: v._id,
+          title: v.title,
+          count: countTotalUser,
+          createdAt: v.createdAt || 0,
+          updatedAt: v.updatedAt || 0,
+        });
+      }
+    }
 
     return res.status(200).json({
       message: 'Success',
       statusCode: 200,
-      result: { data: result, total: result.length },
+      result: { data, total: data.length },
       timestamp: +new Date(),
     });
   } catch (error) {
@@ -322,6 +345,102 @@ const handlerAdminUserPosition = async (req, res) => {
   }
 };
 
+const handlerAdminDeletePosition = async (req, res) => {
+  try {
+    let id = null;
+
+    const { positionId } = req.query;
+
+    // Check object id
+    if (positionId.match(/^[0-9a-fA-F]{24}$/)) id = positionId;
+
+    const result = await UsersPosition.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isDelete: true,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'Position not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminNewPosition = async (req, res) => {
+  try {
+    const { title } = req.body;
+
+    const result = await UsersPosition.create({
+      title,
+      isDelete: false,
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminUpdatePosition = async (req, res) => {
+  try {
+    let id;
+
+    const { positionId, title } = req.body;
+
+    // Check object id
+    if (positionId.match(/^[0-9a-fA-F]{24}$/)) id = positionId;
+
+    const result = await UsersPosition.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        title,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'Position not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
 module.exports = {
   handlerProfile,
   handlerGetUserInformation,
@@ -331,4 +450,7 @@ module.exports = {
   handlerAdminDeleteUsers,
   handlerAdminNewUsers,
   handlerAdminUserPosition,
+  handlerAdminDeletePosition,
+  handlerAdminNewPosition,
+  handlerAdminUpdatePosition,
 };

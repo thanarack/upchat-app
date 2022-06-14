@@ -31,7 +31,8 @@ const Action = (props: {
   onEdit: (a: any) => void;
 }) => {
   const [isOpen, setOpen] = useState(false);
-  const [getAdminDeleteRooms] = useGetAdminDeleteRoomsMutation();
+  const [getAdminDeleteRooms, getAdminDeleteRoomsResult] =
+    useGetAdminDeleteRoomsMutation();
 
   const onDelete = async () => {
     try {
@@ -64,6 +65,7 @@ const Action = (props: {
           variant="gray"
           text="ลบข้อมูล"
           size="sm"
+          isLoading={getAdminDeleteRoomsResult.isLoading}
           onClick={() => setOpen(true)}
         />
       </div>
@@ -84,11 +86,10 @@ const SettingRooms = () => {
     }),
     table.createDataColumn('createdAt', {
       header: () => 'วันที่เพิ่ม',
-      cell: (info) =>
-        dayjs(info.getValue()).locale('th').format('DD/MM/YYYY'),
+      cell: (info) => dayjs(info.getValue()).locale('th').format('DD/MM/YYYY'),
     }),
     table.createDataColumn('count', {
-      header: () => 'จำนวนผู้สมาชิก',
+      header: () => 'จำนวนสมาชิก',
       cell: (info) => (
         <div className="bg-slate-400 rounded-full px-3 py-1.5 w-fit text-white text-xs font-semibold">
           {formatNumber(+info.getValue())}

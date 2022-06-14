@@ -86,7 +86,8 @@ select {
 }
 
 .admin-right-slide {
-  @apply w-10/12 px-4 py-4;
+  height: calc(100vh - 52px);
+  @apply w-10/12 px-4 py-4 overflow-y-scroll overflow-x-hidden;
 }
 
 .a-menu {
