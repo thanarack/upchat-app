@@ -82,7 +82,12 @@ const SettingRooms = () => {
   const defaultColumns = [
     table.createDataColumn('title', {
       header: () => 'ชื่อห้อง',
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span>
+          <span className="mr-1 text-lg">🛖</span>
+          {info.getValue()}
+        </span>
+      ),
     }),
     table.createDataColumn('createdAt', {
       header: () => 'วันที่เพิ่ม',

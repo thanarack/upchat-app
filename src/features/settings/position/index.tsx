@@ -87,7 +87,12 @@ const SettingPosition = () => {
   const defaultColumns = [
     table.createDataColumn('title', {
       header: () => 'ตำแหน่ง',
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <span>
+          <span className="mr-1 text-lg">👔</span>
+          {info.getValue()}
+        </span>
+      ),
     }),
     table.createDataColumn('count', {
       header: () => 'จำนวนผู้ใช้งาน',
