@@ -158,7 +158,7 @@ const SettingUsers = () => {
         #จัดการผู้ใช้งาน
       </label>
       <div className="mt-6">
-        <Button text="เพื่มผู้ใช้" onClick={() => setOpen(true)} />
+        <Button text="เพิ่มผู้ใช้" onClick={() => setOpen(true)} />
       </div>
       <div className="border rounded-md px-6 py-6 mt-6 shadow-sm">
         <table className="normal-table">
