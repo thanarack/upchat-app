@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { usePostAdminUserUpdateRoomsMutation } from '../../../services/admin/rooms';
@@ -39,10 +40,17 @@ const UserItem = (props: any) => {
       key={data.userId}
       className="flex flex-row items-center justify-between gap-2 py-2.5 text-gray-600 border-b border-slate-300"
     >
-      <label htmlFor={'user-input-' + data.userId}>{data.username}</label>
+      <div className="flex flex-row gap-2 items-center">
+        <img
+          className="w-6 h-6 rounded-full"
+          src={data.profileUrl || '/user-logo.png'}
+          title="Avatar"
+        />
+        <span>{data.username}</span>
+      </div>
       <button
         type="button"
-        className={classNames('px-1 py-1 rounded-full', {
+        className={classNames('px-1 py-1 rounded-full shadow', {
           'bg-emerald-600': !checked,
           'bg-rose-600': checked,
         })}

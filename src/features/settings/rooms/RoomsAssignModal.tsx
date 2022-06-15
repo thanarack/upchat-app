@@ -71,7 +71,7 @@ const RoomsAssignModal = (props: {
       <div className="container flex justify-center mt-6 w-full">
         <div className="md:max-w-xl w-full">
           <div className="text-center text-xl text-gray-500">
-            <span className="text-3xl mr-2">👨🏽‍💻</span>เพิ่มสมาชิก
+            <span className="text-3xl mr-2">😁</span>เพิ่มสมาชิก
           </div>
           <div className="mt-6 mb-6">
             <div className="select-user">
