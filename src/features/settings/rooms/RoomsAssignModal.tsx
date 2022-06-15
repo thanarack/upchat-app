@@ -7,6 +7,7 @@ import { Users } from '../users';
 import UserItem from './UserItem';
 
 const RoomsAssignModal = (props: {
+  titleRoom: string;
   isOpen: boolean;
   roomId: string;
   onClose: () => void;
@@ -70,8 +71,10 @@ const RoomsAssignModal = (props: {
     <ModalComponent isOpen={isOpen} onClose={onHandleClose}>
       <div className="container flex justify-center mt-6 w-full">
         <div className="md:max-w-xl w-full">
-          <div className="text-center text-xl text-gray-500">
-            <span className="text-3xl mr-2">😁</span>เพิ่มสมาชิก
+          <div className="text-center text-xl text-gray-500 flex flex-col">
+            <span className="text-xl mr-2 mb-2">
+              📬<span>{props.titleRoom}</span>
+            </span>
           </div>
           <div className="mt-6 mb-6">
             <div className="select-user">

@@ -57,6 +57,7 @@ const Action = (props: {
         onAccept={onDelete}
       />
       <RoomsAssignModal
+        titleRoom={props.value.title}
         isOpen={isOpenRoomAssignment}
         onClose={() => setOpenRoomAssignment(false)}
         roomId={props.value.channelId}
