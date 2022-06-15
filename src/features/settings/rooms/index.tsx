@@ -60,7 +60,6 @@ const Action = (props: {
           size="sm"
           onClick={() => props.onEdit(props.value)}
         />
-        <Button text="เพิ่มผู้ใช้" size="sm" />
         <Button
           variant="gray"
           text="ลบข้อมูล"
