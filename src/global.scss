@@ -155,3 +155,8 @@ select {
     @apply w-full bg-slate-200 rounded px-2.5 py-2.5 overflow-x-hidden text-xs mt-2;
   }
 }
+
+.select-user {
+  height: 400px;
+  @apply bg-slate-200 rounded px-8 py-8 overflow-x-hidden overflow-y-scroll;
+}

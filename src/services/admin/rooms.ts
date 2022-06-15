@@ -30,6 +30,22 @@ export const adminRoomsApi = createApi({
         body: { channelId, title },
       }),
     }),
+    getAdminUserRooms: build.mutation({
+      query: (channelId) => ({
+        url: 'user/rooms',
+        method: 'get',
+        headers: generateHeaderWithToken(),
+        params: { channelId },
+      }),
+    }),
+    postAdminUserUpdateRooms: build.mutation({
+      query: (body) => ({
+        url: 'user/update/rooms',
+        method: 'post',
+        headers: generateHeaderWithToken(),
+        body,
+      }),
+    }),
   }),
 });
 
@@ -39,4 +55,6 @@ export const {
   useGetAdminRoomsMutation,
   useGetAdminDeleteRoomsMutation,
   usePostAdminUpdateRoomsMutation,
+  useGetAdminUserRoomsMutation,
+  usePostAdminUserUpdateRoomsMutation,
 } = adminRoomsApi;

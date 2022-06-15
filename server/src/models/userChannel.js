@@ -10,6 +10,7 @@ const userChannelSchema = new Schema(
     userId: { type: Schema.Types.ObjectId, ref: Users },
     targetUserId: { type: Schema.Types.ObjectId, ref: Users },
     count: Number,
+    isDelete: Boolean,
   },
   { collection: 'users_channel', timestamps: true }
 );

@@ -13,6 +13,7 @@ const handlerRooms = async (req, res) => {
     const userPayload = req.userPayload;
     const getAllUsersChannel = await UserChannel.find({
       userId: userPayload.userId,
+      isDelete: false,
     }).populate([
       {
         path: 'channelId',
@@ -363,6 +364,7 @@ const handlerAdminRooms = async (req, res) => {
         const v = getAllUsersChannel[i];
         const countTotalUser = await UserChannel.count({
           channelId: v._id,
+          isDelete: false,
         });
         data.push({
           channelId: v._id,
@@ -459,6 +461,78 @@ const handlerAdminUpdateRooms = async (req, res) => {
   }
 };
 
+const handlerAdminUserRooms = async (req, res) => {
+  try {
+    const { channelId } = req.query;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    const result = await UserChannel.find({
+      channelId: id,
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result, total: result.length },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
+const handlerAdminUpdateUserRooms = async (req, res) => {
+  try {
+    const { channelId, userId, isActive } = req.body;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    await UserChannel.findOneAndUpdate(
+      {
+        channelId: id,
+        userId: userId,
+      },
+      {
+        channelId: id,
+        userId: userId,
+        isDelete: isActive === '1' ? false : true,
+      },
+      { upsert: true }
+    );
+
+    const result = await UserChannel.findOne({
+      channelId: id,
+      userId: userId,
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
 module.exports = {
   handlerRooms,
   handlerAddRoom,
@@ -468,4 +542,6 @@ module.exports = {
   handlerAdminRooms,
   handlerAdminDeleteRooms,
   handlerAdminUpdateRooms,
+  handlerAdminUserRooms,
+  handlerAdminUpdateUserRooms,
 };

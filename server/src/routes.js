@@ -13,6 +13,8 @@ const {
   handlerAdminRooms,
   handlerAdminDeleteRooms,
   handlerAdminUpdateRooms,
+  handlerAdminUserRooms,
+  handlerAdminUpdateUserRooms,
 } = require('./controllers/rooms');
 const {
   handlerProfile,
@@ -100,6 +102,8 @@ const Routes = (app) => {
   app.post('/admin/new/users/position', checkToken, handlerAdminNewPosition);
   app.post('/admin/update/users/position', checkToken, handlerAdminUpdatePosition);
   app.get('/admin/logs', checkToken, handlerAdminLogs);
+  app.get('/admin/user/rooms', checkToken, handlerAdminUserRooms);
+  app.post('/admin/user/update/rooms', checkToken, handlerAdminUpdateUserRooms);
 
   return app;
 };

@@ -15,7 +15,7 @@ import {
 import ModalConfirmation from '../../../shared/ModalConfirmation';
 import NewUserModel from './NewUserModel';
 
-type Users = {
+export type Users = {
   userId: string;
   profileUrl: string;
   username: string;

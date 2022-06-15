@@ -15,6 +15,7 @@ import {
 } from '../../../services/admin/rooms';
 import ModalConfirmation from '../../../shared/ModalConfirmation';
 import { useAddUserRoomMutation } from '../../../services/users';
+import RoomsAssignModal from './RoomsAssignModal';
 
 type Channels = {
   channelId?: string;
@@ -31,6 +32,7 @@ const Action = (props: {
   onEdit: (a: any) => void;
 }) => {
   const [isOpen, setOpen] = useState(false);
+  const [isOpenRoomAssignment, setOpenRoomAssignment] = useState(false);
   const [getAdminDeleteRooms, getAdminDeleteRoomsResult] =
     useGetAdminDeleteRoomsMutation();
 
@@ -54,11 +56,22 @@ const Action = (props: {
         onCancel={() => setOpen(false)}
         onAccept={onDelete}
       />
+      <RoomsAssignModal
+        isOpen={isOpenRoomAssignment}
+        onClose={() => setOpenRoomAssignment(false)}
+        roomId={props.value.channelId}
+        callBack={props.onRefetchData}
+      />
       <div className="flex flex-row gap-4 justify-end">
         <Button
           text="แก้ไข"
           size="sm"
           onClick={() => props.onEdit(props.value)}
+        />
+        <Button
+          text="เพิ่มสมาชิก"
+          size="sm"
+          onClick={() => setOpenRoomAssignment(true)}
         />
         <Button
           variant="gray"
