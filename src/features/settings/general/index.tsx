@@ -1,11 +1,14 @@
+import { useEffect } from 'react';
+import useRoute from '../../../hooks/useRoute';
+
 const SettingGeneral = () => {
-  return (
-    <div>
-      <label className="text-xl text-indigo-500 font-semibold">
-        #การตั้งค่าทั่วไป
-      </label>
-    </div>
-  );
+  const { navigate } = useRoute();
+
+  useEffect(() => {
+    navigate('/settings/rooms');
+  }, []);
+
+  return <div />;
 };
 
 export default SettingGeneral;

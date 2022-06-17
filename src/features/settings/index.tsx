@@ -45,10 +45,6 @@ const FeaturesSettings = () => {
           <div className="admin-left-slide">
             <div className="a-child">
               <ul className="a-menu">
-                <li onClick={() => onLink('')} role="button">
-                  <GetIcon name="chevron-right" mode="outline" />
-                  <span>ทั่วไป</span>
-                </li>
                 <li onClick={() => onLink('rooms')} role="button">
                   <GetIcon name="chevron-right" mode="outline" />
                   <span>ห้องสนทนา</span>
