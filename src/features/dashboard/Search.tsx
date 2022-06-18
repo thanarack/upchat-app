@@ -3,10 +3,8 @@ import { useEffect, useState } from 'react';
 import useChat from '../../hooks/useChat';
 import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';
-import {
-  useAddUserRoomMutation,
-  useGetContactsMutation,
-} from '../../services/users';
+import { usePostAdminUserRoomMutation } from '../../services/admin/rooms';
+import { useGetContactsMutation } from '../../services/users';
 import './Dashboard.scss';
 // const mockData = require('../../mockData.json');
 
@@ -17,7 +15,7 @@ const Search = () => {
   const [inputText, setInputText] = useState('');
   const { chatSetChannel } = useChat();
   const [serviceGetContacts] = useGetContactsMutation();
-  const [serviceAddUserRoom] = useAddUserRoomMutation();
+  const [serviceAdminAddUserRoom] = usePostAdminUserRoomMutation();
 
   const onFetchUser = async (text: String) => {
     try {
@@ -46,7 +44,9 @@ const Search = () => {
       targetUserId: data.id,
     };
 
-    const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
+    const resultAddUserRoom = await serviceAdminAddUserRoom(
+      newRoomBody
+    ).unwrap();
 
     if (resultAddUserRoom.statusCode === 200) {
       const result = resultAddUserRoom.result.data;
@@ -76,6 +76,7 @@ const Search = () => {
         roomType: result.roomType,
         title: result.title,
         unReadCount: result.unReadCount,
+        userId: result.userId,
       });
       navigate({
         pathname: '/chatroom',

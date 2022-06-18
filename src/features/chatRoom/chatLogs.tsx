@@ -37,7 +37,7 @@ const Message = (props: any) => {
       <div className="cr-profile">
         <img
           src={user.profileUrl ? user.profileUrl : `/user-logo.png`}
-          className="w-10 h-10 shadow-sm rounded-full"
+          className="w-8 h-8 shadow-sm rounded-full"
           alt="Login user"
         />
       </div>

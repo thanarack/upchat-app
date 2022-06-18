@@ -14,6 +14,7 @@ const joinChannelMessage = (
   if (payload.type === 'login-notice') {
     const userIdRoom = dataMessage.userId;
     if (!ioInstance.sockets.adapter.rooms.has(userIdRoom)) {
+      console.log(`user ${userIdRoom} joined`);
       socketInstance.join(userIdRoom);
     }
   }
@@ -115,6 +116,12 @@ const socketHandler = (server) => {
             ).exec();
           }
         }
+
+        // Added and remove room handle
+        if (payload.type === 'new-room' || payload.type === 'remove-room') {
+          socket.broadcast.emit('new-message', payload);
+        }
+
         console.log(payload);
         // Logged message into log and censor data.
         payload.message = '*secret-message*';

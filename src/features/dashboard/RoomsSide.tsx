@@ -5,11 +5,9 @@ import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';
 import { GetIcon } from '../../utils/icon';
 import {
-  useAddUserRoomMutation,
   useGetRoomsMutation,
 } from '../../services/users';
 import useAuth from '../../hooks/useAuth';
-import ModalComponent from '../../shared/ModalComponent';
 import AppSocket from '../../app/socket';
 import ModalConfirmation from '../../shared/ModalConfirmation';
 
@@ -28,12 +26,9 @@ const RoomsSide = () => {
   const { chatSetChannel, getChannelId } = useChat();
   const { userSetLogout, userSetLoginUser, user, userResetAllState } =
     useAuth();
-  const { myRooms, roomsAddNewRoom, roomsSetInitialRooms } = useRooms();
-  const [isOpenNewRoom, setIsOpenNewRoom] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const { myRooms, roomsSetInitialRooms } = useRooms();
   const [isOpenLogout, setIsOpenLogout] = useState(false);
   const [serviceGetRoomsService] = useGetRoomsMutation();
-  const [serviceAddUserRoom] = useAddUserRoomMutation();
 
   // Initialize setup room
   const initializeSetup = async () => {
@@ -183,26 +178,6 @@ const RoomsSide = () => {
 
   return (
     <div>
-      <ModalComponent
-        title="เพิ่มห้องใหม่"
-        isOpen={isOpenNewRoom}
-        onClose={() => setIsOpenNewRoom(false)}
-      >
-        <input
-          placeholder="ใส่ชื่อห้อง"
-          className="w-full text-sm border rounded-md px-3 py-2 outline-none text-gray-600 bg-white shadow-sm"
-          value={inputText}
-          maxLength={150}
-          onChange={(e) => setInputText(e.target.value)}
-        />
-        <button
-          onClick={onAddNewRoom}
-          className="px-4 rounded-md shadow-sm bg-emerald-600 font-medium text-white disabled:bg-gray-400"
-          disabled={!inputText}
-        >
-          <GetIcon mode="outline" name="plus" className="text-white" />
-        </button>
-      </ModalComponent>
       <ModalConfirmation
         title="ต้องการออกจากระบบใช่หรือไม่"
         isOpen={isOpenLogout}

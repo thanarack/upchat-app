@@ -12,10 +12,12 @@ import {
   useGetAdminDeleteRoomsMutation,
   useGetAdminRoomsMutation,
   usePostAdminUpdateRoomsMutation,
+  usePostAdminUserRoomMutation,
 } from '../../../services/admin/rooms';
 import ModalConfirmation from '../../../shared/ModalConfirmation';
-import { useAddUserRoomMutation } from '../../../services/users';
 import RoomsAssignModal from './RoomsAssignModal';
+import AppSocket from '../../../app/socket';
+import useRooms from '../../../hooks/useRooms';
 
 type Channels = {
   channelId?: string;
@@ -33,6 +35,7 @@ const Action = (props: {
 }) => {
   const [isOpen, setOpen] = useState(false);
   const [isOpenRoomAssignment, setOpenRoomAssignment] = useState(false);
+  const { roomsRemoveRoom } = useRooms();
   const [getAdminDeleteRooms, getAdminDeleteRoomsResult] =
     useGetAdminDeleteRoomsMutation();
 
@@ -42,6 +45,17 @@ const Action = (props: {
       props.onRefetchData();
       toast('ลบข้อมูลสำเร็จ', { type: 'success' });
       setOpen(false);
+      // Push data via socket to every one.
+      AppSocket.emit('sent-message', {
+        type: 'remove-room',
+        payload: {
+          channelId: props.value.channelId,
+        },
+      });
+      // Remove room from slide
+      roomsRemoveRoom({
+        channelId: props.value.channelId,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -90,6 +104,7 @@ const SettingRooms = () => {
   const [data, setData] = useState(() => []);
   const [editId, setEditId] = useState('');
   const [input, setInput] = useState('');
+  const { roomsAddNewRoom } = useRooms();
 
   // Table data display
   const defaultColumns = [
@@ -159,36 +174,51 @@ const SettingRooms = () => {
       setInput(data.title);
     }
   };
-  const [serviceAddUserRoom] = useAddUserRoomMutation();
+  const [serviceAdminAddUserRoom] = usePostAdminUserRoomMutation();
   const [serviceAdminUpdateUserRoom] = usePostAdminUpdateRoomsMutation();
   const onUpdateRooms = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (input) {
-        let result;
-        if (editId) {
-          result = await serviceAdminUpdateUserRoom({
-            channelId: editId,
-            title: input,
-          }).unwrap();
-        } else {
-          result = await serviceAddUserRoom({
-            title: input,
-            roomType: 'group',
-            userAllow: 'public',
-          }).unwrap();
-        }
+      if (!input) return false;
+      let result;
+      if (editId) {
+        result = await serviceAdminUpdateUserRoom({
+          channelId: editId,
+          title: input,
+        }).unwrap();
+      } else {
+        result = await serviceAdminAddUserRoom({
+          title: input,
+          roomType: 'group',
+          userAllow: 'public',
+        }).unwrap();
+      }
 
-        if (result.statusCode === 200) {
-          if (editId) {
-            toast('แก้ไขห้องสำเร็จ', { type: 'success' });
-            setEditId('');
-          } else {
-            toast('เพิ่มห้องใหม่สำเร็จ', { type: 'success' });
-          }
-          getInitialData();
-          setInput('');
+      if (result.statusCode === 200) {
+        if (editId) {
+          toast('แก้ไขห้องสำเร็จ', { type: 'success' });
+        } else {
+          toast('เพิ่มห้องใหม่สำเร็จ', { type: 'success' });
+          // Socket push message
+          const resultNewRoom = result.result.data;
+          const createRoomPayload = {
+            id: resultNewRoom.id,
+            title: resultNewRoom.title,
+            channelId: resultNewRoom.id,
+            unReadCount: resultNewRoom.unReadCount,
+            roomType: resultNewRoom.roomType,
+            userAllow: resultNewRoom.userAllow,
+          };
+          // Push data via socket to every one.
+          AppSocket.emit('sent-message', {
+            type: 'new-room',
+            payload: createRoomPayload,
+          });
+          // Display room in slide
+          roomsAddNewRoom(createRoomPayload);
         }
+        getInitialData();
+        setInput('');
       }
     } catch (e) {
       console.log(e);

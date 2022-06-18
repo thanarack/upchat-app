@@ -7,14 +7,13 @@ const { handlerAdminLogs } = require('./controllers/log');
 const handlerLogin = require('./controllers/login');
 const {
   handlerRooms,
-  handlerAddRoom,
-  handlerDeleteRoom,
   handlerGetRoomMessage,
   handlerAdminRooms,
   handlerAdminDeleteRooms,
   handlerAdminUpdateRooms,
   handlerAdminUserRooms,
   handlerAdminUpdateUserRooms,
+  handlerAdminAddRoom,
 } = require('./controllers/rooms');
 const {
   handlerProfile,
@@ -82,8 +81,6 @@ const Routes = (app) => {
 
   // Rooms
   app.get('/rooms', checkToken, handlerRooms);
-  app.post('/rooms/add', checkToken, handlerAddRoom);
-  app.post('/rooms/delete', checkToken, handlerDeleteRoom);
   app.get('/rooms/messages', checkToken, handlerGetRoomMessage);
 
   // Profile
@@ -91,6 +88,7 @@ const Routes = (app) => {
   app.post('/profile/avatar', checkToken, handlerUpdateProfileAvatar);
 
   // Admin
+  app.post('/admin/rooms/add', checkToken, handlerAdminAddRoom);
   app.get('/admin/rooms', checkToken, handlerAdminRooms);
   app.get('/admin/delete/rooms', checkToken, handlerAdminDeleteRooms);
   app.post('/admin/update/rooms', checkToken, handlerAdminUpdateRooms);
@@ -102,8 +100,8 @@ const Routes = (app) => {
   app.post('/admin/new/users/position', checkToken, handlerAdminNewPosition);
   app.post('/admin/update/users/position', checkToken, handlerAdminUpdatePosition);
   app.get('/admin/logs', checkToken, handlerAdminLogs);
-  app.get('/admin/user/rooms', checkToken, handlerAdminUserRooms);
-  app.post('/admin/user/update/rooms', checkToken, handlerAdminUpdateUserRooms);
+  app.get('/admin/users/rooms', checkToken, handlerAdminUserRooms);
+  app.post('/admin/users/update/rooms', checkToken, handlerAdminUpdateUserRooms);
 
   return app;
 };

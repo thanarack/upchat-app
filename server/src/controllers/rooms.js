@@ -65,7 +65,7 @@ const handlerRooms = async (req, res) => {
   }
 };
 
-const handlerAddRoom = async (req, res) => {
+const handlerAdminAddRoom = async (req, res) => {
   try {
     // Payload
     const { roomType, title, userAllow, targetUserId } = req.body;
@@ -163,6 +163,7 @@ const handlerAddRoom = async (req, res) => {
         channelId: addRoom._id,
         userId: value._id,
         count: 0,
+        isDelete: false,
       }));
 
       // const addChannelRoom = await UserChannel.bulkSave()
@@ -535,7 +536,7 @@ const handlerAdminUpdateUserRooms = async (req, res) => {
 
 module.exports = {
   handlerRooms,
-  handlerAddRoom,
+  handlerAdminAddRoom,
   handlerDeleteRoom,
   handlerGetRoomMessage,
   getRoomMessages,

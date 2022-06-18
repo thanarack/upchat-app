@@ -1,6 +1,8 @@
 import useAuth from '../../hooks/useAuth';
+import useRoute from '../../hooks/useRoute';
 
 const HeaderProfile = () => {
+  const { navigate } = useRoute();
   const { fullName, user, profileUrl, userSetIsConnected } = useAuth();
   const getUser = user.user;
 
@@ -8,7 +10,7 @@ const HeaderProfile = () => {
 
   return (
     <div className="px-4 mt-4 flex bg-slate-800 flex-row items-center space-x-3">
-      <div>
+      <div onClick={() => navigate('/profile')} role="button">
         <img
           src={profileUrl ? profileUrl : `./user-logo.png`}
           className="w-10 h-10 shadow-sm rounded-full"

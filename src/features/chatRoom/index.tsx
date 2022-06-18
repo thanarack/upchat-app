@@ -4,10 +4,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import AppSocket from '../../app/socket';
 import useAuth from '../../hooks/useAuth';
 import useChat from '../../hooks/useChat';
-// import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';
-// import ModalConfirmation from '../../shared/ModalConfirmation';
-// import { GetIcon } from '../../utils/icon';
 import DashboardTemplate from '../dashboard/DashboardTemplate';
 import ChatLogs from './chatLogs';
 import './Chatroom.scss';
@@ -24,8 +21,6 @@ const FeaturesChatRoom = () => {
   const [inputText, setInputText] = useState('');
   const { navigate } = useRoute();
   const { user } = useAuth();
-  // const { roomsRemoveRoom } = useRooms();
-  // const [isOpenRemoveRoom, setIsOpenRemoveRoom] = useState(false);
 
   useEffect(() => {
     if (!getChannelId) return navigate('/dashboard');
@@ -78,32 +73,8 @@ const FeaturesChatRoom = () => {
     }
   };
 
-  // const onRemoveThisRoom = () => {
-  //   roomsRemoveRoom({
-  //     channelId: getChannelId,
-  //   });
-  //   setIsOpenRemoveRoom(false);
-  //   navigate('/dashboard');
-
-  //   // Called socket to refresh the store.
-  //   AppSocket.emit('sent-message', {
-  //     type: 'remove-room',
-  //     payload: {
-  //       channelId: getChannelId,
-  //     },
-  //   });
-  //   // Called api to trigger remove this room
-  // };
-
   return (
     <DashboardTemplate>
-      {/* <ModalConfirmation
-        title={`ยืนยันการลบห้อง "${getChannelTitle}"`}
-        isOpen={isOpenRemoveRoom}
-        onAccept={onRemoveThisRoom}
-        onCancel={() => setIsOpenRemoveRoom(false)}
-        onClose={() => setIsOpenRemoveRoom(false)}
-      /> */}
       <div className="flex flex-col w-full relative chat-full-height cr-chat-panel mt-4">
         <div
           id="channel-name"
@@ -128,16 +99,6 @@ const FeaturesChatRoom = () => {
               </div>
             )}
             <span className="channel-name">{getChannelTitle}</span>
-            {/* {userRole === 'administrator' && (
-              <div
-                className="trash"
-                title="ลบห้อง"
-                role="button"
-                onClick={() => setIsOpenRemoveRoom(true)}
-              >
-                <GetIcon mode="outline" name="trash" />
-              </div>
-            )} */}
           </div>
         </div>
         <div id="chat-box">
@@ -151,7 +112,7 @@ const FeaturesChatRoom = () => {
           >
             <textarea
               rows={1}
-              className="w-full overflow-hidden resize-none border border-gray-300 rounded-md px-3 py-3 h-20 outline-none text-gray-600 bg-slate-100 shadow-sm focus:border-gray-400"
+              className="w-full overflow-hidden resize-none border rounded-md px-3 py-3 h-20 outline-none text-gray-600 bg-slate-100 shadow-sm focus:border-gray-300"
               placeholder="พิมพ์ที่นี้เพื่อพูดคุย ☜(ˆ▿ˆc), Enter เพื่อส่งข้อความ"
               onChange={onSetText}
               onKeyPress={onKeyPressInput}

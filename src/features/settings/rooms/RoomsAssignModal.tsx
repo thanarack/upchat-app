@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import Button from '../../../components/button/Button';
 import { useGetAdminUserRoomsMutation } from '../../../services/admin/rooms';

@@ -40,14 +40,6 @@ export const usersApi = createApi({
         headers: generateHeaderWithToken(),
       }),
     }),
-    addUserRoom: build.mutation({
-      query: (body) => ({
-        url: `rooms/add`,
-        method: 'post',
-        headers: generateHeaderWithToken(),
-        body,
-      }),
-    }),
     getRoomMessage: build.mutation({
       query: ({ channelId, pageNumber }) => ({
         url: `rooms/messages`,
@@ -90,7 +82,6 @@ export const {
   useGetProfileMutation,
   useGetRoomsMutation,
   useGetUserMutation,
-  useAddUserRoomMutation,
   useGetContactsMutation,
   useGetRoomMessageMutation,
   usePostProfileUpdateMutation,
