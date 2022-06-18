@@ -75,6 +75,14 @@ export const roomsSlice = createSlice({
       }
       state.data = rooms;
     },
+    updateRoomTitle: (state, action) => {
+      const rooms = [...state.data];
+      const roomId = getRoomIdByChannelId(rooms, action.payload.channelId);
+      if (roomId >= 0) {
+        rooms[roomId].title = action.payload.title;
+      }
+      state.data = rooms;
+    },
   },
 });
 
@@ -86,6 +94,7 @@ export const {
   addNewRoom,
   removeRoom,
   reset,
+  updateRoomTitle,
 } = roomsSlice.actions;
 
 export const selectRooms = (state: RootState) => state.rooms;

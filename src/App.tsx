@@ -6,6 +6,7 @@ import AppSocket, {
   handlerMessageType,
   handlerNewRoomType,
   handlerRemoveRoomType,
+  handlerUpdateRoomType,
 } from './app/socket';
 import PrivateRoute from './privateRoute';
 import FeaturesDashboard from './features/dashboard';
@@ -29,6 +30,7 @@ AppSocket.on('new-message', (data) => {
   if (data.type === 'login-notice') handlerLoginNoticeType(data.payload);
   if (data.type === 'new-room') handlerNewRoomType(data.payload);
   if (data.type === 'remove-room') handlerRemoveRoomType(data.payload);
+  if (data.type === 'update-room') handlerUpdateRoomType(data.payload);
   console.log('message', data);
 });
 

@@ -118,7 +118,7 @@ const socketHandler = (server) => {
         }
 
         // Added and remove room handle
-        if (payload.type === 'new-room' || payload.type === 'remove-room') {
+        if (['new-room', 'remove-room', 'update-room'].includes(payload.type)) {
           socket.broadcast.emit('new-message', payload);
         }
 

@@ -104,7 +104,7 @@ const SettingRooms = () => {
   const [data, setData] = useState(() => []);
   const [editId, setEditId] = useState('');
   const [input, setInput] = useState('');
-  const { roomsAddNewRoom } = useRooms();
+  const { roomsAddNewRoom, roomsUpdateRoomTitle } = useRooms();
 
   // Table data display
   const defaultColumns = [
@@ -197,6 +197,18 @@ const SettingRooms = () => {
       if (result.statusCode === 200) {
         if (editId) {
           toast('แก้ไขห้องสำเร็จ', { type: 'success' });
+          // Push data via socket to every one.
+          const resultUpdate = result.result.data;
+          const createRoomPayload = {
+            ...resultUpdate,
+            channelId: resultUpdate._id,
+          };
+          AppSocket.emit('sent-message', {
+            type: 'update-room',
+            payload: createRoomPayload,
+          });
+          // Display room in slide
+          roomsUpdateRoomTitle(createRoomPayload);
         } else {
           toast('เพิ่มห้องใหม่สำเร็จ', { type: 'success' });
           // Socket push message

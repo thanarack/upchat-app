@@ -9,6 +9,7 @@ import {
   addUnreadToRoom,
   removeRoom,
   setRoomContactToConnect,
+  updateRoomTitle,
 } from '../store/roomsSlice';
 // import { setUserContactToConnect } from '../store/userSlice';
 
@@ -67,11 +68,16 @@ const handlerRemoveRoomType = (payload: any) => {
   store.dispatch(removeRoom(payload));
 };
 
+const handlerUpdateRoomType = (payload: any) => {
+  store.dispatch(updateRoomTitle(payload));
+};
+
 export {
   handlerMessageType,
   handlerLoginNoticeType,
   handlerNewRoomType,
-  handlerRemoveRoomType
+  handlerRemoveRoomType,
+  handlerUpdateRoomType,
 };
 
 export default AppSocket;

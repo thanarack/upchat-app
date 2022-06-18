@@ -451,9 +451,14 @@ const handlerAdminUpdateRooms = async (req, res) => {
       });
     }
 
+    const getLastUpdate = await Channels.findOne({
+      _id: id,
+    });
+
     return res.status(200).json({
       message: 'Success',
       statusCode: 200,
+      result: { data: getLastUpdate },
       timestamp: +new Date(),
     });
   } catch (error) {
