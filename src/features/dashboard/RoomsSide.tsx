@@ -100,7 +100,7 @@ const RoomsSide = () => {
                 })}
               />
               <img
-                src={data.profileUrl}
+                src={data.profileUrl || '/user-logo.png'}
                 className="profile-url rounded-full"
                 alt="Profile"
               />
@@ -120,41 +120,36 @@ const RoomsSide = () => {
   };
 
   const onAddNewRoom = async () => {
-    if (!inputText) return;
-
-    const newRoomBody = {
-      title: inputText,
-      roomType: 'group',
-      userAllow: 'public',
-    };
-
-    // Call api to store data new room.
-    const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
-    if (resultAddUserRoom.statusCode === 200) {
-      // Get result from api
-      const resultObj = resultAddUserRoom.result.data;
-
-      const createRoomPayload = {
-        id: resultObj.id,
-        title: resultObj.title,
-        channelId: resultObj.id,
-        unReadCount: resultObj.unReadCount,
-        roomType: resultObj.roomType,
-        userAllow: resultObj.userAllow,
-      };
-
-      // Push data via socket to every one.
-      AppSocket.emit('sent-message', {
-        type: 'new-room',
-        payload: createRoomPayload,
-      });
-
-      // Selected room.
-      roomsAddNewRoom(createRoomPayload);
-      onGoingToChannel(createRoomPayload);
-      setInputText('');
-      setIsOpenNewRoom(false);
-    }
+    // if (!inputText) return;
+    // const newRoomBody = {
+    //   title: inputText,
+    //   roomType: 'group',
+    //   userAllow: 'public',
+    // };
+    // // Call api to store data new room.
+    // const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
+    // if (resultAddUserRoom.statusCode === 200) {
+    //   // Get result from api
+    //   const resultObj = resultAddUserRoom.result.data;
+    //   const createRoomPayload = {
+    //     id: resultObj.id,
+    //     title: resultObj.title,
+    //     channelId: resultObj.id,
+    //     unReadCount: resultObj.unReadCount,
+    //     roomType: resultObj.roomType,
+    //     userAllow: resultObj.userAllow,
+    //   };
+    //   // Push data via socket to every one.
+    //   AppSocket.emit('sent-message', {
+    //     type: 'new-room',
+    //     payload: createRoomPayload,
+    //   });
+    //   // Selected room.
+    //   roomsAddNewRoom(createRoomPayload);
+    //   onGoingToChannel(createRoomPayload);
+    //   setInputText('');
+    //   setIsOpenNewRoom(false);
+    // }
   };
 
   const onLogout = () => {
@@ -210,7 +205,7 @@ const RoomsSide = () => {
           <div className="px-3 border text-sm py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
             <span>ห้องของคุณ</span>
             {['adminitrator'].includes(user.user.role) && (
-              <div role="button" onClick={() => setIsOpenNewRoom(true)}>
+              <div role="button" onClick={() => navigate('/settings/rooms')}>
                 <GetIcon mode="outline" name="plus" />
               </div>
             )}

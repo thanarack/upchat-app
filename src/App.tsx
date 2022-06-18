@@ -40,8 +40,9 @@ function App() {
 
   useEffect(() => {
     // Emit data to server.
-    if (user.isAuthenticated) {
+    if (user.isAuthenticated && user.user) {
       if (isConnect) {
+        console.log('event: login-notice', user);
         AppSocket.emit('sent-message', {
           type: 'login-notice',
           payload: {
@@ -54,7 +55,7 @@ function App() {
         setIsConnect(true);
       }
     }
-  }, [isConnect, user.isAuthenticated]);
+  }, [isConnect, user.isAuthenticated, user.user]);
 
   useEffect(() => {
     if (history.pathname !== '/chatroom') {

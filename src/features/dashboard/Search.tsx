@@ -45,22 +45,22 @@ const Search = () => {
     const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
 
     if (resultAddUserRoom.statusCode === 200) {
-      const resultObj = resultAddUserRoom.result.data;
+      const result = resultAddUserRoom.result.data;
       const createRoomWithContactPayload = {
-        id: resultObj.id,
-        title: resultObj.title,
-        channelId: resultObj.id,
-        unReadCount: resultObj.unReadCount,
-        roomType: resultObj.roomType,
-        userAllow: resultObj.userAllow,
-        profileUrl: resultObj.profileUrl,
-        isConnected: resultObj.isConnected || false,
-        userId: resultObj.userId,
+        id: result.id,
+        title: result.title,
+        channelId: result.id,
+        unReadCount: result.unReadCount,
+        roomType: result.roomType,
+        userAllow: result.userAllow,
+        profileUrl: result.profileUrl || '/user-logo.png',
+        isConnected: result.isConnected || false,
+        userId: result.userId,
       };
 
       // Added new room to store.
       roomsAddNewRoom(createRoomWithContactPayload);
-
+      // Clear input and search
       setInputText('');
       setUserList([]);
     }
@@ -101,7 +101,7 @@ const Search = () => {
                       })}
                     />
                     <img
-                      src={data.profileUrl}
+                      src={data.profileUrl || '/user-logo.png'}
                       className="profile-url"
                       alt="Profile"
                     />
