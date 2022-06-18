@@ -29,6 +29,10 @@
       }
     }
 
+    &.room-not-found {
+      @apply text-center w-full flex justify-center;
+    }
+
     div:first-child {
       @apply w-full text-gray-400 flex flex-row justify-start items-center;
 
@@ -84,6 +88,10 @@
         }
       }
 
+    }
+
+    &.room-not-found {
+      @apply text-center w-full flex justify-center;
     }
 
     div:first-child {

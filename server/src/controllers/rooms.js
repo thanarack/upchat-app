@@ -518,15 +518,22 @@ const handlerAdminUpdateUserRooms = async (req, res) => {
       { upsert: true }
     );
 
-    const result = await UserChannel.findOne({
-      channelId: id,
-      userId: userId,
-    });
+    const resultChannel = await Channels.findOne({
+      _id: id,
+    }).lean();
+
+    const response = {
+      ...resultChannel,
+      id: resultChannel._id,
+      unReadCount: resultChannel.count || 0,
+      isConnected: true,
+      profileUrl: '',
+    };
 
     return res.status(200).json({
       message: 'Success',
       statusCode: 200,
-      result: { data: result },
+      result: { data: response },
       timestamp: +new Date(),
     });
   } catch (error) {

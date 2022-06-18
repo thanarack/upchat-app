@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
+import AppSocket from '../../../app/socket';
 import { usePostAdminUserUpdateRoomsMutation } from '../../../services/admin/rooms';
 import { GetIcon } from '../../../utils/icon';
 
@@ -23,7 +24,29 @@ const UserItem = (props: any) => {
         isActive: String(checked ? '1' : '0'),
       }).unwrap();
       if (result.statusCode === 200) {
-        //
+        const resultNewRoom = result.result.data;
+        const createRoomPayload = {
+          id: resultNewRoom.id,
+          title: resultNewRoom.title,
+          channelId: resultNewRoom.id,
+          unReadCount: resultNewRoom.unReadCount,
+          roomType: resultNewRoom.roomType,
+          userAllow: resultNewRoom.userAllow,
+        };
+        // Push data via socket to every one, and check that condition
+        if (checked) {
+          AppSocket.emit('sent-message', {
+            type: 'new-room',
+            payload: createRoomPayload,
+          });
+        } else {
+          AppSocket.emit('sent-message', {
+            type: 'remove-room',
+            payload: {
+              channelId: resultNewRoom.id,
+            },
+          });
+        }
       }
     } catch (e) {
       console.log(e);

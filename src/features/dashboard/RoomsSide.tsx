@@ -4,9 +4,7 @@ import useChat from '../../hooks/useChat';
 import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';
 import { GetIcon } from '../../utils/icon';
-import {
-  useGetRoomsMutation,
-} from '../../services/users';
+import { useGetRoomsMutation } from '../../services/users';
 import useAuth from '../../hooks/useAuth';
 import AppSocket from '../../app/socket';
 import ModalConfirmation from '../../shared/ModalConfirmation';
@@ -51,45 +49,16 @@ const RoomsSide = () => {
   };
 
   const renderRooms = () => {
-    return myRooms
-      .filter((data: any) => data.roomType === 'group')
-      .map((data: any) => {
-        const roomsOfUser = user.user.rooms || [];
-        if (data.userAllow === 'private' && !roomsOfUser.includes(data.id)) {
-          return undefined;
-        }
-        return (
-          <li
-            key={data.channelId}
-            role="button"
-            onClick={() => onGoingToChannel(data)}
-            className={classNames({ active: getChannelId === data.channelId })}
-          >
-            <div>
-              <GetIcon
-                mode="outline"
-                name="hashtag"
-                className={classNames({ unread: data.unReadCount > 0 })}
-              />
-              <span
-                id="room"
-                className={classNames({ unread: data.unReadCount > 0 })}
-              >
-                {data.title}
-              </span>
-              {data.unReadCount > 0 && (
-                <span id="unread-count">{data.unReadCount}</span>
-              )}
-            </div>
-          </li>
-        );
-      });
-  };
-
-  const renderRecentContact = () => {
-    return myRooms
-      .filter((data: any) => data.roomType === 'contact')
-      .map((data: any) => (
+    const roomGroup = myRooms.filter((data: any) => data.roomType === 'group');
+    if (!roomGroup.length) {
+      return <li className="room-not-found">ไม่พบห้องสนทนา</li>;
+    }
+    return roomGroup.map((data: any) => {
+      const roomsOfUser = user.user.rooms || [];
+      if (data.userAllow === 'private' && !roomsOfUser.includes(data.id)) {
+        return undefined;
+      }
+      return (
         <li
           key={data.channelId}
           role="button"
@@ -97,21 +66,13 @@ const RoomsSide = () => {
           className={classNames({ active: getChannelId === data.channelId })}
         >
           <div>
-            <div id="online-status">
-              <span
-                className={classNames('dot', {
-                  online: data.isConnected,
-                  offline: !data.isConnected,
-                })}
-              />
-              <img
-                src={data.profileUrl || '/user-logo.png'}
-                className="profile-url rounded-full"
-                alt="Profile"
-              />
-            </div>
+            <GetIcon
+              mode="outline"
+              name="hashtag"
+              className={classNames({ unread: data.unReadCount > 0 })}
+            />
             <span
-              id="user"
+              id="room"
               className={classNames({ unread: data.unReadCount > 0 })}
             >
               {data.title}
@@ -121,40 +82,50 @@ const RoomsSide = () => {
             )}
           </div>
         </li>
-      ));
+      );
+    });
   };
 
-  const onAddNewRoom = async () => {
-    // if (!inputText) return;
-    // const newRoomBody = {
-    //   title: inputText,
-    //   roomType: 'group',
-    //   userAllow: 'public',
-    // };
-    // // Call api to store data new room.
-    // const resultAddUserRoom = await serviceAddUserRoom(newRoomBody).unwrap();
-    // if (resultAddUserRoom.statusCode === 200) {
-    //   // Get result from api
-    //   const resultObj = resultAddUserRoom.result.data;
-    //   const createRoomPayload = {
-    //     id: resultObj.id,
-    //     title: resultObj.title,
-    //     channelId: resultObj.id,
-    //     unReadCount: resultObj.unReadCount,
-    //     roomType: resultObj.roomType,
-    //     userAllow: resultObj.userAllow,
-    //   };
-    //   // Push data via socket to every one.
-    //   AppSocket.emit('sent-message', {
-    //     type: 'new-room',
-    //     payload: createRoomPayload,
-    //   });
-    //   // Selected room.
-    //   roomsAddNewRoom(createRoomPayload);
-    //   onGoingToChannel(createRoomPayload);
-    //   setInputText('');
-    //   setIsOpenNewRoom(false);
-    // }
+  const renderRecentContact = () => {
+    const roomContact = myRooms.filter(
+      (data: any) => data.roomType === 'contact'
+    );
+    if (!roomContact.length) {
+      return <li className="room-not-found">ไม่พบผู้ติดต่อ</li>;
+    }
+    return roomContact.map((data: any) => (
+      <li
+        key={data.channelId}
+        role="button"
+        onClick={() => onGoingToChannel(data)}
+        className={classNames({ active: getChannelId === data.channelId })}
+      >
+        <div>
+          <div id="online-status">
+            <span
+              className={classNames('dot', {
+                online: data.isConnected,
+                offline: !data.isConnected,
+              })}
+            />
+            <img
+              src={data.profileUrl || '/user-logo.png'}
+              className="profile-url rounded-full"
+              alt="Profile"
+            />
+          </div>
+          <span
+            id="user"
+            className={classNames({ unread: data.unReadCount > 0 })}
+          >
+            {data.title}
+          </span>
+          {data.unReadCount > 0 && (
+            <span id="unread-count">{data.unReadCount}</span>
+          )}
+        </div>
+      </li>
+    ));
   };
 
   const onLogout = () => {

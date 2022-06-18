@@ -101,7 +101,7 @@ const NewUserModel = (props: {
                   {...register('positionId', { required: false })}
                 >
                   {position.map((value: any) => (
-                    <option key={value._id} value={value._id}>
+                    <option key={value.positionId} value={value.positionId}>
                       {value.title}
                     </option>
                   ))}
