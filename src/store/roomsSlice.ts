@@ -9,13 +9,11 @@ const initialState: any = {
 };
 
 const getRoomIdByChannelId = (rooms: any, channelId: any) => {
-  const roomId = rooms.findIndex((data: any) => data.channelId === channelId);
-  return roomId;
+  return rooms.findIndex((data: any) => data.channelId === channelId);
 };
 
 const getRoomIdByUserId = (rooms: any, userId: any) => {
-  const roomId = rooms.findIndex((data: any) => data.userId === userId);
-  return roomId;
+  return rooms.findIndex((data: any) => data.userId === userId);
 };
 
 export const roomsSlice = createSlice({
@@ -87,7 +85,7 @@ export const {
   setRoomContactToConnect,
   addNewRoom,
   removeRoom,
-  reset
+  reset,
 } = roomsSlice.actions;
 
 export const selectRooms = (state: RootState) => state.rooms;
