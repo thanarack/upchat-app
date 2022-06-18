@@ -11,16 +11,16 @@ import { pushGroupMessage } from '../../store/chatSlice';
 const localeTh = require('dayjs/locale/th');
 
 const Message = (props: any) => {
-  const { message, userId, messageId, timestamp, user } = props.data;
+  const { message, userId, messageId, user, createdAt } = props.data;
   const isCurrentUser = user.userId === userId;
   const classMessage = isCurrentUser ? `cr-user` : `cr-other`;
 
   const formatData = () => {
     let display;
     const now = dayjs();
-    const messageDate = dayjs.unix(timestamp);
+    const messageDate = createdAt ? dayjs(createdAt) : dayjs();
     if (messageDate.format('DD/MM/YYYY') !== now.format('DD/MM/YYYY')) {
-      display = `${messageDate.locale(localeTh).format('D MMM YYYY - HH.mm')}`;
+      display = `${messageDate.locale(localeTh).format('D/M/YY - HH.mm')}`;
     } else {
       display = `วันนี้ ${messageDate.format('HH.mm')}`;
     }
@@ -37,18 +37,20 @@ const Message = (props: any) => {
       <div className="cr-profile">
         <img
           src={user.profileUrl ? user.profileUrl : `/user-logo.png`}
-          className="w-8 h-8 shadow-sm rounded-full"
+          className="w-10 h-10 shadow-sm rounded-full"
           alt="Login user"
         />
       </div>
       <div className="cr-message">
         <div className="cr-user-info">
           {user && <span className="cr-user">{user.title}</span>}
-          <span className="cr-time">{formatData()}</span>
+          <span className="cr-time">
+            <span>-</span>
+            <span>{formatData()}</span>
+          </span>
         </div>
         <div className="cr-text">{message}</div>
       </div>
-      {/* <div className="cr-date">{formatData()}</div> */}
     </div>
   );
 };
@@ -111,9 +113,7 @@ const ChatLogs = () => {
 
   // Fetch once when enter to a room
   useEffect(() => {
-    if (getUnReadCount > 0 || !getChatLogs.length) {
-      chatFetchRoomMessages();
-    }
+    if (getUnReadCount > 0 || !getChatLogs.length) chatFetchRoomMessages();
   }, [getChannelId, getUnReadCount]);
 
   if (!getRoomMessage) return null;

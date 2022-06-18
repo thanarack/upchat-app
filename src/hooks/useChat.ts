@@ -22,8 +22,10 @@ const useChat = () => {
   const getMessages = chatSlice.messages;
   const getChannelId = chatSlice.channel?.channelId;
   const getChannelTitle = chatSlice.channel?.title;
+  const getChannelProfile = chatSlice.channel?.profileUrl;
   const getRoomType = chatSlice.channel?.roomType;
   const getUnReadCount = chatSlice.channel?.unReadCount;
+  const getChannelIsConnected = chatSlice.channel?.isConnected;
 
   const chatClearChannel = () => dispatch(clearChannel());
 
@@ -84,6 +86,8 @@ const useChat = () => {
     chatSetChannel,
     chatPushMessage,
     chatClearChannel,
+    getChannelProfile,
+    getChannelIsConnected,
   };
 };
 

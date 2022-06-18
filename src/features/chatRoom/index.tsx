@@ -1,23 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import classNames from 'classnames';
 import { FormEvent, useEffect, useState } from 'react';
 import AppSocket from '../../app/socket';
 import useAuth from '../../hooks/useAuth';
 import useChat from '../../hooks/useChat';
-import useRooms from '../../hooks/useRooms';
+// import useRooms from '../../hooks/useRooms';
 import useRoute from '../../hooks/useRoute';
-import ModalConfirmation from '../../shared/ModalConfirmation';
-import { GetIcon } from '../../utils/icon';
+// import ModalConfirmation from '../../shared/ModalConfirmation';
+// import { GetIcon } from '../../utils/icon';
 import DashboardTemplate from '../dashboard/DashboardTemplate';
 import ChatLogs from './chatLogs';
 import './Chatroom.scss';
 
 const FeaturesChatRoom = () => {
-  const { getChannelTitle, getRoomType, getChannelId, chatPushMessage } =
-    useChat();
+  const {
+    getChannelTitle,
+    getRoomType,
+    getChannelId,
+    chatPushMessage,
+    getChannelProfile,
+    getChannelIsConnected,
+  } = useChat();
   const [inputText, setInputText] = useState('');
   const { navigate } = useRoute();
-  const { userRole, user } = useAuth();
-  const { roomsRemoveRoom } = useRooms();
-  const [isOpenRemoveRoom, setIsOpenRemoveRoom] = useState(false);
+  const { user } = useAuth();
+  // const { roomsRemoveRoom } = useRooms();
+  // const [isOpenRemoveRoom, setIsOpenRemoveRoom] = useState(false);
 
   useEffect(() => {
     if (!getChannelId) return navigate('/dashboard');
@@ -70,42 +78,57 @@ const FeaturesChatRoom = () => {
     }
   };
 
-  const onRemoveThisRoom = () => {
-    roomsRemoveRoom({
-      channelId: getChannelId,
-    });
-    setIsOpenRemoveRoom(false);
-    navigate('/dashboard');
+  // const onRemoveThisRoom = () => {
+  //   roomsRemoveRoom({
+  //     channelId: getChannelId,
+  //   });
+  //   setIsOpenRemoveRoom(false);
+  //   navigate('/dashboard');
 
-    // Called socket to refresh the store.
-    AppSocket.emit('sent-message', {
-      type: 'remove-room',
-      payload: {
-        channelId: getChannelId,
-      },
-    });
-    // Called api to trigger remove this room
-  };
+  //   // Called socket to refresh the store.
+  //   AppSocket.emit('sent-message', {
+  //     type: 'remove-room',
+  //     payload: {
+  //       channelId: getChannelId,
+  //     },
+  //   });
+  //   // Called api to trigger remove this room
+  // };
 
   return (
     <DashboardTemplate>
-      <ModalConfirmation
+      {/* <ModalConfirmation
         title={`ยืนยันการลบห้อง "${getChannelTitle}"`}
         isOpen={isOpenRemoveRoom}
         onAccept={onRemoveThisRoom}
         onCancel={() => setIsOpenRemoveRoom(false)}
         onClose={() => setIsOpenRemoveRoom(false)}
-      />
-      <div className="flex flex-col w-full relative chat-full-height cr-chat-panel">
+      /> */}
+      <div className="flex flex-col w-full relative chat-full-height cr-chat-panel mt-4">
         <div
           id="channel-name"
-          className="border-b pb-2 pt-1 px-4 border-gray-200"
+          className="border-b pb-2 pt-1 px-4 border-gray-200 shadow-sm"
         >
-          <div className="text-gray-800 font-semibold cr-channel-name">
+          <div className="text-gray-800 font-semibold cr-channel-name flex flex-row items-center">
             {getRoomType === 'group' && <span className="mr-1">#</span>}
-            {/* {getRoomType === 'contact' && <span>●</span>} */}
+            {getRoomType === 'contact' && (
+              <div className="online-status-user">
+                <span
+                  className={classNames('dot', {
+                    online: getChannelIsConnected,
+                    offline: !getChannelIsConnected,
+                  })}
+                />
+                <img
+                  src={getChannelProfile || '/user-logo.png'}
+                  className="shadow-sm rounded-full mr-2"
+                  title="Avatar"
+                  alt="Avatar logo"
+                />
+              </div>
+            )}
             <span className="channel-name">{getChannelTitle}</span>
-            {userRole === 'administrator' && (
+            {/* {userRole === 'administrator' && (
               <div
                 className="trash"
                 title="ลบห้อง"
@@ -114,7 +137,7 @@ const FeaturesChatRoom = () => {
               >
                 <GetIcon mode="outline" name="trash" />
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div id="chat-box">

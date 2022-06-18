@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from './store';
 import {
+  setChannelContactToConnect,
   socketPushMessageToChannel,
 } from '../store/chatSlice';
 import {
@@ -55,7 +56,7 @@ const handlerMessageType = (payload: any) => {
 
 const handlerLoginNoticeType = (payload: any) => {
   store.dispatch(setRoomContactToConnect(payload));
-  // store.dispatch(setUserContactToConnect(payload));
+  store.dispatch(setChannelContactToConnect(payload));
 };
 
 const handlerNewRoomType = (payload: any) => {

@@ -33,6 +33,7 @@ const useAuth = () => {
   const profileUrl = userSlice.user.profileUrl;
   const userId = userSlice.user.userId;
   const userRole = userSlice.user.role;
+  const userIsConnected = userSlice.user.isConnected;
 
   return {
     user: userSlice,
@@ -45,6 +46,7 @@ const useAuth = () => {
     userSetLoginUser,
     userSetIsConnected,
     userResetAllState,
+    userIsConnected,
     // userSetUserToLocalContact,
   };
 };

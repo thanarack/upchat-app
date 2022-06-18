@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
+import useChat from '../../hooks/useChat';
 import useRooms from '../../hooks/useRooms';
+import useRoute from '../../hooks/useRoute';
 import {
   useAddUserRoomMutation,
   useGetContactsMutation,
@@ -10,8 +12,10 @@ import './Dashboard.scss';
 
 const Search = () => {
   const { roomsAddNewRoom } = useRooms();
+  const { navigate } = useRoute();
   const [userList, setUserList]: any = useState([]);
   const [inputText, setInputText] = useState('');
+  const { chatSetChannel } = useChat();
   const [serviceGetContacts] = useGetContactsMutation();
   const [serviceAddUserRoom] = useAddUserRoomMutation();
 
@@ -63,6 +67,20 @@ const Search = () => {
       // Clear input and search
       setInputText('');
       setUserList([]);
+      // Join room
+      chatSetChannel({
+        channelId: result.id,
+        id: result.id,
+        isConnected: result.isConnected,
+        profileUrl: result.profileUrl || '/user-logo.png',
+        roomType: result.roomType,
+        title: result.title,
+        unReadCount: result.unReadCount,
+      });
+      navigate({
+        pathname: '/chatroom',
+        search: '?channelId=' + result.id,
+      });
     }
   };
 

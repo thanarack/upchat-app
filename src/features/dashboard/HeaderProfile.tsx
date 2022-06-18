@@ -1,20 +1,10 @@
-import AppSocket from '../../app/socket';
 import useAuth from '../../hooks/useAuth';
 
 const HeaderProfile = () => {
   const { fullName, user, profileUrl, userSetIsConnected } = useAuth();
   const getUser = user.user;
 
-  const onSetUserConnect = () => {
-    userSetIsConnected(!getUser.isConnected);
-    AppSocket.emit('sent-message', {
-      type: 'login-notice',
-      payload: {
-        userId: getUser.userId,
-        value: !getUser.isConnected,
-      },
-    });
-  };
+  const onSetUserConnect = () => userSetIsConnected(!getUser.isConnected);
 
   return (
     <div className="px-4 mt-4 flex bg-slate-800 flex-row items-center space-x-3">

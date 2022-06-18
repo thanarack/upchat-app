@@ -13,6 +13,16 @@ import ModalComponent from '../../shared/ModalComponent';
 import AppSocket from '../../app/socket';
 import ModalConfirmation from '../../shared/ModalConfirmation';
 
+type IChannelSlide = {
+  channelId: string;
+  id: string;
+  isConnected: boolean;
+  profileUrl: string;
+  roomType: string;
+  title: string;
+  unReadCount: number;
+};
+
 const RoomsSide = () => {
   const { navigate } = useRoute();
   const { chatSetChannel, getChannelId } = useChat();
@@ -40,7 +50,7 @@ const RoomsSide = () => {
     initializeSetup();
   }, []);
 
-  const onGoingToChannel = (data: any) => {
+  const onGoingToChannel = (data: IChannelSlide) => {
     chatSetChannel(data);
     navigate({ pathname: '/chatroom', search: '?channelId=' + data.channelId });
   };

@@ -81,6 +81,13 @@ export const chatSlice = createSlice({
         action.payload
       );
     },
+    setChannelContactToConnect: (state: any, action) => {
+      const thisChannel = { ...state.channel };
+      if (thisChannel && thisChannel?.userId === action.payload.userId) {
+        thisChannel.isConnected = action.payload.value;
+      }
+      state.channel = thisChannel;
+    },
   },
 });
 
@@ -90,7 +97,8 @@ export const {
   pushGroupMessage,
   socketPushMessageToChannel,
   clearChannel,
-  reset
+  reset,
+  setChannelContactToConnect,
 } = chatSlice.actions;
 
 export const selectChat = (state: RootState) => state.chat;

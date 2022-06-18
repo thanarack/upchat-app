@@ -37,17 +37,18 @@ function App() {
   const { user } = useAuth();
   const [isConnect, setIsConnect] = useState(false);
   const { chatClearChannel } = useChat();
+  const userInfo = user.user;
 
   useEffect(() => {
     // Emit data to server.
-    if (user.isAuthenticated && user.user) {
+    if (user.isAuthenticated && userInfo) {
       if (isConnect) {
         console.log('event: login-notice', user);
         AppSocket.emit('sent-message', {
           type: 'login-notice',
           payload: {
-            userId: user.user.userId,
-            value: true,
+            userId: userInfo.userId,
+            value: userInfo.isConnected,
           },
         });
         // Call api to update connect has connected.
@@ -55,7 +56,7 @@ function App() {
         setIsConnect(true);
       }
     }
-  }, [isConnect, user.isAuthenticated, user.user]);
+  }, [isConnect, user.isAuthenticated, userInfo]);
 
   useEffect(() => {
     if (history.pathname !== '/chatroom') {

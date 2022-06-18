@@ -8,14 +8,14 @@
 .cr-chat-message {
 
   .cr-box {
-    @apply w-full mb-2 relative flex space-x-2 items-start px-4;
+    @apply w-full mb-3 relative flex space-x-2 items-start px-4;
 
     &:hover {
       @apply bg-gray-100;
     }
 
     .cr-profile {
-      @apply w-8 h-8 shadow-sm rounded-full;
+      @apply w-10 h-10 shadow-sm rounded-full;
 
       img {
         position: relative;
@@ -27,19 +27,19 @@
       @apply flex flex-col;
 
       .cr-user-info {
-        @apply flex flex-row space-x-1 items-baseline;
+        @apply flex flex-row space-x-1 items-baseline text-sm;
 
         .cr-user {
-          @apply font-medium text-slate-500;
+          @apply font-medium text-slate-400;
         }
 
         .cr-time {
-          @apply text-xs text-slate-400;
+          @apply text-xs text-slate-400 flex gap-1;
         }
       }
 
       .cr-text {
-        @apply text-gray-800;
+        @apply text-gray-800 text-base;
       }
     }
 

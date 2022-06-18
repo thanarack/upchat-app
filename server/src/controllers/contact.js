@@ -19,6 +19,9 @@ const handlerContact = async (req, res) => {
         {
           lastName: { $regex: q, $options: 'i' },
         },
+        {
+          username: { $regex: q, $options: 'i' },
+        },
       ],
     }).limit(5);
 
