@@ -127,8 +127,7 @@
       }
 
       div#online-status {
-        @apply mr-2 relative h-6 w-6;
-        // bottom: .1rem;
+        @apply mr-2.5 relative h-6 w-6;
 
         .profile-url {
           @apply h-6 w-6;
@@ -222,8 +221,7 @@
         @apply w-full text-gray-300 flex flex-row items-center relative space-x-4;
 
         div#online-status {
-          @apply mr-2 relative h-6 w-6;
-          // bottom: .1rem;
+          @apply mr-2.5 relative h-6 w-6;
 
           .profile-url {
             @apply h-6 w-6 rounded-full;

@@ -20,7 +20,7 @@ const HeaderProfile = () => {
       <div className="flex flex-col flex-grow">
         <div className="text-gray-200 font-ibm font-semibold">{fullName}</div>
         <div
-          className="flex dh-profile cursor-pointer w-full font-ibm"
+          className="flex dh-profile cursor-pointer w-full font-ibm font-medium"
           onClick={onSetUserConnect}
         >
           <span
@@ -33,7 +33,7 @@ const HeaderProfile = () => {
             id="text-status"
             className={getUser.isConnected ? 'online' : 'offline'}
           >
-            {getUser.isConnected ? 'Online' : 'Offline'}
+            {getUser.isConnected ? 'ONLINE' : 'OFFLINE'}
           </span>
         </div>
       </div>
