@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 try {
-  console.log(process.env.MONGO_URL)
   mongoose.connect(process.env.MONGO_URL, {
     dbName: 'upchat-app',
     autoCreate: true,

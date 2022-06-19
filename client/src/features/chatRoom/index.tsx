@@ -95,6 +95,10 @@ const FeaturesChatRoom = () => {
                   className="shadow-sm rounded-full mr-2"
                   title="Avatar"
                   alt="Avatar logo"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/user-logo.png';
+                  }}
                 />
               </div>
             )}

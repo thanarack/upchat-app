@@ -39,6 +39,10 @@ const Message = (props: any) => {
           src={user.profileUrl ? user.profileUrl : `/user-logo.png`}
           className="w-8 h-8 shadow-sm rounded-full"
           alt="Login user"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/user-logo.png';
+          }}
         />
       </div>
       <div className="cr-message">

@@ -1,0 +1,19 @@
+{
+  "name": "upchat-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd server && npm run docker-build && cd ../client && npm run docker-build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thanarack/upchat-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thanarack/upchat-app/issues"
+  },
+  "homepage": "https://github.com/thanarack/upchat-app#readme"
+}

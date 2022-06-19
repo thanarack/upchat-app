@@ -69,6 +69,10 @@ const UserItem = (props: any) => {
           className="w-6 h-6 rounded-full"
           src={data.profileUrl || '/user-logo.png'}
           title="Avatar"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/user-logo.png';
+          }}
         />
         <span>{data.firstName} {data.lastName}</span>
       </div>

@@ -123,6 +123,10 @@ const Search = () => {
                       src={data.profileUrl || '/user-logo.png'}
                       className="profile-url"
                       alt="Profile"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/user-logo.png';
+                      }}
                     />
                   </div>
                   <span

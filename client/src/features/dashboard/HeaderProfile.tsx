@@ -15,6 +15,10 @@ const HeaderProfile = () => {
           src={profileUrl ? profileUrl : `./user-logo.png`}
           className="w-10 h-10 shadow-sm rounded-full -mt-1"
           alt="Login user"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/user-logo.png';
+          }}
         />
       </div>
       <div className="flex flex-col flex-grow">

@@ -124,6 +124,10 @@ const General = () => {
                 title="profile"
                 src={previewProfile}
                 className="w-24 h-24 rounded-full"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/user-logo.png';
+                }}
               />
               <div className="flex mt-4">
                 <input

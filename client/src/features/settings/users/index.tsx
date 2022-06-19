@@ -82,6 +82,10 @@ const SettingUsers = () => {
             className="w-10 h-10 rounded-full"
             src={info.getValue() || '/user-logo.png'}
             title="Avatar"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/user-logo.png';
+            }}
           />
         </div>
       ),

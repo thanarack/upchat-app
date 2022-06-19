@@ -112,6 +112,10 @@ const RoomsSide = () => {
               src={data.profileUrl || '/user-logo.png'}
               className="profile-url rounded-full"
               alt="Profile"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/user-logo.png';
+              }}
             />
           </div>
           <span

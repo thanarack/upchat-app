@@ -34,6 +34,14 @@ const { Token } = require('./models/token');
 // Middleware
 const getUserToken = (req, res, next) => {
   try {
+    // Check header key
+    const { headers } = req;
+    if (headers['x-api-key'] !== process.env.X_API_KEY) {
+      return res
+        .status(500)
+        .json({ statusCode: 500, message: 'x-api-key invalid' });
+    }
+
     return next();
   } catch (err) {
     return res.status(500).json({ statusCode: 500, message: err.message });
