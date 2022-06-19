@@ -163,7 +163,7 @@ const handlerUpdateProfileAvatar = async (req, res) => {
     // Upload image
     await new Promise((resolve, reject) =>
       upload(req, res, (err) => {
-        console.log(req.file)
+        console.log(req.file);
         fileName = req.file.filename;
         if (err) {
           reject(err);
@@ -194,11 +194,13 @@ const handlerUpdateProfileAvatar = async (req, res) => {
 
     const timestamp = +new Date();
     // Update profile
+    const url = process.env.BASE_URL_API
+      ? process.env.BASE_URL_API
+      : 'http://localhost:4000/profile/';
     await Users.findOneAndUpdate(
       { _id: userId },
       {
-        profileUrl:
-          'http://localhost:4000/profile/' + userId + '.jpg?v' + timestamp,
+        profileUrl: url + userId + '.jpg?v' + timestamp,
       }
     );
 

@@ -10,7 +10,7 @@ export const usersApi = createApi({
   reducerPath: 'usersApi',
   baseQuery: fetchBaseQuery({
     baseUrl:
-      process.env.NODE_ENV === 'production'
+      process.env.REACT_APP_ENVIRONMENT === 'production'
         ? 'http://206.189.38.110:4000/v1/'
         : 'http://localhost:4000/v1/',
   }),
