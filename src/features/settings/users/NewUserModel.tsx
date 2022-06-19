@@ -64,7 +64,7 @@ const NewUserModel = (props: {
       <form id="user-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="container flex justify-center mt-6 w-full">
           <div className="md:max-w-xl w-full">
-            <div className="text-center text-xl text-gray-500">
+            <div className="text-center text-xl text-gray-500 font-ibm font-semibold">
               <span className="text-3xl mr-2">👨🏽‍💻</span>เพิ่มผู้ใช้งานใหม่
             </div>
             <div className="form-group mt-6">

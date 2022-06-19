@@ -68,7 +68,7 @@ const Action = (props: {
         />
         <Button
           variant="gray"
-          text="ลบ"
+          text="ลบข้อมูล"
           size="sm"
           isLoading={getAdminDeleteUsersPositionResult.isLoading}
           onClick={() => setOpen(true)}

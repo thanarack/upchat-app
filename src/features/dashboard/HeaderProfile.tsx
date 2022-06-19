@@ -18,9 +18,9 @@ const HeaderProfile = () => {
         />
       </div>
       <div className="flex flex-col flex-grow">
-        <div className="text-gray-200">{fullName}</div>
+        <div className="text-gray-200 font-ibm font-semibold">{fullName}</div>
         <div
-          className="flex dh-profile cursor-pointer w-full"
+          className="flex dh-profile cursor-pointer w-full font-ibm"
           onClick={onSetUserConnect}
         >
           <span

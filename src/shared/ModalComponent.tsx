@@ -18,18 +18,19 @@ const ModalComponent = (props: any) => {
       <div className="absolute top-0 left-0 bg-gray-900 w-full h-screen opacity-70 z-30"></div>
       <div className="absolute top-0 left-0 text-gray-900 z-40 w-full h-full">
         <div className="flex flex-col justify-center items-center">
-          <div className="md:w-4/12 w-full bg-white rounded-md px-4 py-6 mt-6 relative text-left">
+          <div className="md:w-4/12 w-full bg-white rounded-md px-6 py-6 mt-6 relative text-left">
             <span
-              className="absolute right-4 top-6 cursor-pointer"
+              className="absolute right-5 top-6 cursor-pointer"
               onClick={onClose}
             >
               <GetIcon
                 mode="outline"
                 name="close"
                 className="close text-gray-600"
+                size="lg"
               />
             </span>
-            {title && <label className="mb-6">{title}</label>}
+            {title && <div className="mb-6 font-ibm font-medium text-lg text-gray-600">{title}</div>}
             <div className="w-full">{children}</div>
           </div>
         </div>

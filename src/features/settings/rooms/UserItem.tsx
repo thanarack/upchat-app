@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
@@ -69,7 +70,7 @@ const UserItem = (props: any) => {
           src={data.profileUrl || '/user-logo.png'}
           title="Avatar"
         />
-        <span>{data.username}</span>
+        <span>{data.firstName} {data.lastName}</span>
       </div>
       <button
         type="button"
