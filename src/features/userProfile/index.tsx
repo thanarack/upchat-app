@@ -11,7 +11,7 @@ const FeaturesProfileSetting = () => {
 
   return (
     <DashboardTemplate isSearch={false} pageTitle="Profile - ข้อมูลผู้ใช้">
-      <div className="collect-item mt-6" id="general">
+      <div className="collect-item md:mt-16 mt-4 mb-12" id="general">
         <div className="collect-title">
           <span
             role="button"
