@@ -35,7 +35,7 @@
     }
 
     div:first-child {
-      @apply w-full text-gray-300 flex flex-row justify-start items-center;
+      @apply w-full text-gray-400 flex flex-row justify-start items-center;
 
       &:hover {
         @apply text-gray-100;
@@ -96,7 +96,7 @@
     }
 
     div:first-child {
-      @apply w-full text-gray-300 flex flex-row items-center relative;
+      @apply w-full text-gray-400 flex flex-row items-center relative;
 
       &:hover {
         @apply text-gray-100;
