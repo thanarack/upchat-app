@@ -72,6 +72,14 @@ export const usersApi = createApi({
         body,
       }),
     }),
+    postProfileUpdatePassword: build.mutation({
+      query: (body) => ({
+        url: 'profile/update-password',
+        method: 'post',
+        headers: generateHeaderWithToken(),
+        body,
+      }),
+    }),
   }),
 });
 
@@ -85,5 +93,6 @@ export const {
   useGetContactsMutation,
   useGetRoomMessageMutation,
   usePostProfileUpdateMutation,
-  usePostProfileImageUpdateMutation
+  usePostProfileImageUpdateMutation,
+  usePostProfileUpdatePasswordMutation,
 } = usersApi;

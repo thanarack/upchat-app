@@ -54,7 +54,7 @@ const NewUserModel = (props: {
       }
     } catch (e) {
       console.log(e);
-      toast('ชื่อผู้ใช้ซ้ำในระบบ', { type: 'error' });
+      toast('ชื่อผู้ใช้ซ้ำในระบบ', { type: 'warning' });
     }
   };
   // End form data

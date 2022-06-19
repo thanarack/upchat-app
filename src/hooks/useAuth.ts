@@ -6,6 +6,7 @@ import {
   setLogout,
   setUserConnect,
   reset as userSliceReset,
+  setUserImage
   // setUserToLocalContact,
 } from '../store/userSlice';
 import { reset as roomsSliceReset } from '../store/roomsSlice';
@@ -20,6 +21,7 @@ const useAuth = () => {
   const userSlice: any = useAppSelector(selectUser);
   const userSetLogin = () => dispatch(setLogin());
   const userSetLoginUser = (user: any) => dispatch(setLoginUser(user));
+  const userSetImage = (user: any) => dispatch(setUserImage(user));
   const userSetLogout = () => dispatch(setLogout());
   const userSetIsConnected = (value: any) => dispatch(setUserConnect(value));
   // const userSetUserToLocalContact = (value: any) =>
@@ -47,6 +49,7 @@ const useAuth = () => {
     userSetIsConnected,
     userResetAllState,
     userIsConnected,
+    userSetImage
     // userSetUserToLocalContact,
   };
 };

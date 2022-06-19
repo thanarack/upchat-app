@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import Button from '../../components/button/Button';
 import useAuth from '../../hooks/useAuth';
 import useRoute from '../../hooks/useRoute';
 import {
@@ -42,78 +43,75 @@ const FeaturesLogin = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-row bg-slate-800">
-      <div className="flex-auto self-center flex justify-center">
-        <div className="px-6 py-6 border rounded-md w-1/3 shadow-md bg-slate-100">
-          <div className="text-center w-full">
-            <label className="text-xl">เข้าสู่ระบบ</label>
+    <div className="w-full h-screen flex flex-row bg-gradient-to-br from-slate-900 to-slate-800">
+      <div className="md:flex w-8/12 h-screen hidden">
+        <div
+          className="w-full h-screen"
+          style={{
+            background: 'url(/images/login-bg.jpg)',
+            backgroundSize: 'cover',
+          }}
+        />
+      </div>
+      <div className="flex flex-auto">
+        <div className="flex-auto self-center flex flex-col justify-center px-16">
+          <div className="mb-10 w-full flex justify-center">
+            <img
+              src="/images/logo-app.png"
+              title="Logo"
+              alt="Application login logo"
+              className="w-96 filter"
+            />
           </div>
-          {!isLoading && isError && (
-            <div className="text-center text-sm text-red-600 px-1 py-1 mt-1">
-              ไม่พบชื่อผู้ใช้งาน
+          <div className="px-8 py-8 rounded-3xl w-full shadow-md bg-slate-800">
+            <div className="text-center w-full mb-6">
+              <label className="text-2xl text-white">เข้าร่วมการพูดคุย</label>
             </div>
-          )}
-          <form id="form-login" onSubmit={onLogin} className="mt-4">
-            <div className="mb-4">
-              <input
-                required
-                placeholder="ผู้ใช้งาน"
-                type="text"
-                maxLength={200}
-                autoComplete="off"
-                className="w-full border rounded-md px-2 py-2 outline-none text-sm"
-                value={username}
-                onChange={(e) => {
-                  reset();
-                  setUsername(e.target.value);
-                }}
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                required
-                placeholder="รหัสผ่าน"
-                type="password"
-                maxLength={200}
-                autoComplete="off"
-                className="w-full border rounded-md px-2 py-2 outline-none text-sm"
-                value={password}
-                onChange={(e) => {
-                  reset();
-                  setPassword(e.target.value);
-                }}
-              />
-            </div>
-            <button
-              form="form-login"
-              disabled={isLoading}
-              className="flex flex-row items-center space-x-2 justify-center rounded-md mt-6 bg-green-700 px-2 py-2 w-full text-base text-white disabled:bg-gray-600"
-            >
-              {isLoading && (
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              )}
-              <span>เข้าสู่ระบบ</span>
-            </button>
-          </form>
+            {!isLoading && isError && (
+              <div className="text-sm text-rose-500 px-1 py-1 mt-1">
+                กรุณาตรวจสอบ ผู้ใช้งาน หรือ รหัสผ่าน ให้ถูกต้อง
+              </div>
+            )}
+            <form id="form-login" onSubmit={onLogin} className="mt-4">
+              <div className="mb-6">
+                <input
+                  required
+                  placeholder="ผู้ใช้งาน"
+                  type="text"
+                  maxLength={200}
+                  autoComplete="off"
+                  className="w-full shadow-sm rounded-md px-3 py-3 outline-none text-sm bg-slate-300"
+                  value={username}
+                  onChange={(e) => {
+                    reset();
+                    setUsername(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="mb-6">
+                <input
+                  required
+                  placeholder="รหัสผ่าน"
+                  type="password"
+                  maxLength={200}
+                  autoComplete="off"
+                  className="w-full shadow-sm rounded-md px-3 py-3 outline-none text-sm bg-slate-300"
+                  value={password}
+                  onChange={(e) => {
+                    reset();
+                    setPassword(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex">
+                <Button
+                  form="form-login"
+                  isLoading={isLoading}
+                  text="เข้าสู่ระบบ"
+                />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

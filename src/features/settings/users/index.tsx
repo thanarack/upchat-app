@@ -42,7 +42,7 @@ const Action = (props: { value: any; onRefetchData: () => void }) => {
       setOpen(false);
     } catch (err) {
       console.log(err);
-      toast('ไม่สามารถลบข้อมูลตัวเองได้', { type: 'error' });
+      toast('ไม่สามารถลบข้อมูลตัวเองได้', { type: 'warning' });
       setOpen(false);
     }
   };

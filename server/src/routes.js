@@ -27,6 +27,7 @@ const {
   handlerAdminDeletePosition,
   handlerAdminNewPosition,
   handlerAdminUpdatePosition,
+  handlerPasswordChange,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
 
@@ -85,6 +86,7 @@ const Routes = (app) => {
 
   // Profile
   app.post('/profile/update', checkToken, handlerUpdateProfile);
+  app.post('/profile/update-password', checkToken, handlerPasswordChange);
   app.post('/profile/avatar', checkToken, handlerUpdateProfileAvatar);
 
   // Admin
@@ -96,12 +98,24 @@ const Routes = (app) => {
   app.get('/admin/delete/users', checkToken, handlerAdminDeleteUsers);
   app.post('/admin/new/users', checkToken, handlerAdminNewUsers);
   app.get('/admin/users/position', checkToken, handlerAdminUserPosition);
-  app.get('/admin/delete/users/position', checkToken, handlerAdminDeletePosition);
+  app.get(
+    '/admin/delete/users/position',
+    checkToken,
+    handlerAdminDeletePosition
+  );
   app.post('/admin/new/users/position', checkToken, handlerAdminNewPosition);
-  app.post('/admin/update/users/position', checkToken, handlerAdminUpdatePosition);
+  app.post(
+    '/admin/update/users/position',
+    checkToken,
+    handlerAdminUpdatePosition
+  );
   app.get('/admin/logs', checkToken, handlerAdminLogs);
   app.get('/admin/users/rooms', checkToken, handlerAdminUserRooms);
-  app.post('/admin/users/update/rooms', checkToken, handlerAdminUpdateUserRooms);
+  app.post(
+    '/admin/users/update/rooms',
+    checkToken,
+    handlerAdminUpdateUserRooms
+  );
 
   return app;
 };

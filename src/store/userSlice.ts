@@ -25,16 +25,6 @@ const initialState: any = {
   contacts: [],
 };
 
-// Mock
-if (isEmpty(initialState.user)) {
-  // initialState.user = mockData.user;
-}
-
-const getRoomIdByUserId = (contact: any, userId: any) => {
-  const roomId = contact.findIndex((data: any) => data.id === userId);
-  return roomId;
-};
-
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -54,22 +44,9 @@ export const userSlice = createSlice({
         state.user.isConnected = action.payload;
       }
     },
-    // setUserContactToConnect: (state, action) => {
-    //   const contacts = [...state.contacts];
-    //   const contactId = getRoomIdByUserId(contacts, action.payload.userId);
-    //   if (contactId >= 0) {
-    //     contacts[contactId].isConnected = action.payload.value;
-    //   }
-    //   state.contacts = contacts;
-    // },
-    // setUserToLocalContact: (state, action) => {
-    //   const contacts = [...state.contacts];
-    //   const contactId = getRoomIdByUserId(contacts, action.payload.id);
-    //   if (contactId === -1) {
-    //     contacts.push(action.payload);
-    //   }
-    //   state.contacts = contacts;
-    // },
+    setUserImage: (state, action) => {
+      state.user.profileUrl = action.payload;
+    },
   },
 });
 
@@ -78,7 +55,8 @@ export const {
   setLogout,
   setLoginUser,
   setUserConnect,
-  reset
+  reset,
+  setUserImage,
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

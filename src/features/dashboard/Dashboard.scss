@@ -8,6 +8,7 @@
 #right-side {
   width: 100%;
   min-width: 450px;
+  @apply overflow-hidden overflow-y-auto;
 }
 
 .db-rooms {
@@ -34,7 +35,7 @@
     }
 
     div:first-child {
-      @apply w-full text-gray-400 flex flex-row justify-start items-center;
+      @apply w-full text-gray-300 flex flex-row justify-start items-center;
 
       &:hover {
         @apply text-gray-100;
@@ -95,7 +96,7 @@
     }
 
     div:first-child {
-      @apply w-full text-gray-400 flex flex-row items-center relative;
+      @apply w-full text-gray-300 flex flex-row items-center relative;
 
       &:hover {
         @apply text-gray-100;
@@ -251,5 +252,17 @@
     &.offline {
       @apply bg-gray-500;
     }
+  }
+}
+
+.head-no-title {
+  padding-top: 52px;
+}
+
+.collect-item {
+  @apply bg-slate-100 px-2 pb-6 shadow-sm mx-6 mb-6 rounded;
+
+  .collect-title {
+    @apply px-4 pt-6 text-lg text-indigo-600 font-semibold flex flex-row justify-between items-center;
   }
 }

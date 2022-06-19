@@ -41,6 +41,46 @@ const handlerProfile = async (req, res) => {
   }
 };
 
+const handlerPasswordChange = async (req, res) => {
+  try {
+    const { userId } = req.userPayload;
+    const { oldPassword, newPassword } = req.body;
+
+    const getPassword = await Users.findOne({ _id: userId })
+      .select({ password: 1 })
+      .exec();
+
+    if (!getPassword) throw new Error('User not found');
+
+    // Compare password
+    const isMatch = await bcrypt.compare(oldPassword, getPassword.password);
+    if (!isMatch) {
+      return res.status(401).json({
+        message: 'Password not match',
+        statusCode: 401,
+        timestamp: +new Date(),
+      });
+    }
+
+    // Create new password and update
+    const password = await bcrypt.hashSync(newPassword, 10);
+    await Users.findOneAndUpdate({ _id: userId }, { $set: { password } });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
 const handlerGetUserInformation = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -446,6 +486,7 @@ module.exports = {
   handlerGetUserInformation,
   handlerUpdateProfile,
   handlerUpdateProfileAvatar,
+  handlerPasswordChange,
   handlerAdminUsers,
   handlerAdminDeleteUsers,
   handlerAdminNewUsers,
