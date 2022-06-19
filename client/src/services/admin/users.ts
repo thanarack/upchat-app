@@ -4,7 +4,12 @@ import { generateHeaderWithToken } from '../../utils/generateHeader';
 // Define a service using a base URL and expected endpoints
 export const adminUsersApi = createApi({
   reducerPath: 'adminUsersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:4000/v1/admin' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl:
+      process.env.NODE_ENV === 'production'
+        ? 'http://206.189.38.110:4000/'
+        : 'http://localhost:4000/v1/',
+  }),
   tagTypes: ['Post'],
   endpoints: (build) => ({
     getAdminUsers: build.mutation({
