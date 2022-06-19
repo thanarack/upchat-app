@@ -34,7 +34,7 @@
     "eject": "react-scripts eject",
     "docker-build": "docker build -f Dockerfile -t upchat-client:prod ."
   },
-  "homepage": "/upchat/",
+  "homepage": ".",
   "eslintConfig": {
     "extends": [
       "react-app",
