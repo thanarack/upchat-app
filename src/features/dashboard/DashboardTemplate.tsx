@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 const PageTitle = (props: { title: string }) => {
   return (
-    <h2 className="font-ibm bg-slate-700 text-white text-lg px-4 py-3 shadow fixed top-0 w-full">
+    <h2 className="font-ibm bg-gradient-to-l from-slate-500 to-slate-700 text-white text-lg px-4 py-3 shadow fixed top-0 w-full">
       {props.title}
     </h2>
   );

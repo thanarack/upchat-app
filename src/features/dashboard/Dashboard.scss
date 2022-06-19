@@ -260,7 +260,7 @@
 }
 
 .collect-item {
-  @apply bg-slate-700 px-2 pb-6 shadow-sm mx-6 mb-6 rounded;
+  @apply bg-gradient-to-tr from-slate-700 to-slate-700 px-2 pb-6 shadow-sm mx-6 mb-6 rounded-xl;
 
   .collect-title {
     @apply font-ibm px-4 pt-6 text-lg text-gray-100 font-bold flex flex-row justify-between items-center;
