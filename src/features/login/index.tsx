@@ -16,8 +16,8 @@ const FeaturesLogin = () => {
   const [postLogin, { isLoading, isError, reset }] = usePostLoginMutation();
   const [getProfile] = useGetProfileMutation();
 
-  const [username, setUsername] = useState('thanarackc@gmail.com');
-  const [password, setPassword] = useState('123456');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const onLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
