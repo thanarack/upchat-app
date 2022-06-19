@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: mongo-dev
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_DATABASE=auth
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    networks:
+      - mongo-compose-network
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongoDB:/data/db
+
+  upchat-server:
+    container_name: upchat-server
+    image: upchat-server:prod
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - mongo-compose-network
+    ports:
+      - '4000:4000'
+    environment:
+      - APP_PORT=4000
+      - MONGO_URL=mongodb://admin:pass@db/?authMechanism=DEFAULT
+      - X_API_KEY=x1x2x3x4x5
+      - SESSION_KEY=upchat-app-session
+      - JWT_SECRET_KEY=upchat-app-2022
+      - JWT_REFRESH_SECRET_KEY=upchat-app-2022-1d-token
+      - BASE_URL=http://localhost
+
+  upchat-client:
+    container_name: upchat-client
+    image: upchat-client:prod
+    restart: always
+    depends_on:
+      - upchat-server
+    networks:
+      - mongo-compose-network
+    ports:
+      - '3000:80'
+
+networks:
+  mongo-compose-network:
+    driver: bridge

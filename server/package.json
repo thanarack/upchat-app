@@ -24,7 +24,8 @@
   },
   "scripts": {
     "start": "nodemon src/index.js",
-    "production": "pm2 start ecosystem.config.js --env production"
+    "production": "pm2 start ecosystem.config.js --env production",
+    "docker-build": "docker build -t upchat-server:prod ."
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",
