@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_ENVIRONMENT='dev' react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env REACT_APP_ENVIRONMENT='prod' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "docker-build": "cross-env REACT_APP_ENVIRONMENT='prod' docker build -f Dockerfile -t upchat-client:prod ."
