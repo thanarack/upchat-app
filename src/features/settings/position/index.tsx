@@ -161,7 +161,7 @@ const SettingPosition = () => {
           editValue={editValue}
         />
       )}
-      <label className="text-xl text-indigo-500 font-bold font-ibm">
+      <label className="text-xl text-indigo-600 font-bold font-ibm">
         # จัดตำแหน่งภายในบริษัท
       </label>
       <div className="mt-6">

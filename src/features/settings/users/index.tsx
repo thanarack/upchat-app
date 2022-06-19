@@ -154,7 +154,7 @@ const SettingUsers = () => {
           callBack={getInitialData}
         />
       )}
-      <label className="text-xl text-indigo-500 font-bold font-ibm">
+      <label className="text-xl text-indigo-600 font-bold font-ibm">
         # จัดการผู้ใช้งาน
       </label>
       <div className="mt-6">

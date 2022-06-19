@@ -12,10 +12,10 @@
 }
 
 .btn-indigo {
-  @apply text-white bg-indigo-500 transition;
+  @apply text-white bg-indigo-600 transition;
 
   &:hover {
-    @apply bg-indigo-400;
+    @apply bg-indigo-500;
   }
 }
 

@@ -92,7 +92,7 @@ const SettingLogs = () => {
 
   return (
     <div>
-      <label className="text-xl text-indigo-500 font-bold font-ibm">
+      <label className="text-xl text-indigo-600 font-bold font-ibm">
         # บันทึกการใช้งาน
       </label>
       <div className="border rounded-md px-6 py-6 mt-6 shadow-sm">

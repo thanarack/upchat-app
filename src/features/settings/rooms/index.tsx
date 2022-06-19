@@ -244,7 +244,7 @@ const SettingRooms = () => {
 
   return (
     <div>
-      <label className="text-xl text-indigo-500 font-bold font-ibm">
+      <label className="text-xl text-indigo-600 font-bold font-ibm">
         # จัดการห้องสทนา
       </label>
       <form
