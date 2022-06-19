@@ -53,7 +53,8 @@ const General = () => {
   // Profile image handler
   const [previewProfile, setPreviewProfile] = useState('/user-logo.png');
   const inputFileRef: any = useRef();
-  const pickImageHandler = () => {
+  const pickImageHandler = (e: any) => {
+    e.preventDefault();
     inputFileRef.current?.click();
   };
   const profileFiled = register('profile');
@@ -124,7 +125,7 @@ const General = () => {
                 src={previewProfile}
                 className="w-24 h-24 rounded-full"
               />
-              <div className="flex mt-2">
+              <div className="flex mt-4">
                 <input
                   type="file"
                   {...profileFiled}
@@ -139,13 +140,11 @@ const General = () => {
                   }}
                   className="hidden"
                 />
-                <button
+                <Button
                   onClick={pickImageHandler}
-                  type="button"
-                  className="px-4 py-1 text-sm bg-neutral-200 rounded"
-                >
-                  เลือกรูป
-                </button>
+                  text="เลือกรูป"
+                  size="sm"
+                />
               </div>
             </div>
             <div className="form-group mt-6">

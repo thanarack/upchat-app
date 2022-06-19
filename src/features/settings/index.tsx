@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import useRoute from '../../hooks/useRoute';
 import AdminPrivateRoute from '../../privateRoute/adminPrivateRoute';
 import { GetIcon } from '../../utils/icon';
@@ -45,19 +46,43 @@ const FeaturesSettings = () => {
           <div className="admin-left-slide">
             <div className="a-child">
               <ul className="a-menu">
-                <li onClick={() => onLink('rooms')} role="button">
+                <li
+                  onClick={() => onLink('rooms')}
+                  role="button"
+                  className={classNames({
+                    active: location.pathname === '/settings/rooms',
+                  })}
+                >
                   <GetIcon name="chevron-right" mode="outline" />
                   <span>ห้องสนทนา</span>
                 </li>
-                <li onClick={() => onLink('users')} role="button">
+                <li
+                  onClick={() => onLink('users')}
+                  role="button"
+                  className={classNames({
+                    active: location.pathname === '/settings/users',
+                  })}
+                >
                   <GetIcon name="chevron-right" mode="outline" />
                   <span>ผู้ใช้งาน</span>
                 </li>
-                <li onClick={() => onLink('position')} role="button">
+                <li
+                  onClick={() => onLink('position')}
+                  role="button"
+                  className={classNames({
+                    active: location.pathname === '/settings/position',
+                  })}
+                >
                   <GetIcon name="chevron-right" mode="outline" />
                   <span>ตำแหน่ง</span>
                 </li>
-                <li onClick={() => onLink('logs')} role="button">
+                <li
+                  onClick={() => onLink('logs')}
+                  role="button"
+                  className={classNames({
+                    active: location.pathname === '/settings/logs',
+                  })}
+                >
                   <GetIcon name="chevron-right" mode="outline" />
                   <span>บันทึกการใช้งาน</span>
                 </li>

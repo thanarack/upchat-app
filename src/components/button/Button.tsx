@@ -6,7 +6,7 @@ type IButton = {
   form?: string;
   size?: string;
   variant?: string;
-  onClick?: () => any;
+  onClick?: any;
 };
 
 const Button: React.FC<IButton> = (props) => {

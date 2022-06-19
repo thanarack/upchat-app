@@ -81,7 +81,7 @@ select {
   @apply w-2/12;
 
   .a-child {
-    @apply bg-indigo-50 h-full pl-4 py-4;
+    @apply bg-gradient-to-tr from-slate-700 to-slate-700 h-full pl-4 py-4;
   }
 }
 
@@ -94,14 +94,18 @@ select {
   @apply pr-4;
 
   li {
-    @apply py-2 flex flex-row gap-1 pl-2 items-baseline bg-indigo-100 mb-4 text-sm rounded-md text-gray-800;
+    @apply font-ibm font-medium py-2 flex flex-row gap-1 pl-2 items-baseline bg-slate-800 shadow-sm mb-4 text-sm rounded-md text-gray-300;
 
     svg {
       @apply top-0.5 relative font-bold;
     }
 
     &:hover {
-      @apply text-gray-900 bg-slate-300;
+      @apply text-gray-900 bg-white;
+    }
+
+    &.active {
+      @apply text-gray-900 bg-white;
     }
   }
 }

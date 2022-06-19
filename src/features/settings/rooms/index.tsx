@@ -250,13 +250,21 @@ const SettingRooms = () => {
       <form
         onSubmit={onUpdateRooms}
         id="form-room"
-        className="rounded-md mt-6 bg-indigo-50"
+        className="rounded-md mt-6 bg-gradient-to-tr from-slate-700 to-slate-700"
       >
         <div className="w-8/12 grid grid-cols-2 gap-4">
           <div>
             <div className="form-group mt-6">
-              {!editId && <label>ชื่อห้องใหม่</label>}
-              {editId && <label>แก้ไขห้อง</label>}
+              {!editId && (
+                <label>
+                  <span className="text-gray-300">ชื่อห้องใหม่</span>
+                </label>
+              )}
+              {editId && (
+                <label>
+                  <span className="text-gray-300">แก้ไขห้อง</span>
+                </label>
+              )}
               <input
                 type="text"
                 value={input}
