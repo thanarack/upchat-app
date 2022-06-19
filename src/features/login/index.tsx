@@ -64,7 +64,7 @@ const FeaturesLogin = () => {
           </div>
           <div className="px-8 py-8 rounded-3xl w-full shadow-md bg-slate-800">
             <div className="text-center w-full mb-6">
-              <label className="text-2xl text-white">เข้าร่วมการพูดคุย</label>
+              <label className="text-2xl text-white font-ibm">เข้าร่วมการพูดคุย</label>
             </div>
             {!isLoading && isError && (
               <div className="text-sm text-rose-500 px-1 py-1 mt-1">

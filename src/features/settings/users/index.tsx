@@ -154,8 +154,8 @@ const SettingUsers = () => {
           callBack={getInitialData}
         />
       )}
-      <label className="text-xl text-indigo-500 font-semibold">
-        #จัดการผู้ใช้งาน
+      <label className="text-xl text-indigo-500 font-bold font-ibm">
+        # จัดการผู้ใช้งาน
       </label>
       <div className="mt-6">
         <Button text="เพิ่มผู้ใช้" onClick={() => setOpen(true)} />

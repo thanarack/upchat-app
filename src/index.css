@@ -2,6 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-Thin.woff2');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-ExtraLight.woff2');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-Light.woff2');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-Regular.woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-Medium.woff2');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-SemiBold.woff2');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  src: url('/public/fonts/IBMPlexSansThai-Bold.woff2');
+  font-weight: 700;
+}
+
+
 html,
 body {
   font-family: tahoma, arial, helvetica, sans-serif !important;
@@ -9,4 +52,8 @@ body {
 
 .chat-full-height {
   height: calc(100vh - 6rem);
+}
+
+.font-ibm {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
 }

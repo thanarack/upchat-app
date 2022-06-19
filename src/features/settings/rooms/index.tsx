@@ -244,8 +244,8 @@ const SettingRooms = () => {
 
   return (
     <div>
-      <label className="text-xl text-indigo-500 font-semibold">
-        #จัดการห้องสทนา
+      <label className="text-xl text-indigo-500 font-bold font-ibm">
+        # จัดการห้องสทนา
       </label>
       <form
         onSubmit={onUpdateRooms}
