@@ -15,11 +15,16 @@ import {
 
 const { user }: any = store.getState();
 
-const AppSocket = io('ws://localhost:4000', {
-  timeout: 15000,
-  transports: ['websocket'],
-  query: { userId: user?.user?.userId || null },
-});
+const AppSocket = io(
+  process.env.NODE_ENV === 'production'
+    ? 'ws://206.189.38.110:4000'
+    : 'ws://localhost:4000',
+  {
+    timeout: 15000,
+    transports: ['websocket'],
+    query: { userId: user?.user?.userId || null },
+  }
+);
 
 const handlerMessageType = (payload: any) => {
   const { user, chat, rooms }: any = store.getState();
