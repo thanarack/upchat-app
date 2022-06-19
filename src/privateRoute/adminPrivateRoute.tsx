@@ -1,25 +1,29 @@
-import { useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import useRoute from '../hooks/useRoute';
 import PrivateRoute from './index';
 
 const AdminPrivateRoute = ({ children }: any) => {
-  const { user } = useAuth();
-  const { navigate, location } = useRoute();
+  const [isReady, setIsReady] = useState(false);
+  const { userRole, userId } = useAuth();
+  const { navigate } = useRoute();
 
   // Check admin
   useEffect(() => {
-    if (!['adminitrator'].includes(user.user.role)) {
+    if (userId && userRole && !['administrator'].includes(userRole)) {
       return navigate({
         pathname: '/dashboard',
-        search: '?redirect=' + location.pathname,
       });
     }
-  }, [user.user.role]);
+    if (userId && userRole && ['administrator'].includes(userRole)) {
+      setIsReady(true);
+    }
+  }, [userRole, userId]);
 
   return (
-    <PrivateRoute>
-      <div id="admin-private-children">{children}</div>
+    <PrivateRoute isLoadingPrivate={!isReady}>
+      {isReady && <div id="admin-private-children">{children}</div>}
     </PrivateRoute>
   );
 };

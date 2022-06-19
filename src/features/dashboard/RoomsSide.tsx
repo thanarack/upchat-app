@@ -160,7 +160,7 @@ const RoomsSide = () => {
         <div className="px-4 mt-6">
           <div className="px-3 border text-sm py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
             <span>ห้องของคุณ</span>
-            {['adminitrator'].includes(user.user.role) && (
+            {['administrator'].includes(user.user.role) && (
               <div role="button" onClick={() => navigate('/settings/rooms')}>
                 <GetIcon mode="outline" name="plus" />
               </div>
@@ -191,7 +191,7 @@ const RoomsSide = () => {
           >
             <GetIcon mode="outline" name="user" />
           </li>
-          {['adminitrator'].includes(user.user.role) && (
+          {['administrator'].includes(user.user.role) && (
             <li
               aria-label="User setting"
               title="User setting"
