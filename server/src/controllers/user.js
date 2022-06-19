@@ -163,6 +163,7 @@ const handlerUpdateProfileAvatar = async (req, res) => {
     // Upload image
     await new Promise((resolve, reject) =>
       upload(req, res, (err) => {
+        console.log(req.file)
         fileName = req.file.filename;
         if (err) {
           reject(err);
