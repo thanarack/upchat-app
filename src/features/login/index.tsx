@@ -7,8 +7,6 @@ import {
   usePostLoginMutation,
 } from '../../services/users';
 
-// const mockData = require('../../mockData.json');
-
 const FeaturesLogin = () => {
   const { userSetLogin, userSetLoginUser } = useAuth();
   const { navigate } = useRoute();
@@ -50,6 +48,7 @@ const FeaturesLogin = () => {
           style={{
             background: 'url(/images/login-bg.jpg)',
             backgroundSize: 'cover',
+            backgroundPosition: 'center center',
           }}
         />
       </div>
