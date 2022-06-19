@@ -3,7 +3,7 @@ const { Messages } = require('../models/messages');
 const { UserChannel } = require('../models/userChannel');
 const { Users } = require('../models/users');
 const generateTitleName = require('../utils/generateTitleName');
-const Log = require('./log');
+const { Log } = require('./log');
 
 const handlerRooms = async (req, res) => {
   try {
@@ -13,6 +13,7 @@ const handlerRooms = async (req, res) => {
     const userPayload = req.userPayload;
     const getAllUsersChannel = await UserChannel.find({
       userId: userPayload.userId,
+      isDelete: false,
     }).populate([
       {
         path: 'channelId',
@@ -64,15 +65,13 @@ const handlerRooms = async (req, res) => {
   }
 };
 
-const handlerAddRoom = async (req, res) => {
+const handlerAdminAddRoom = async (req, res) => {
   try {
     // Payload
     const { roomType, title, userAllow, targetUserId } = req.body;
 
     // Validate body payload.
-    if (!roomType) {
-      throw new Error('Body Invalid');
-    }
+    if (!roomType) throw new Error('Body Invalid');
 
     let dataPayload;
 
@@ -164,6 +163,7 @@ const handlerAddRoom = async (req, res) => {
         channelId: addRoom._id,
         userId: value._id,
         count: 0,
+        isDelete: false,
       }));
 
       // const addChannelRoom = await UserChannel.bulkSave()
@@ -349,10 +349,212 @@ const getRoomMessages = async ({ channelId, pageNumber }) => {
   return formatData;
 };
 
+const handlerAdminRooms = async (req, res) => {
+  try {
+    let data = [];
+
+    const getAllUsersChannel = await Channels.find({
+      roomType: 'group',
+      userAllow: 'public',
+      isDelete: false,
+    }).sort({ createdAt: -1 });
+
+    // Map to frontend json structures.
+    if (getAllUsersChannel.length) {
+      for (let i = 0; i < getAllUsersChannel.length; i++) {
+        const v = getAllUsersChannel[i];
+        const countTotalUser = await UserChannel.count({
+          channelId: v._id,
+          isDelete: false,
+        });
+        data.push({
+          channelId: v._id,
+          title: v.title,
+          count: countTotalUser,
+          createdAt: v.createdAt || v.updatedAt || 0,
+        });
+      }
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data, total: data.length },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminDeleteRooms = async (req, res) => {
+  try {
+    const { channelId } = req.query;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    const result = await Channels.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isDelete: true,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'Room not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminUpdateRooms = async (req, res) => {
+  try {
+    const { channelId, title } = req.body;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    const result = await Channels.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        title,
+      }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: 'Room not found',
+        statusCode: 404,
+        timestamp: +new Date(),
+      });
+    }
+
+    const getLastUpdate = await Channels.findOne({
+      _id: id,
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: getLastUpdate },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    throw error;
+  }
+};
+
+const handlerAdminUserRooms = async (req, res) => {
+  try {
+    const { channelId } = req.query;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    const result = await UserChannel.find({
+      channelId: id,
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result, total: result.length },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
+const handlerAdminUpdateUserRooms = async (req, res) => {
+  try {
+    const { channelId, userId, isActive } = req.body;
+
+    let id = null;
+
+    // Check object id
+    if (channelId.match(/^[0-9a-fA-F]{24}$/)) id = channelId;
+
+    await UserChannel.findOneAndUpdate(
+      {
+        channelId: id,
+        userId: userId,
+      },
+      {
+        channelId: id,
+        userId: userId,
+        isDelete: isActive === '1' ? false : true,
+      },
+      { upsert: true }
+    );
+
+    const resultChannel = await Channels.findOne({
+      _id: id,
+    }).lean();
+
+    const response = {
+      ...resultChannel,
+      id: resultChannel._id,
+      unReadCount: resultChannel.count || 0,
+      isConnected: true,
+      profileUrl: '',
+    };
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: response },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
 module.exports = {
   handlerRooms,
-  handlerAddRoom,
+  handlerAdminAddRoom,
   handlerDeleteRoom,
   handlerGetRoomMessage,
-  getRoomMessages
+  getRoomMessages,
+  handlerAdminRooms,
+  handlerAdminDeleteRooms,
+  handlerAdminUpdateRooms,
+  handlerAdminUserRooms,
+  handlerAdminUpdateUserRooms,
 };

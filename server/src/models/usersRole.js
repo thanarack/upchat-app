@@ -5,6 +5,7 @@ const usersRoleSchema = new Schema(
   {
     title: String,
     isDelete: Boolean,
+    roleKey: String
   },
   { collection: 'users_role', timestamps: true }
 );

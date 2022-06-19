@@ -15,14 +15,17 @@
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
+    "multer": "^1.4.5-lts.1",
     "pino": "^7.9.2",
     "pm2": "^5.2.0",
+    "sharp": "^0.30.6",
     "socket.io": "^4.4.1",
     "uWebSockets.js": "uNetworking/uWebSockets.js#v20.4.0"
   },
   "scripts": {
     "start": "nodemon src/index.js",
-    "production": "pm2 start ecosystem.config.js --env production"
+    "production": "pm2 start ecosystem.config.js --env production",
+    "docker-build": "docker build -t upchat-server:prod ."
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.6",

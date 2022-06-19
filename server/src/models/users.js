@@ -19,6 +19,9 @@ const userSchema = new Schema(
     positionId: { type: Schema.Types.ObjectId, ref: UsersPosition },
     roleId: { type: Schema.Types.ObjectId, ref: UsersRole },
     isDelete: Boolean,
+    birthDate: { type: Schema.Types.Date },
+    address: String,
+    gender: String,
   },
   { collection: 'users', timestamps: true }
 );

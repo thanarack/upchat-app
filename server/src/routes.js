@@ -3,17 +3,38 @@ const handlerContact = require('./controllers/contact');
 
 // Import handler modules
 const handlerHome = require('./controllers/home');
+const { handlerAdminLogs } = require('./controllers/log');
 const handlerLogin = require('./controllers/login');
-const { handlerRooms, handlerAddRoom, handlerDeleteRoom, handlerGetRoomMessage } = require('./controllers/rooms');
+const {
+  handlerRooms,
+  handlerGetRoomMessage,
+  handlerAdminRooms,
+  handlerAdminDeleteRooms,
+  handlerAdminUpdateRooms,
+  handlerAdminUserRooms,
+  handlerAdminUpdateUserRooms,
+  handlerAdminAddRoom,
+} = require('./controllers/rooms');
 const {
   handlerProfile,
   handlerGetUserInformation,
+  handlerUpdateProfile,
+  handlerUpdateProfileAvatar,
+  handlerAdminUsers,
+  handlerAdminDeleteUsers,
+  handlerAdminNewUsers,
+  handlerAdminUserPosition,
+  handlerAdminDeletePosition,
+  handlerAdminNewPosition,
+  handlerAdminUpdatePosition,
+  handlerPasswordChange,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
 
 // Middleware
 const getUserToken = (req, res, next) => {
   try {
+    // Check header key
     const { headers } = req;
     if (headers['x-api-key'] !== process.env.X_API_KEY) {
       return res
@@ -49,6 +70,7 @@ const checkToken = async (req, res, next) => {
   });
   return next();
 };
+// End upload
 
 const Routes = (app) => {
   app.use(getUserToken);
@@ -61,9 +83,40 @@ const Routes = (app) => {
 
   // Rooms
   app.get('/rooms', checkToken, handlerRooms);
-  app.post('/rooms/add', checkToken, handlerAddRoom);
-  app.post('/rooms/delete', checkToken, handlerDeleteRoom);
   app.get('/rooms/messages', checkToken, handlerGetRoomMessage);
+
+  // Profile
+  app.post('/profile/update', checkToken, handlerUpdateProfile);
+  app.post('/profile/update-password', checkToken, handlerPasswordChange);
+  app.post('/profile/avatar', checkToken, handlerUpdateProfileAvatar);
+
+  // Admin
+  app.post('/admin/rooms/add', checkToken, handlerAdminAddRoom);
+  app.get('/admin/rooms', checkToken, handlerAdminRooms);
+  app.get('/admin/delete/rooms', checkToken, handlerAdminDeleteRooms);
+  app.post('/admin/update/rooms', checkToken, handlerAdminUpdateRooms);
+  app.get('/admin/users', checkToken, handlerAdminUsers);
+  app.get('/admin/delete/users', checkToken, handlerAdminDeleteUsers);
+  app.post('/admin/new/users', checkToken, handlerAdminNewUsers);
+  app.get('/admin/users/position', checkToken, handlerAdminUserPosition);
+  app.get(
+    '/admin/delete/users/position',
+    checkToken,
+    handlerAdminDeletePosition
+  );
+  app.post('/admin/new/users/position', checkToken, handlerAdminNewPosition);
+  app.post(
+    '/admin/update/users/position',
+    checkToken,
+    handlerAdminUpdatePosition
+  );
+  app.get('/admin/logs', checkToken, handlerAdminLogs);
+  app.get('/admin/users/rooms', checkToken, handlerAdminUserRooms);
+  app.post(
+    '/admin/users/update/rooms',
+    checkToken,
+    handlerAdminUpdateUserRooms
+  );
 
   return app;
 };

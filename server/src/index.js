@@ -39,6 +39,9 @@ app.use(
   })
 );
 
+// Public static
+app.use(express.static('public'));
+
 // Socket start
 socketHandler(server);
 
