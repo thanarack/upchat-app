@@ -11,7 +11,7 @@ services:
     networks:
       - mongo-compose-network
     ports:
-      - '27017:27017'
+      - '27018:27017'
     volumes:
       - ./mongoDB:/data/db
 
