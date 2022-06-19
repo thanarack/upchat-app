@@ -35,7 +35,7 @@ services:
       - JWT_SECRET_KEY=upchat-app-2022
       - JWT_REFRESH_SECRET_KEY=upchat-app-2022-1d-token
       - BASE_URL=http://206.189.38.110:3000
-      - BASE_URL_API=http://206.189.38.110:400
+      - BASE_URL_API=http://206.189.38.110:4000
 
   upchat-client:
     container_name: upchat-client
