@@ -31,7 +31,7 @@
   @apply w-full border rounded-md px-3 h-10 py-1.5 outline-none text-gray-600 shadow-sm resize-none;
 
   &:disabled {
-    @apply bg-slate-100;
+    @apply bg-slate-400 border-none text-gray-600;
   }
 }
 
@@ -68,7 +68,7 @@ select {
   @apply w-full relative;
 
   &::after {
-    content: "▼";
+    content: '▼';
     font-size: 1rem;
     top: 6px;
     right: 14px;
@@ -149,7 +149,6 @@ select {
     tr {
       td {
         @apply py-4 border-b text-gray-600 border-gray-100 text-sm;
-
       }
 
       &.no-found {
@@ -161,7 +160,6 @@ select {
           }
         }
       }
-
 
       &:last-child {
         td {
@@ -182,5 +180,33 @@ select {
 
 .select-user {
   height: 360px;
-  @apply bg-slate-200 rounded px-8 py-8 overflow-x-hidden overflow-y-scroll;
+  @apply bg-gradient-to-tr from-slate-700 to-slate-700 rounded px-4 py-4 overflow-x-hidden overflow-y-scroll;
+
+  li {
+    &:last-of-type {
+      @apply border-none;
+    }
+  }
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 0.275rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    @apply bg-slate-600;
+    border-radius: 0.25rem !important;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    @apply bg-slate-500;
+    border-radius: 0.25rem !important;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-600;
+  }
 }

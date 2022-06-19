@@ -77,7 +77,7 @@ const RoomsAssignModal = (props: {
               📬<span>{props.titleRoom}</span>
             </span>
           </div>
-          <div className="mt-6 mb-6">
+          <div className="mt-4 mb-4">
             <div className="select-user">
               <ul>
                 {membersActive.length > 0 &&

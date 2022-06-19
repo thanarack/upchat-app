@@ -62,7 +62,7 @@ const UserItem = (props: any) => {
   return (
     <li
       key={data.userId}
-      className="flex flex-row items-center justify-between gap-2 py-2.5 text-gray-600 border-b border-slate-300"
+      className="flex flex-row items-center justify-between gap-2 py-3 text-gray-300 border-b border-slate-600"
     >
       <div className="flex flex-row gap-2 items-center">
         <img
