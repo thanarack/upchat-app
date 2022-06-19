@@ -6,6 +6,28 @@
 
   .room-slide {
     @apply overflow-hidden overflow-y-auto pb-20;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 0.275rem;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      @apply bg-slate-800;
+      border-radius: 0.25rem !important;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      @apply bg-slate-600;
+      border-radius: 0.25rem !important;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      @apply bg-slate-800;
+    }
   }
 }
 

@@ -158,18 +158,18 @@ const RoomsSide = () => {
       />
       <div className="">
         <div className="px-4">
-          <div className="px-3 border text-sm py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
+          <div className="px-3 border text-sm py-2 h-10 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
             <span className="font-ibm">ห้องของคุณ</span>
             {['administrator'].includes(user.user.role) && (
               <div role="button" onClick={() => navigate('/settings/rooms')}>
-                <GetIcon mode="outline" name="plus" />
+                <GetIcon mode="outline" name="plus" size="lg" />
               </div>
             )}
           </div>
         </div>
         <ul className="db-rooms">{renderRooms()}</ul>
         <div className="px-4 mt-6">
-          <div className="border text-sm px-3 py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
+          <div className="border text-sm px-3 py-2 h-10 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
             <span className="font-ibm">ผู้ติดต่อล่าสุด</span>
           </div>
         </div>
