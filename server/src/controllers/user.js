@@ -195,7 +195,7 @@ const handlerUpdateProfileAvatar = async (req, res) => {
     const timestamp = +new Date();
     // Update profile
     const url = process.env.BASE_URL_API
-      ? process.env.BASE_URL_API
+      ? process.env.BASE_URL_API + '/profile/'
       : 'http://localhost:4000/profile/';
     await Users.findOneAndUpdate(
       { _id: userId },
