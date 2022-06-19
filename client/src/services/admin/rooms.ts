@@ -7,7 +7,7 @@ export const adminRoomsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:
       process.env.NODE_ENV === 'production'
-        ? 'http://206.189.38.110:4000/'
+        ? 'http://206.189.38.110:4000/v1/'
         : 'http://localhost:4000/v1/',
   }),
   tagTypes: ['Post'],
