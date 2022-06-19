@@ -13,7 +13,7 @@ const HeaderProfile = () => {
       <div onClick={() => navigate('/profile')} role="button">
         <img
           src={profileUrl ? profileUrl : `./user-logo.png`}
-          className="w-10 h-10 shadow-sm rounded-full"
+          className="w-10 h-10 shadow-sm rounded-full -mt-1"
           alt="Login user"
         />
       </div>

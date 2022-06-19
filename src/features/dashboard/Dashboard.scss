@@ -180,11 +180,11 @@
 }
 
 .dh-profile {
-  @apply text-sm;
+  @apply text-xs;
 
   span#online-status {
-    @apply mr-2 relative;
-    bottom: 0.1rem;
+    @apply mr-1 relative text-sm;
+    bottom: 0.18rem;
   }
 
   span#online-status.online {
