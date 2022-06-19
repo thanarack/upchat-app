@@ -9,7 +9,7 @@ const HeaderProfile = () => {
   const onSetUserConnect = () => userSetIsConnected(!getUser.isConnected);
 
   return (
-    <div className="px-4 mt-4 flex flex-row items-center space-x-3">
+    <div className="px-4 pb-4 mt-4 flex flex-row items-center space-x-3">
       <div onClick={() => navigate('/profile')} role="button">
         <img
           src={profileUrl ? profileUrl : `./user-logo.png`}

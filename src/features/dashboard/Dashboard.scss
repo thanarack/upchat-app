@@ -2,7 +2,11 @@
   width: 350px;
   min-width: 350px;
   max-width: 350px;
-  overflow-y: hidden;
+  @apply overflow-hidden;
+
+  .room-slide {
+    @apply overflow-hidden overflow-y-auto pb-20;
+  }
 }
 
 #right-side {
@@ -43,7 +47,7 @@
 
       i.app-icon {
         @apply mr-1 relative;
-        top: .1rem;
+        top: 0.1rem;
 
         &.unread {
           @apply font-medium text-white;
@@ -62,7 +66,6 @@
         @apply rounded-full bg-red-500 text-white text-xs mr-1 px-2 font-medium w-fit flex justify-center;
       }
     }
-
   }
 }
 
@@ -88,7 +91,6 @@
           @apply text-white;
         }
       }
-
     }
 
     &.room-not-found {
@@ -138,7 +140,6 @@
   }
 }
 
-
 .dh-menu-footer {
   @apply w-full flex flex-row justify-evenly;
 
@@ -155,16 +156,14 @@
       @apply text-gray-100;
     }
   }
-
 }
 
 .dh-profile {
-
   @apply text-sm;
 
   span#online-status {
     @apply mr-2 relative;
-    bottom: .1rem;
+    bottom: 0.1rem;
   }
 
   span#online-status.online {
@@ -224,7 +223,6 @@
         span#user {
           @apply truncate text-ellipsis overflow-hidden pr-4 pl-1.5 flex-grow;
         }
-
       }
     }
   }
@@ -233,7 +231,6 @@
   //   @apply w-full py-1 leading-5 text-sm;
   // }
 }
-
 
 .online-status-user {
   @apply mr-2 relative h-10 w-10;

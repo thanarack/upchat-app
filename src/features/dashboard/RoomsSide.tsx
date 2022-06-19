@@ -148,7 +148,7 @@ const RoomsSide = () => {
   };
 
   return (
-    <div>
+    <div className="room-slide">
       <ModalConfirmation
         title="ต้องการออกจากระบบใช่หรือไม่"
         isOpen={isOpenLogout}
@@ -157,7 +157,7 @@ const RoomsSide = () => {
         onClose={() => setIsOpenLogout(false)}
       />
       <div className="">
-        <div className="px-4 mt-6">
+        <div className="px-4">
           <div className="px-3 border text-sm py-2 border-slate-900 bg-slate-900 rounded-lg flex items-center justify-between">
             <span>ห้องของคุณ</span>
             {['administrator'].includes(user.user.role) && (
