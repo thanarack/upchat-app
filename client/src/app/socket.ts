@@ -16,7 +16,7 @@ import {
 const { user }: any = store.getState();
 
 const AppSocket = io(
-  process.env.REACT_APP_ENVIRONMENT === 'production'
+  process.env.REACT_APP_ENVIRONMENT === 'prod'
     ? 'ws://206.189.38.110:4000'
     : 'ws://localhost:4000',
   {
