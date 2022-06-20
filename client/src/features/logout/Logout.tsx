@@ -50,6 +50,7 @@ const FeaturesLogout = () => {
 
     // Delay and get back to home page
     setTimeout(() => {
+      count = 1
       navigate('/login');
     }, 10);
   };
