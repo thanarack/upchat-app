@@ -59,6 +59,7 @@ const Action = (props: {
         onClose={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         onAccept={onDelete}
+        acceptLoading={getAdminDeleteUsersPositionResult.isLoading}
       />
       <div className="flex flex-row gap-4 justify-end">
         <Button

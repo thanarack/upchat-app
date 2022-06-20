@@ -19,7 +19,7 @@ const NewPositionModel = (props: {
 
   // Initialize necessary form function.
   const [postAdminNewUserPosition] = usePostAdminNewUserPositionMutation();
-  const [postAdminUpdateUserPosition] =
+  const [postAdminUpdateUserPosition, postAdminUpdateUserPositionResult] =
     usePostAdminUpdateUserPositionMutation();
   const { handleSubmit, register, setValue } = useForm();
 
@@ -86,7 +86,11 @@ const NewPositionModel = (props: {
               />
             </div>
             <div className="flex justify-end flex-row gap-4">
-              <Button text="บันทึก" form="user-form" />
+              <Button
+                text="บันทึก"
+                form="user-form"
+                isLoading={postAdminUpdateUserPositionResult.isLoading}
+              />
               <Button text="ยกเลิก" variant="gray" onClick={onClose} />
             </div>
           </div>

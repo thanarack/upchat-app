@@ -69,6 +69,7 @@ const Action = (props: {
         onClose={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         onAccept={onDelete}
+        acceptLoading={getAdminDeleteRoomsResult.isLoading}
       />
       <RoomsAssignModal
         titleRoom={props.value.title}
@@ -174,8 +175,10 @@ const SettingRooms = () => {
       setInput(data.title);
     }
   };
-  const [serviceAdminAddUserRoom] = usePostAdminUserRoomMutation();
-  const [serviceAdminUpdateUserRoom] = usePostAdminUpdateRoomsMutation();
+  const [serviceAdminAddUserRoom, serviceAdminAddUserRoomResult] =
+    usePostAdminUserRoomMutation();
+  const [serviceAdminUpdateUserRoom, serviceAdminUpdateUserRoomResult] =
+    usePostAdminUpdateRoomsMutation();
   const onUpdateRooms = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -275,7 +278,14 @@ const SettingRooms = () => {
             </div>
           </div>
           <div className="flex flex-row items-center gap-2">
-            <Button text={editId ? 'แก้ไข' : 'เพิ่มห้อง'} form="form-room" />
+            <Button
+              text={editId ? 'แก้ไข' : 'เพิ่มห้อง'}
+              form="form-room"
+              isLoading={
+                serviceAdminAddUserRoomResult.isLoading ||
+                serviceAdminUpdateUserRoomResult.isLoading
+              }
+            />
             {editId && (
               <Button text="ยกเลิก" variant="gray" onClick={resetEdit} />
             )}

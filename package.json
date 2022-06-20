@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd server && npm run docker-build && cd ../client && npm run docker-build"
+    "start": "docker-compose down && docker-compose up -d",
+    "build": "cd server && npm run docker-build && cd ../client && npm run docker-build",
+    "start-db": "docker-compose down && docker-compose up -d db"
   },
   "repository": {
     "type": "git",

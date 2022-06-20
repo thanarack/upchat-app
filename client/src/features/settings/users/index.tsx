@@ -23,18 +23,19 @@ export type Users = {
   lastName: string;
   position: string;
   createdAt: string;
-  role: string
+  role: string;
 };
 
 const table = createTable().setRowType<Users>();
 
 const Action = (props: { value: any; onRefetchData: () => void }) => {
   const [isOpen, setOpen] = useState(false);
-  const [getAdminDeleteRooms] = useGetAdminDeleteUsersMutation();
+  const [getAdminDeleteUsers, getAdminDeleteUsersResult] =
+    useGetAdminDeleteUsersMutation();
 
   const onDelete = async () => {
     try {
-      const result = await getAdminDeleteRooms(props.value.userId).unwrap();
+      const result = await getAdminDeleteUsers(props.value.userId).unwrap();
       if (result.statusCode === 200) {
         props.onRefetchData();
         toast('ลบข้อมูลสำเร็จ', { type: 'success' });
@@ -55,6 +56,7 @@ const Action = (props: { value: any; onRefetchData: () => void }) => {
         onClose={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         onAccept={onDelete}
+        acceptLoading={getAdminDeleteUsersResult.isLoading}
       />
       <div className="flex flex-row gap-4 justify-end">
         <Button
@@ -112,8 +114,7 @@ const SettingUsers = () => {
     }),
     table.createDataColumn('createdAt', {
       header: () => 'วันที่เพิ่ม',
-      cell: (info) =>
-        dayjs(info.getValue()).locale('th').format('DD/MM/YYYY'),
+      cell: (info) => dayjs(info.getValue()).locale('th').format('DD/MM/YYYY'),
     }),
     table.createDataColumn('userId', {
       header: () => <div id="action">จัดการ</div>,

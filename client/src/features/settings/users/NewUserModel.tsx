@@ -35,7 +35,8 @@ const NewUserModel = (props: {
   // End fetch data
 
   // Initialize necessary form function.
-  const [postAdminNewUser] = usePostAdminNewUsersMutation();
+  const [postAdminNewUser, postAdminNewUserResult] =
+    usePostAdminNewUsersMutation();
   const { handleSubmit, register } = useForm();
 
   const onSubmit = async (data: any) => {
@@ -109,7 +110,11 @@ const NewUserModel = (props: {
               </div>
             </div>
             <div className="flex justify-end flex-row gap-4">
-              <Button text="บันทึก" form="user-form" />
+              <Button
+                text="บันทึก"
+                form="user-form"
+                isLoading={postAdminNewUserResult.isLoading}
+              />
               <Button text="ยกเลิก" variant="gray" onClick={onClose} />
             </div>
           </div>
