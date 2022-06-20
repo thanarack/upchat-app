@@ -1,4 +1,3 @@
-import { ToastContainer } from 'react-toastify';
 import HeaderProfile from './HeaderProfile';
 import Search from './Search';
 import RoomsSide from './RoomsSide';
@@ -25,7 +24,6 @@ const DashboardTemplate: React.FC<TDashboardTemplate> = (props) => {
 
   return (
     <div className="flex flex-row h-screen">
-      <ToastContainer />
       {/* Left side */}
       <div id="left-side">
         <div className="flex w-full bg-gradient-to-tr from-slate-900 to-slate-800 h-full text-gray-100 flex-col relative">

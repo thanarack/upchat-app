@@ -19,6 +19,7 @@ const token = window.localStorage.getItem('upchat-app-token');
 
 const initialState: any = {
   isAuthenticated: token ? true : false,
+  forceLogout: false,
   user: {},
   token: '',
   clientId,
@@ -47,6 +48,9 @@ export const userSlice = createSlice({
     setUserImage: (state, action) => {
       state.user.profileUrl = action.payload;
     },
+    setForceLogout: (state, action) => {
+      state.forceLogout = action.payload;
+    },
   },
 });
 
@@ -57,6 +61,7 @@ export const {
   setUserConnect,
   reset,
   setUserImage,
+  setForceLogout
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

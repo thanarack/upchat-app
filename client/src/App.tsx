@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // Imported route module
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import AppSocket, {
   handlerLoginNoticeType,
   handlerMessageType,
@@ -15,6 +16,7 @@ import FeaturesLogin from './features/login';
 import FeaturesSettings from './features/settings';
 import FeaturesUserProfile from './features/userProfile';
 import FeaturesChatRoom from './features/chatRoom';
+import FeaturesLogout from './features/logout/Logout';
 import { useEffect, useState } from 'react';
 import useChat from './hooks/useChat';
 import useAuth from './hooks/useAuth';
@@ -36,11 +38,13 @@ AppSocket.on('new-message', (data) => {
 
 function App() {
   const history = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, userForceLogout } = useAuth();
   const [isConnect, setIsConnect] = useState(false);
   const { chatClearChannel } = useChat();
   const userInfo = user.user;
 
+  // When user has connected to server.
   useEffect(() => {
     // Emit data to server.
     if (user.isAuthenticated && userInfo) {
@@ -60,17 +64,25 @@ function App() {
     }
   }, [isConnect, user.isAuthenticated, userInfo]);
 
+  // When chat room url has been active.
   useEffect(() => {
     if (history.pathname !== '/chatroom') {
       chatClearChannel();
     }
   }, [history.pathname]);
 
+  // When user lose token or token expired
+  useEffect(() => {
+    if (userForceLogout) navigate('/logout');
+  }, [userForceLogout]);
+
   return (
     <div className="App">
+      <ToastContainer />
       <Routes>
         <Route key="home" path="/" element={<FeaturesHome />} />
         <Route key="login" path="login" element={<FeaturesLogin />} />
+        <Route key="logout" path="logout" element={<FeaturesLogout />} />
         <Route
           key="dashboard"
           path="dashboard"

@@ -6,8 +6,8 @@ import {
   setLogout,
   setUserConnect,
   reset as userSliceReset,
-  setUserImage
-  // setUserToLocalContact,
+  setUserImage,
+  setForceLogout,
 } from '../store/userSlice';
 import { reset as roomsSliceReset } from '../store/roomsSlice';
 import { reset as chatSliceReset } from '../store/chatSlice';
@@ -22,6 +22,7 @@ const useAuth = () => {
   const userSetLogin = () => dispatch(setLogin());
   const userSetLoginUser = (user: any) => dispatch(setLoginUser(user));
   const userSetImage = (user: any) => dispatch(setUserImage(user));
+  const userSetForceLogout = (value: any) => dispatch(setForceLogout(value));
   const userSetLogout = () => dispatch(setLogout());
   const userSetIsConnected = (value: any) => dispatch(setUserConnect(value));
   // const userSetUserToLocalContact = (value: any) =>
@@ -36,6 +37,7 @@ const useAuth = () => {
   const userId = userSlice.user.userId;
   const userRole = userSlice.user.role;
   const userIsConnected = userSlice.user.isConnected;
+  const userForceLogout = userSlice.forceLogout;
 
   return {
     user: userSlice,
@@ -49,8 +51,9 @@ const useAuth = () => {
     userSetIsConnected,
     userResetAllState,
     userIsConnected,
-    userSetImage
-    // userSetUserToLocalContact,
+    userSetImage,
+    userSetForceLogout,
+    userForceLogout,
   };
 };
 

@@ -11,7 +11,7 @@ const handlerLogin = async (req, res) => {
 
     const { username, password } = req.body;
 
-    const getUser = await Users.findOne({ username })
+    const getUser = await Users.findOne({ username, isDelete: false })
       .populate('roleId')
       .lean({})
       .exec();

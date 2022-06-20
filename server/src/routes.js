@@ -57,14 +57,20 @@ const checkToken = async (req, res, next) => {
   if (!userToken)
     return res
       .status(500)
-      .json({ statusCode: 500, message: 'Token not found' });
+      .json({
+        statusCode: 500,
+        message: 'Token not found',
+        errorCode: 'ER-002',
+      });
 
   // Verify token
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decode) => {
     if (err) {
-      return res
-        .status(500)
-        .json({ statusCode: 500, message: 'Token invalid' });
+      return res.status(500).json({
+        statusCode: 500,
+        message: 'Token invalid',
+        errorCode: 'ER-002',
+      });
     }
     req.userPayload = decode;
   });

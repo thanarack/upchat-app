@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import useChat from '../../hooks/useChat';
@@ -6,7 +7,6 @@ import useRoute from '../../hooks/useRoute';
 import { GetIcon } from '../../utils/icon';
 import { useGetRoomsMutation } from '../../services/users';
 import useAuth from '../../hooks/useAuth';
-import AppSocket from '../../app/socket';
 import ModalConfirmation from '../../shared/ModalConfirmation';
 
 type IChannelSlide = {
@@ -22,8 +22,7 @@ type IChannelSlide = {
 const RoomsSide = () => {
   const { navigate } = useRoute();
   const { chatSetChannel, getChannelId } = useChat();
-  const { userSetLogout, userSetLoginUser, user, userResetAllState } =
-    useAuth();
+  const { user } = useAuth();
   const { myRooms, roomsSetInitialRooms } = useRooms();
   const [isOpenLogout, setIsOpenLogout] = useState(false);
   const [serviceGetRoomsService] = useGetRoomsMutation();
@@ -132,24 +131,7 @@ const RoomsSide = () => {
     ));
   };
 
-  const onLogout = () => {
-    userSetLogout();
-    userSetLoginUser({});
-    userResetAllState();
-    window.localStorage.removeItem('upchat-app-token');
-    window.localStorage.removeItem('upchat-app-client-id');
-    window.localStorage.removeItem('ally-supports-cache');
-    AppSocket.emit('sent-message', {
-      type: 'login-notice',
-      payload: {
-        userId: user.user.userId,
-        value: false,
-      },
-    });
-    setTimeout(() => {
-      navigate('/');
-    }, 10);
-  };
+  const onLogout = () => navigate('/logout');
 
   return (
     <div className="room-slide">
