@@ -30,6 +30,7 @@ const {
   handlerPasswordChange,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
+const { Users } = require('./models/users');
 
 // Middleware
 const getUserToken = (req, res, next) => {
@@ -55,13 +56,11 @@ const checkToken = async (req, res, next) => {
   // Get token existing
   const userToken = await Token.findOne({ token }).exec();
   if (!userToken)
-    return res
-      .status(500)
-      .json({
-        statusCode: 500,
-        message: 'Token not found',
-        errorCode: 'ER-002',
-      });
+    return res.status(500).json({
+      statusCode: 500,
+      message: 'Token not found',
+      errorCode: 'ER-002',
+    });
 
   // Verify token
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decode) => {
@@ -74,9 +73,21 @@ const checkToken = async (req, res, next) => {
     }
     req.userPayload = decode;
   });
+
+  // Verify existing user
+  const { userId } = req.userPayload;
+  const user = await Users.findOne({ _id: userId, isDelete: false }).exec();
+  if (!user) {
+    return res.status(500).json({
+      statusCode: 500,
+      message: 'Token & User not existing',
+      errorCode: 'ER-002',
+    });
+  }
+
+  // If no found error, return
   return next();
 };
-// End upload
 
 const Routes = (app) => {
   app.use(getUserToken);
