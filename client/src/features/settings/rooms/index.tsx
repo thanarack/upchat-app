@@ -255,16 +255,16 @@ const SettingRooms = () => {
         id="form-room"
         className="rounded-md mt-6 bg-gradient-to-tr from-slate-700 to-slate-700"
       >
-        <div className="w-8/12 grid grid-cols-2 gap-4">
-          <div>
+        <div className="w-full flex flex-row gap-4 px-4">
+          <div className="w-full xl:w-5/12">
             <div className="form-group mt-6">
               {!editId && (
-                <label>
+                <label className="">
                   <span className="text-gray-300">ชื่อห้องใหม่</span>
                 </label>
               )}
               {editId && (
-                <label>
+                <label className="">
                   <span className="text-gray-300">แก้ไขห้อง</span>
                 </label>
               )}

@@ -78,6 +78,7 @@ select {
 
 .admin-left-slide {
   height: calc(100vh - 52px);
+  min-width: 260px;
   @apply w-2/12;
 
   .a-child {
@@ -114,6 +115,7 @@ select {
   @apply pr-4;
 
   li {
+    white-space: nowrap;
     @apply font-ibm font-medium py-2 flex flex-row gap-1 pl-2 items-baseline bg-slate-800 shadow-sm mb-4 text-sm rounded-md text-gray-400;
 
     svg {
@@ -180,7 +182,7 @@ select {
 
 .select-user {
   height: 360px;
-  @apply bg-gradient-to-tr from-slate-700 to-slate-700 rounded px-4 py-4 overflow-x-hidden overflow-y-scroll;
+  @apply px-4 py-4 overflow-x-hidden overflow-y-scroll w-full;
 
   li {
     &:last-of-type {
@@ -195,18 +197,18 @@ select {
 
   /* Track */
   &::-webkit-scrollbar-track {
-    @apply bg-slate-600;
+    @apply bg-slate-300;
     border-radius: 0.25rem !important;
   }
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    @apply bg-slate-500;
+    @apply bg-slate-200;
     border-radius: 0.25rem !important;
   }
 
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-600;
+    @apply bg-slate-300;
   }
 }

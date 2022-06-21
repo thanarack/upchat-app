@@ -13,12 +13,9 @@ const FeaturesProfileSetting = () => {
     <DashboardTemplate isSearch={false} pageTitle="Profile - ข้อมูลผู้ใช้">
       <div className="collect-item md:mt-16 mt-4 mb-12" id="general">
         <div className="collect-title">
-          <span
-            role="button"
-            onClick={() => setIsShowGeneral(!isShowGeneral)}
-          >
+          <div role="button" onClick={() => setIsShowGeneral(!isShowGeneral)}>
             # ข้อมูลผู้ใช้ทั่วไป
-          </span>
+          </div>
           <div role="button" onClick={() => setIsShowGeneral(!isShowGeneral)}>
             {isShowGeneral && (
               <GetIcon mode="outline" name="chevron-up" size="xl" />
@@ -32,12 +29,9 @@ const FeaturesProfileSetting = () => {
       </div>
       <div className="collect-item" id="password">
         <div className="collect-title">
-          <span
-            role="button"
-            onClick={() => setIsShowPassword(!isShowPassword)}
-          >
+          <div role="button" onClick={() => setIsShowPassword(!isShowPassword)}>
             # เปลี่ยนรหัสผ่าน
-          </span>
+          </div>
           <div role="button" onClick={() => setIsShowPassword(!isShowPassword)}>
             {isShowPassword && (
               <GetIcon mode="outline" name="chevron-up" size="xl" />

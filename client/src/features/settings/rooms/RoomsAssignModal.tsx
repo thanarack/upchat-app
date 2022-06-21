@@ -70,8 +70,8 @@ const RoomsAssignModal = (props: {
 
   return (
     <ModalComponent isOpen={isOpen} onClose={onHandleClose}>
-      <div className="container flex justify-center mt-6 w-full">
-        <div className="md:max-w-xl w-full">
+      <div className="flex justify-center mt-6 w-full">
+        <div className="w-full">
           <div className="text-center text-xl text-gray-500 flex flex-col font-ibm font-semibold">
             <span className="text-xl mr-2 mb-2">
               📬<span>{props.titleRoom}</span>
