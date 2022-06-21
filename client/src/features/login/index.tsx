@@ -6,8 +6,12 @@ import {
   useGetProfileMutation,
   usePostLoginMutation,
 } from '../../services/users';
+import { GetIcon } from '../../utils/icon';
+import Register from './Register';
 
 const FeaturesLogin = () => {
+  const [isRegistered, setIsRegistered] = useState(false);
+
   const { userSetLogin, userSetLoginUser, userSetForceLogout } = useAuth();
   const { navigate } = useRoute();
 
@@ -64,55 +68,75 @@ const FeaturesLogin = () => {
             />
           </div>
           <div className="px-8 py-8 rounded-3xl w-full shadow-md bg-slate-800">
-            <div className="text-center w-full mb-6">
-              <label className="text-2xl text-white font-ibm">
-                เข้าร่วมการพูดคุย
-              </label>
-            </div>
-            {!isLoading && isError && (
-              <div className="text-sm text-rose-500 px-1 py-1 mt-1">
-                กรุณาตรวจสอบ ผู้ใช้งาน หรือ รหัสผ่าน ให้ถูกต้อง
+            {!isRegistered && (
+              <div id="login-module">
+                <div className="text-center w-full mb-6">
+                  <label className="text-2xl text-white font-ibm">
+                    เข้าร่วมการพูดคุย
+                  </label>
+                </div>
+                {!isLoading && isError && (
+                  <div className="text-sm text-rose-500 px-1 py-1 mt-1">
+                    กรุณาตรวจสอบ ผู้ใช้งาน หรือ รหัสผ่าน ให้ถูกต้อง
+                  </div>
+                )}
+                <form id="form-login" onSubmit={onLogin} className="mt-4">
+                  <div className="mb-6">
+                    <input
+                      required
+                      placeholder="ผู้ใช้งาน"
+                      type="text"
+                      maxLength={200}
+                      autoComplete="off"
+                      className="w-full shadow-sm rounded-md px-3 py-3 outline-none text-sm bg-slate-300"
+                      value={username}
+                      onChange={(e) => {
+                        reset();
+                        setUsername(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <input
+                      required
+                      placeholder="รหัสผ่าน"
+                      type="password"
+                      maxLength={200}
+                      autoComplete="off"
+                      className="w-full shadow-sm rounded-md px-3 py-3 outline-none text-sm bg-slate-300"
+                      value={password}
+                      onChange={(e) => {
+                        reset();
+                        setPassword(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-row justify-between items-center">
+                    <Button
+                      form="form-login"
+                      isLoading={isLoading}
+                      text="เข้าสู่ระบบ"
+                    />
+                    <div
+                      className="flex flex-row gap-2 items-center text-white"
+                      onClick={() => setIsRegistered(true)}
+                      role="button"
+                    >
+                      <GetIcon
+                        mode="outline"
+                        name="identification"
+                        size="lg"
+                        className="mt-1"
+                      />
+                      <span>ลงทะเบียน</span>
+                    </div>
+                  </div>
+                </form>
               </div>
             )}
-            <form id="form-login" onSubmit={onLogin} className="mt-4">
-              <div className="mb-6">
-                <input
-                  required
-                  placeholder="ผู้ใช้งาน"
-                  type="text"
-                  maxLength={200}
-                  autoComplete="off"
-                  className="w-full shadow-sm rounded-md px-3 py-3 outline-none text-sm bg-slate-300"
-                  value={username}
-                  onChange={(e) => {
-                    reset();
-                    setUsername(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  required
-                  placeholder="รหัสผ่าน"
-                  type="password"
-                  maxLength={200}
-                  autoComplete="off"
-                  className="w-full shadow-sm rounded-md px-3 py-3 outline-none text-sm bg-slate-300"
-                  value={password}
-                  onChange={(e) => {
-                    reset();
-                    setPassword(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="flex">
-                <Button
-                  form="form-login"
-                  isLoading={isLoading}
-                  text="เข้าสู่ระบบ"
-                />
-              </div>
-            </form>
+            {isRegistered && (
+              <Register onBackToLogin={() => setIsRegistered(false)} />
+            )}
           </div>
         </div>
       </div>

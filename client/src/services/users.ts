@@ -24,6 +24,14 @@ export const usersApi = createApi({
         body: { username, password },
       }),
     }),
+    postRegister: build.mutation({
+      query: (body) => ({
+        url: 'register',
+        method: 'post',
+        headers: generateHeader(),
+        body,
+      }),
+    }),
     getProfile: build.mutation({
       query: () => ({
         url: 'profile',
@@ -100,4 +108,5 @@ export const {
   usePostProfileUpdateMutation,
   usePostProfileImageUpdateMutation,
   usePostProfileUpdatePasswordMutation,
+  usePostRegisterMutation,
 } = usersApi;

@@ -28,6 +28,7 @@ const {
   handlerAdminNewPosition,
   handlerAdminUpdatePosition,
   handlerPasswordChange,
+  handlerUsersRegister,
 } = require('./controllers/user');
 const { Token } = require('./models/token');
 const { Users } = require('./models/users');
@@ -95,6 +96,7 @@ const Routes = (app) => {
 
   app.get('/contact', checkToken, handlerContact);
   app.post('/login', handlerLogin);
+  app.post('/register', handlerUsersRegister);
   app.get('/profile', checkToken, handlerProfile);
   app.get('/user/:userId', checkToken, handlerGetUserInformation);
 

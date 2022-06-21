@@ -218,6 +218,50 @@ const handlerUpdateProfileAvatar = async (req, res) => {
   }
 };
 
+const handlerUsersRegister = async (req, res) => {
+  try {
+    // Destructuring data
+    const { username, firstName, lastName, password } = req.body;
+
+    // Get role user id
+    const role = await UsersRole.findOne({ roleKey: 'user' }).exec();
+    if (!role) throw new Error('Role user not found.');
+
+    // Check user existing
+    const user = await Users.findOne({ username }).exec();
+    if (user) throw new Error('Username existing.');
+
+    // Generate default password
+    const genPassword = await bcrypt.hashSync(password, 10);
+
+    // Add new user
+    const result = await Users.create({
+      username,
+      firstName,
+      lastName,
+      email: username,
+      isConnected: true,
+      roleId: role._id,
+      isDelete: false,
+      password: genPassword,
+    });
+
+    return res.status(200).json({
+      message: 'Success',
+      statusCode: 200,
+      result: { data: result },
+      timestamp: +new Date(),
+    });
+  } catch (error) {
+    Log({ type: 'error', message: error.message });
+    return res.status(500).json({
+      message: error.message,
+      statusCode: 500,
+      timestamp: +new Date(),
+    });
+  }
+};
+
 const handlerAdminUsers = async (req, res) => {
   try {
     const getUsers = await Users.find({
@@ -494,6 +538,7 @@ module.exports = {
   handlerUpdateProfile,
   handlerUpdateProfileAvatar,
   handlerPasswordChange,
+  handlerUsersRegister,
   handlerAdminUsers,
   handlerAdminDeleteUsers,
   handlerAdminNewUsers,
